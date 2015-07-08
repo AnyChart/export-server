@@ -1,0 +1,8 @@
+.idea
+.DS_Store
+*.pyc
+out
+target
+*.iml
+.nrepl-port
+.lein-repl-history
