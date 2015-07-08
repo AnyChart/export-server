@@ -1,9 +1,9 @@
-(defproject export-server "0.1.0-SNAPSHOT"
-  :description "FIXME: write description"
-  :url "http://example.com/FIXME"
+(defproject export-server "1.1.0"
+  :description "AnyChart export server"
+  :url "https://github.com/AnyChart/export-server"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :jvm-opts ["-Dphantomjs.binary.path=/phantomjs/bin/phantomjs"]
+  :jvm-opts ["-Dphantomjs.binary.path=/usr/local/bin/phantomjs"]
   :dependencies [[org.clojure/clojure "1.6.0"]
                  ;http
                  [http-kit "2.1.13"]
@@ -32,7 +32,4 @@
                  [peridot "0.2.2"]]
   :plugins [[lein-localrepo "0.5.3"]]
   :main ^:aot export-server.core
-  :jar-name "anychart-export-server.jar"
-  :uberjar-name "anychart-export.jar"
-  :target-path "target/%s"
   :profiles {:uberjar {:aot :all}})

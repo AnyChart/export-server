@@ -1,7 +1,7 @@
 (ns export-server.utils.params-validator
   (:require [bouncer.validators :as v]
             [bouncer.core :as bouncer]
-            [export-server.utils.dictionary :refer :all]))
+            [export-server.utils.config :refer :all]))
 
 
 

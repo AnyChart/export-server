@@ -27,8 +27,6 @@
     (out image options ".jpg")))
 
 
-
-
 (defn pdf [options]
   (let [script (if (:script options) (:script options) (slurp (:input-file options)))
         svg ((rasterizator/script-to-svg script true true options) :result)
@@ -42,6 +40,5 @@
         output-file (:output-file options)]
     (if (nil? output-file)
       (println svg)
-      (spit (if (.endsWith output-file ".svg") output-file (str output-file ".svg")) svg))
-    ))
+      (spit (if (.endsWith output-file ".svg") output-file (str output-file ".svg")) svg))))
 

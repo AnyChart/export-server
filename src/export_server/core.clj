@@ -10,7 +10,7 @@
             [export-server.web-handlers :as web]
             [export-server.cmd-handlers :as cmd]
             [export-server.utils.rasterizator :as rasterizontor]
-            [export-server.utils.dictionary :as dict]
+            [export-server.utils.config :as config]
             [compojure.route :as route]
             [clojure.java.io :as io])
   (:gen-class))
@@ -69,11 +69,11 @@
   [
    ;Server Args--------------------------------------------------------------------------------------------
    ["-P" "--port PORT" "Port number for the server."
-    :default (:port dict/defaults)
+    :default (:port config/defaults)
     :parse-fn #(Integer/parseInt %)
     :validate [#(< 0 % 0x10000) "Must be a number between 0 and 65536"]]
    ["-H" "--host HOST" "Ip, if has many ips to bind."
-    :default (:host dict/defaults)
+    :default (:host config/defaults)
     ]
    ["-a" "--allow-scripts-executing ALLOW_SCRIPTS_EXECUTING" "Allow to execute violent scripts in phantom js."
     :parse-fn #(or (= "true" %) (= "1" %))
@@ -94,60 +94,60 @@
     :default ""
     ]
    ["-t" "--type TYPE" "Type of the output file."
-    :default (:type dict/defaults)
+    :default (:type config/defaults)
     :validate [#(contains? #{"png" "jpg" "svg" "pdf"} %) "Type must be one of the following types: png, jpg, svg, pdf"]]
 
    ["-c" "--container-id CONTAINER_ID" "Container id."
-    :default (:container-id dict/defaults)
+    :default (:container-id config/defaults)
     ]
 
    ["-W" "--container-width CONTAINER_WIDTH" "Container width."
-    :default (:container-width dict/defaults)
+    :default (:container-width config/defaults)
     ]
 
    ["-L" "--container-height CONTAINER_HEIGHT" "Container height"
-    :default (:container-height dict/defaults)
+    :default (:container-height config/defaults)
     ]
 
 
    ;Export Images Args--------------------------------------------------------------------------------------------------
    ["-w" "--image-width IMAGE_WIDTH" "Image width."
-    :default (:image-width dict/defaults)
+    :default (:image-width config/defaults)
     :parse-fn #(Integer/parseInt %)
     ]
 
    ["-l" "--image-height IMAGE_HEIGHT" "Image height"
-    :default (:image-height dict/defaults)
+    :default (:image-height config/defaults)
     :parse-fn #(Integer/parseInt %)
     ]
    ["-f" "--force-transparent-white FORCE_TRANSPARENT_WHITE" "Force transparent to white"
-    :default (:force-transparent-white dict/defaults)
+    :default (:force-transparent-white config/defaults)
     ]
 
    ["-q" "--jpg-quality JPG_QUALITY" "Image quality,"
-    :default (:jpg-quality dict/defaults)
+    :default (:jpg-quality config/defaults)
     :parse-fn #(Float/parseFloat %)
     ]
 
 
    ;Export PDF Args--------------------------------------------------------------------------------------------------
    ["-S" "--pdf-size PDF-SIZE" "PDF Size"
-    :default (:pdf-size dict/defaults)
+    :default (:pdf-size config/defaults)
     :parse-fn #(keyword %)
     ]
 
    ["-x" "--pdf-x PDF-X" "Pad X"
-    :default (:pdf-x dict/defaults)
+    :default (:pdf-x config/defaults)
     :parse-fn #(Integer/parseInt %)
     ]
 
    ["-y" "--pdf-y PDF-Y" "Pdf Y"
-    :default (:pdf-y dict/defaults)
+    :default (:pdf-y config/defaults)
     :parse-fn #(Integer/parseInt %)
     ]
 
    ["-O" "--pdf-landscape PDF-LANDSCAPE" "PDF Orientation"
-    :default (:pdf-landscape dict/defaults)
+    :default (:pdf-landscape config/defaults)
     ]
 
    ;Export PDF Args--------------------------------------------------------------------------------------------------

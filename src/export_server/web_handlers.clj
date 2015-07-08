@@ -4,9 +4,8 @@
             [export-server.utils.responce :refer :all]
             [export-server.utils.rasterizator :as rastr]
             [export-server.utils.params-validator :as params-validator]
-            [export-server.utils.dictionary :as dict]
-            [export-server.utils.rasterizator :as rast]
-            ))
+            [export-server.utils.config :as config]
+            [export-server.utils.rasterizator :as rast]))
 
 
 ;=======================================================================================================================
@@ -24,25 +23,25 @@
   (cond
     (contains? params "pdf-size") (params "pdf-size")
     (contains? params "pdfSize") (params "pdfSize")
-    :else (:pdf-size dict/defaults)))
+    :else (:pdf-size config/defaults)))
 
 (defn get-pdf-x [params]
   (cond
     (contains? params "pdf-x") (get-number-unit params "pdf-x")
     (contains? params "x") (get-number-unit params "x")
-    :else (:pdf-x dict/defaults)))
+    :else (:pdf-x config/defaults)))
 
 (defn get-pdf-y [params]
   (cond
     (contains? params "pdf-x") (get-number-unit params "pdf-y")
     (contains? params "x") (get-number-unit params "y")
-    :else (:pdf-y dict/defaults)))
+    :else (:pdf-y config/defaults)))
 
 (defn get-force-transparent-white [params]
   (cond
     (contains? params "force-transparent-white") (params "force-transparent-white")
     (contains? params "forceTransparentWhite") (params "forceTransparentWhite")
-    :else (:force-transparent-white dict/defaults)))
+    :else (:force-transparent-white config/defaults)))
 
 
 (defn get-data-type [params]
@@ -60,15 +59,15 @@
 
 (defn params-to-options [params]
   {
-   :container-id     (if (contains? params "container-id") (params "container-id") (dict/defaults :container-id))
-   :container-width  (if (contains? params "container-width") (params "container-width") (dict/defaults :container-width))
-   :container-height (if (contains? params "container-height") (params "container-height") (dict/defaults :container-height))})
+   :container-id     (if (contains? params "container-id") (params "container-id") (config/defaults :container-id))
+   :container-width  (if (contains? params "container-width") (params "container-width") (config/defaults :container-width))
+   :container-height (if (contains? params "container-height") (params "container-height") (config/defaults :container-height))})
 
 (defn- to-png [params]
   (let [data (params "data")
         data-type (get-data-type params)
-        width (if (contains? params "width") (get-number-unit params "width") (:image-width dict/defaults))
-        height (if (contains? params "height") (get-number-unit params "height") (:image-height dict/defaults))
+        width (if (contains? params "width") (get-number-unit params "width") (:image-width config/defaults))
+        height (if (contains? params "height") (get-number-unit params "height") (:image-height config/defaults))
         force-transparent-white (get-force-transparent-white params)]
     (cond
       (and (= data-type "script") (not @allow-script-executing)) {:ok false :result "Script executing is not allowed"}
@@ -83,10 +82,10 @@
 (defn- to-jpg [params]
   (let [data (params "data")
         data-type (get-data-type params)
-        width (if (contains? params "width") (get-number-unit params "width") (:image-width dict/defaults))
-        height (if (contains? params "height") (get-number-unit params "height") (:image-height dict/defaults))
+        width (if (contains? params "width") (get-number-unit params "width") (:image-width config/defaults))
+        height (if (contains? params "height") (get-number-unit params "height") (:image-height config/defaults))
         force-transparent-white (get-force-transparent-white params)
-        quality (if (contains? params "quality") (read-string (params "quality")) (:jpg-quality dict/defaults))]
+        quality (if (contains? params "quality") (read-string (params "quality")) (:jpg-quality config/defaults))]
     (cond
       (and (= data-type "script") (not @allow-script-executing)) {:ok false :result "Script executing is not allowed"}
       (= data-type "svg") (rastr/svg-to-jpg data width height force-transparent-white quality)
@@ -101,7 +100,7 @@
   (let [data (params "data")
         data-type (get-data-type params)
         pdf-size (get-pdf-size params)
-        landscape (if (contains? params "landscape") (get-boolean-unit params "landscape") (:pdf-landscape dict/defaults))
+        landscape (if (contains? params "landscape") (get-boolean-unit params "landscape") (:pdf-landscape config/defaults))
         x (get-pdf-x params)
         y (get-pdf-y params)]
     (cond
@@ -153,9 +152,7 @@
             (json-success (rast/to-base64 (to-jpg-result :result)))
             (file-success (to-jpg-result :result) "anychart" ".jpg"))
           (json-error (to-jpg-result :result))))
-      (json-error (params-validator/get-error-message validation-result)))
-    )
-  )
+      (json-error (params-validator/get-error-message validation-result)))))
 
 (defn pdf [request]
   (let [params (request :form-params)
@@ -169,9 +166,7 @@
             (file-success (to-pdf-result :result) "anychart" ".pdf"))
           (json-error (to-pdf-result :result)))
         )
-      (json-error (params-validator/get-error-message validation-result)))
-    )
-  )
+      (json-error (params-validator/get-error-message validation-result)))))
 
 (defn svg [request]
   (let [params (request :form-params)
@@ -185,7 +180,5 @@
             (file-success (.getBytes (to-svg-result :result)) "anychart" ".svg"))
           (json-error (to-svg-result :result)))
         )
-      (json-error (params-validator/get-error-message validation-result)))
-    )
-  )
+      (json-error (params-validator/get-error-message validation-result)))))
 

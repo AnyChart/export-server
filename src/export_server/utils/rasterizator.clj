@@ -18,9 +18,7 @@
         clj-pdf.core
         [clj-webdriver.driver :only [init-driver]]
         [clojure.java.io :as io]
-        [clojure.java.io :only [output-stream]]
-        )
-  )
+        [clojure.java.io :only [output-stream]]))
 
 ;====================================================================================
 ; PhantomJS initialization
@@ -130,9 +128,7 @@
         (.transcode transcoder transcoder-input transcoder-output)
         {:ok true :result (.toByteArray out)}
         ))
-    (catch Exception e {:ok false :result (.getMessage e)})
-    )
-  )
+    (catch Exception e {:ok false :result (.getMessage e)})))
 
 ;====================================================================================
 ; Base64 encode

@@ -1,4 +1,4 @@
-(ns export-server.utils.dictionary)
+(ns export-server.utils.config)
 
 (def available-pdf-sizes {:a0           {:width "841mm" :height "1189mm"}
                           :a1           {:width "594mm" :height "841mm"}

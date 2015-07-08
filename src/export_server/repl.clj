@@ -1,6 +1,6 @@
 (ns export-server.repl
   (:require [export-server.core :as core]
-            [export-server.utils.dictionary :as dict]
+            [export-server.utils.config :as config]
             [org.httpkit.server]))
 
 (def server-atom (atom nil))
@@ -16,7 +16,7 @@
                (prn (str "error: export-server already started on port: " port))
                server-instance)))
          core/app
-         (:port dict/defaults)))
+         (:port config/defaults)))
 
 
 (defn stop-server []
