@@ -37,6 +37,7 @@
 (def anychart-load-script "var args = arguments;(function(d) {var js, id = 'anychart', ref = d.getElementsByTagName('head')[0];if (d.getElementById(id)) {return;}js = d.createElement('script');js.id = id;js.src = args[0];ref.appendChild(js);}(document));")
 (def anychart-script-path (str (io/resource "js/anychart-bundle.min.js")))
 (def anychart-binary (slurp (io/resource "js/anychart-bundle.min.js")))
+(def replacesvgsize (slurp (io/resource "js/replacesvgsize.min.js")))
 
 (defn- trim-svg-string [str]
   (let [left-trim-str (clojure.string/replace str #"^\"" "")
@@ -56,6 +57,8 @@
         script
         (try
           (execute-script script)
+          (execute-script replacesvgsize)
+          (execute-script "replaceSvgSize()")
           (catch Exception e (str "Failed to execute Script\n" (.getMessage e))))
         svg
         (try
