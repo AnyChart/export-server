@@ -58,7 +58,6 @@
         (try
           (execute-script script)
           (execute-script replacesvgsize)
-          (execute-script "replaceSvgSize()")
           (catch Exception e (str "Failed to execute Script\n" (.getMessage e))))
         svg
         (try
