@@ -31,6 +31,11 @@
                         ".svg" "image/svg+xml"
                         ".pdf" "application/pdf"
                         ".png" "image/png"
+                        ".xml" "application/xml"
+                        ".json" "application/json"
+                        ".csv" "text/csv"
+                        ".xls" "application/vnd.ms-excel"
+                        ".xlsx" "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                         ".jpg" "image/jpeg"))
         (header "Content-Length" (.length file))
         (header "Last-Modified" (format-date (last-modified-date file)))

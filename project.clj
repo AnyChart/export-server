@@ -1,8 +1,8 @@
-(defproject export-server "1.1.4"
-  :description "AnyChart export server, AnyChart Bundle version 7.9.1"
+(defproject export-server "1.2.0"
+  :description "AnyChart export server, AnyChart Bundle version 7.10.0"
   :url "https://github.com/AnyChart/export-server"
   :license {:name "Eclipse Public License"
-            :url "http://www.eclipse.org/legal/epl-v10.html"}
+            :url  "http://www.eclipse.org/legal/epl-v10.html"}
   :jvm-opts ["-Dphantomjs.binary.path=/usr/local/bin/phantomjs"]
   :dependencies [[org.clojure/clojure "1.6.0"]
                  ;http
@@ -22,8 +22,19 @@
                  [org.clojure/tools.cli "0.3.1"]
 
                  ;rasterization
-                 [clj-pdf "1.11.17"]
-                 [tikkba "0.5.0"]
+                 [clj-pdf "2.2.0"]
+                 [tikkba "0.5.0" :exclusions [org.clojure/clojure org.clojars.pallix/batik]]
+                 [org.clojars.pallix/xerces "2.5.0"]
+                 [org.clojars.pallix/xml-apis "2.5.0"]
+                 [org.clojars.pallix/xml-apis-ext "2.5.0"]
+
+                 [org.apache.xmlgraphics/batik-transcoder "1.8"]
+                 [org.apache.xmlgraphics/batik-xml "1.8"]
+                 [org.apache.xmlgraphics/batik-codec "1.7"]
+
+                 ;csv to xslx
+                 [dk.ative/docjure "1.10.0"]
+                 [org.clojure/data.csv "0.1.3"]
 
                  ;JSON
                  [cheshire "5.3.1"]

@@ -60,5 +60,7 @@
                :pdf-size :a4
                :pdf-x 0
                :pdf-y 0
+               :pdf-width nil
+               :pdf-height nil
                :pdf-landscape false
                })

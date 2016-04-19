@@ -1,17 +1,20 @@
 (ns export-server.web-handlers
   (:require [cheshire.core :refer :all]
             [compojure.core :refer :all]
+            [dk.ative.docjure.spreadsheet :as spreadheet]
+            [clojure.data.csv :as csv-parser]
             [export-server.utils.responce :refer :all]
             [export-server.utils.rasterizator :as rastr]
             [export-server.utils.params-validator :as params-validator]
             [export-server.utils.config :as config]
-            [export-server.utils.rasterizator :as rast]))
+            [export-server.utils.rasterizator :as rast])
+  (:import (org.apache.commons.io.output ByteArrayOutputStream)))
 
 
 ;=======================================================================================================================
 ; Params to png/jpg/pdf
 ;=======================================================================================================================
-(defn get-number-unit [map key] (Integer/parseInt (first(re-find #"([-+]?[0-9]+)" (map key)))))
+(defn get-number-unit [map key] (Integer/parseInt (first (re-find #"([-+]?[0-9]+)" (map key)))))
 
 (def allow-script-executing (atom true))
 
@@ -21,6 +24,7 @@
 
 (defn get-pdf-size [params]
   (cond
+    (and (contains? params "pdf-width") (contains? params "pdf-height")) [(get-number-unit params "pdf-width") (get-number-unit params "pdf-height")]
     (contains? params "pdf-size") (params "pdf-size")
     (contains? params "pdfSize") (params "pdfSize")
     :else (:pdf-size config/defaults)))
@@ -123,6 +127,9 @@
       :else {:ok false :result "Unknown data type"})))
 
 
+(defn- get-file-name [params] (if (and (contains? params "file-name") (string? (params "file-name"))) (params "file-name") "anychart"))
+
+
 ;=======================================================================================================================
 ; Handlers
 ;=======================================================================================================================
@@ -135,11 +142,10 @@
         (if (to-png-result :ok)
           (if (= response-type "base64")
             (json-success (rast/to-base64 (to-png-result :result)))
-            (file-success (to-png-result :result) "anychart" ".png"))
+            (file-success (to-png-result :result) (get-file-name params) ".png"))
           (json-error (to-png-result :result))))
-      (json-error (params-validator/get-error-message validation-result)))
-    )
-  )
+      (json-error (params-validator/get-error-message validation-result)))))
+
 
 (defn jpg [request]
   (let [params (request :form-params)
@@ -150,9 +156,10 @@
         (if (to-jpg-result :ok)
           (if (= response-type "base64")
             (json-success (rast/to-base64 (to-jpg-result :result)))
-            (file-success (to-jpg-result :result) "anychart" ".jpg"))
+            (file-success (to-jpg-result :result) (get-file-name params) ".jpg"))
           (json-error (to-jpg-result :result))))
       (json-error (params-validator/get-error-message validation-result)))))
+
 
 (defn pdf [request]
   (let [params (request :form-params)
@@ -163,10 +170,11 @@
         (if (to-pdf-result :ok)
           (if (= response-type "base64")
             (json-success {:result (rast/to-base64 (to-pdf-result :result))})
-            (file-success (to-pdf-result :result) "anychart" ".pdf"))
+            (file-success (to-pdf-result :result) (get-file-name params) ".pdf"))
           (json-error (to-pdf-result :result)))
         )
       (json-error (params-validator/get-error-message validation-result)))))
+
 
 (defn svg [request]
   (let [params (request :form-params)
@@ -177,8 +185,45 @@
         (if (to-svg-result :ok)
           (if (= response-type "base64")
             (json-success (rast/to-base64 (.getBytes (to-svg-result :result))))
-            (file-success (.getBytes (to-svg-result :result)) "anychart" ".svg"))
+            (file-success (.getBytes (to-svg-result :result)) (get-file-name params) ".svg"))
           (json-error (to-svg-result :result)))
         )
+      (json-error (params-validator/get-error-message validation-result)))))
+
+
+(defn xml [request]
+  (let [params (request :form-params)
+        validation-result (params-validator/validate-save-data-params params)]
+    (if (params-validator/valid-result? validation-result)
+      (file-success (.getBytes (params "data")) (get-file-name params) ".xml")
+      (json-error (params-validator/get-error-message validation-result)))))
+
+
+(defn json [request]
+  (let [params (request :form-params)
+        validation-result (params-validator/validate-save-data-params params)]
+    (if (params-validator/valid-result? validation-result)
+      (file-success (.getBytes (params "data")) (get-file-name params) ".json")
+      (json-error (params-validator/get-error-message validation-result)))))
+
+
+(defn csv [request]
+  (let [params (request :form-params)
+        validation-result (params-validator/validate-save-data-params params)]
+    (if (params-validator/valid-result? validation-result)
+      (file-success (.getBytes (params "data")) (get-file-name params) ".csv")
+      (json-error (params-validator/get-error-message validation-result)))))
+
+
+(defn xlsx [request]
+  (let [params (request :form-params)
+        file-name (get-file-name params)
+        validation-result (params-validator/validate-save-data-params params)]
+    (if (params-validator/valid-result? validation-result)
+      (let [csv (csv-parser/read-csv (params "data"))
+            wb (spreadheet/create-workbook file-name csv)
+            output (new ByteArrayOutputStream)]
+        (spreadheet/save-workbook! output wb)
+        (file-success (.toByteArray output) file-name ".xlsx"))
       (json-error (params-validator/get-error-message validation-result)))))
 

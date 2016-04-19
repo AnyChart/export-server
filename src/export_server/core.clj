@@ -136,7 +136,17 @@
     :parse-fn #(keyword %)
     ]
 
-   ["-x" "--pdf-x PDF-X" "Pad X"
+   ["-X" "--pdf-width PDF-WIDTH" "Pdf width"
+    :default (:pdf-width config/defaults)
+    :parse-fn #(Integer/parseInt %)
+    ]
+
+   ["-Y" "--pdf-height PDF-HEIGHT" "Pdf height"
+    :default (:pdf-width config/defaults)
+    :parse-fn #(Integer/parseInt %)
+    ]
+
+   ["-x" "--pdf-x PDF-X" "Pdf X"
     :default (:pdf-x config/defaults)
     :parse-fn #(Integer/parseInt %)
     ]
@@ -181,6 +191,10 @@
            (POST "/jpg" [] web/jpg)
            (POST "/svg" [] web/svg)
            (POST "/pdf" [] web/pdf)
+           (POST "/xml" [] web/xml)
+           (POST "/json" [] web/json)
+           (POST "/csv" [] web/csv)
+           (POST "/xlsx" [] web/xlsx)
            (route/not-found "<p>Page not found.</p>"))
 
 (def app (-> app-routes wrap-params))

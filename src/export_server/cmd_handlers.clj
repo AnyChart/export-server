@@ -2,6 +2,14 @@
   (:require [export-server.utils.rasterizator :as rasterizator])
   (:require [clojure.java.io :as io]))
 
+
+(defn- get-pdf-size [options]
+  (if (and
+      (contains? options :pdf-width)
+      (contains? options :pdf-height)
+      (not (nil? (:pdf-width options)))
+      (not (nil? (:pdf-height options)))) [(:pdf-width options) (:pdf-height options)] (:pdf-size options)))
+
 (defn out [result options ext]
   (let [output-file (if (:output-file options) (:output-file options) (str (java.util.UUID/randomUUID)))
         output-path (:output-path options)
@@ -30,7 +38,7 @@
 (defn pdf [options]
   (let [script (if (:script options) (:script options) (slurp (:input-file options)))
         svg ((rasterizator/script-to-svg script true true options) :result)
-        image (:result (rasterizator/svg-to-pdf svg (:pdf-size options) (:pdf-landscape options) (:pdf-x options) (:pdf-y options)))]
+        image (:result (rasterizator/svg-to-pdf svg (get-pdf-size options) (:pdf-landscape options) (:pdf-x options) (:pdf-y options)))]
     (out image options ".pdf")))
 
 

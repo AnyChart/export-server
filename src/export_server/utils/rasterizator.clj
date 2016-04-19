@@ -2,14 +2,14 @@
   (:import (org.openqa.selenium WebDriverException)
            (org.openqa.selenium.phantomjs PhantomJSDriver)
            (org.openqa.selenium.remote DesiredCapabilities)
-           (java.io ByteArrayOutputStream)
            (org.apache.batik.transcoder.image JPEGTranscoder)
            (org.apache.batik.transcoder.image PNGTranscoder)
            (org.apache.batik.transcoder TranscoderInput)
            (org.apache.batik.transcoder TranscoderOutput)
            (org.apache.batik.transcoder SVGAbstractTranscoder)
-           (java.lang Float)
            (java.io StringReader)
+           (java.io ByteArrayOutputStream)
+           (java.lang Float)
            )
   (:require [clojure.data.codec.base64 :as b64]
             [tikkba.transcoder :as transcoder]
@@ -103,7 +103,6 @@
             transcoder-input (new TranscoderInput string-reader)
             transcoder-output (new TranscoderOutput out)
             transcoder (new JPEGTranscoder)]
-
         (.addTranscodingHint transcoder JPEGTranscoder/KEY_QUALITY (float quality))
         (.addTranscodingHint transcoder JPEGTranscoder/KEY_WIDTH (float widht))
         (.addTranscodingHint transcoder JPEGTranscoder/KEY_HEIGHT (float height))
