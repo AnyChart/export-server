@@ -22,7 +22,7 @@
       (header "Access-Control-Allow-Headers" "X-Requested-With")))
 
 (defn file-success [byte-array file-name file-extention]
-  (let [file  ((partial apply #(File/createTempFile %1 %2) [file-name file-extention]))
+  (let [file  ((partial apply #(File/createTempFile %1 %2) ["anychart-export-tmp" file-extention]))
         fos (new FileOutputStream file)]
     (.write fos byte-array)
     (-> (response file)
