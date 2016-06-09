@@ -23,6 +23,6 @@ after_success:
 - chmod 600 .travis/id_rsa.pub
 - ssh-add .travis/id_rsa
 - scp -i .travis/id_rsa target/export-server-standalone.jar root@104.236.66.244:/apps/$APP/export-server-standalone.jar
-- ssh root@104.236.66.244 "supervisorctl restart $APP"
+- ssh -v -v -v root@104.236.66.244 "supervisorctl restart $APP"
 notifications:
   slack: anychart-team:sJRPhNn8Ur8yVdhvhgp6EbDM
