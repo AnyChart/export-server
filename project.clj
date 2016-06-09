@@ -43,4 +43,7 @@
                  [peridot "0.2.2"]]
   :plugins [[lein-localrepo "0.5.3"]]
   :main ^:aot export-server.core
-  :profiles {:uberjar {:aot :all}})
+  :profiles {:uberjar {:aot :all}}
+  :jar-name "export-server.jar"
+  :uberjar-name "export-server-standalone.jar"
+  )
