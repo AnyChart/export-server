@@ -18,10 +18,14 @@ after_success:
 - if [ "$TRAVIS_BRANCH" == "master" ]; then export APP="export-server-prod"; fi
 - echo "Deploying to $SERVER"
 - cp .travis/known_hosts ~/.ssh/known_hosts
+- cp .travis/id_rsa.pub ~/.ssh/id_rsa.pub
+- cp .travis/id_rsa ~/.ssh/id_rsa
 - chmod 600 ~/.ssh/known_hosts
+- chmod 600 ~/.ssh/id_rsa
+- chmod 600 ~/.ssh/id_rsa.pub
 - chmod 600 .travis/id_rsa
 - chmod 600 .travis/id_rsa.pub
-- ssh-add .travis/id_rsa
+- ssh-add ~/.ssh/id_rsa
 - scp -i .travis/id_rsa target/export-server-standalone.jar root@104.236.66.244:/apps/$APP/export-server-standalone.jar
 - ssh -v -v -v root@104.236.66.244 "supervisorctl restart $APP"
 notifications:
