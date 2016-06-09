@@ -1,7 +1,7 @@
 language: clojure
 lein: lein2
 script: lein2 uberjar
-sudo: true
+sudo: false
 branches:
   only:
   - master
@@ -11,7 +11,8 @@ cache:
   - $HOME/.m2
 before_install:
 - openssl aes-256-cbc -K $encrypted_134e2e7eeaf1_key -iv $encrypted_134e2e7eeaf1_iv
-  -in id_rsa.enc -out .travis/id_rsa -d
+  -in id_rsa.enc -out id_rsa -d
+- mv id_rsa .travis/id_rsa
 after_success:
 - if [ "$TRAVIS_BRANCH" == "staging" ]; then export APP="export-server-stg"; fi
 - if [ "$TRAVIS_BRANCH" == "master" ]; then export APP="export-server-prod"; fi
@@ -25,4 +26,3 @@ after_success:
 - ssh root@104.236.66.244 "supervisorctl restart $APP"
 notifications:
   slack: anychart-team:sJRPhNn8Ur8yVdhvhgp6EbDM
-
