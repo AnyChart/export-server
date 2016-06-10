@@ -1,4 +1,5 @@
 (ns export-server.core
+  (:import (java.util Properties))
   (:use [compojure.route :only [not-found]]
         org.httpkit.server
         compojure.core)
@@ -15,12 +16,22 @@
             [clojure.java.io :as io])
   (:gen-class))
 
+(defn get-project-version
+  ([] (get-project-version "export-server" "export-server"))
+  ([groupid artifact] (-> (doto (Properties.)
+         (.load (-> "META-INF/maven/%s/%s/pom.properties"
+                    (format groupid artifact)
+                    (io/resource)
+                    (io/reader))))
+       (.get "version"))))
+
+(def server-name (str "AnyChart Export Server " (get-project-version)))
 
 ;====================================================================================
 ; Server Usage
 ;====================================================================================
 (defn server-usage [options-summary]
-  (->> ["AnyChart Export Server"
+  (->> [server-name
         ""
         "Action: server"
         "Usage: java -jar anychart-export.jar server [options]"
@@ -39,7 +50,7 @@
 ;====================================================================================
 
 (defn cmd-usage [options-summary]
-  (->> ["AnyChart Export Server"
+  (->> [server-name
         ""
         "Action: cmd"
         "Usage: java -jar anychart-export.jar cmd [options]"
@@ -161,11 +172,12 @@
     ]
 
    ;Export PDF Args--------------------------------------------------------------------------------------------------
+   ["-v" "--version" "Print version, can be used without action"]
    ["-h" "--help"]
    ])
 
 (defn usage []
-  (->> ["AnyChart Export Server"
+  (->> [server-name
         ""
         "Usage: java -jar anychart-export.jar action [options]"
         "Actions:"
@@ -226,8 +238,10 @@
 ;====================================================================================
 (defn -main [& args]
   (let [{:keys [options arguments errors summary]} (parse-opts args common-options)]
-    (cond (not= (count arguments) 1) (exit 1 (usage))
-          errors (exit 1 (error-msg errors)))
+    (cond
+      (:version options) (exit 0 server-name)
+      (not= (count arguments) 1) (exit 1 (usage))
+      errors (exit 1 (error-msg errors)))
     (reset! web/allow-script-executing (:allow-scripts-executing options))
     (case (first arguments)
       "server" (start-server options summary)
