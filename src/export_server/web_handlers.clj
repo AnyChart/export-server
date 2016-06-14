@@ -144,8 +144,8 @@
           (if (= response-type "base64")
             (json-success (rast/to-base64 (to-png-result :result)))
             (file-success (to-png-result :result) (get-file-name params) ".png"))
-          (log/wrap-log-error json-error (to-png-result :result) params :processing)))
-      (log/wrap-log-error json-error (params-validator/get-error-message validation-result) params :bad_params))))
+          (log/wrap-log-error json-error (to-png-result :result) request :processing)))
+      (log/wrap-log-error json-error (params-validator/get-error-message validation-result) request :bad_params))))
 
 
 (defn jpg [request]
@@ -158,8 +158,8 @@
           (if (= response-type "base64")
             (json-success (rast/to-base64 (to-jpg-result :result)))
             (file-success (to-jpg-result :result) (get-file-name params) ".jpg"))
-          (log/wrap-log-error json-error (to-jpg-result :result) params :processing)))
-      (log/wrap-log-error json-error (params-validator/get-error-message validation-result) params :bad_params))))
+          (log/wrap-log-error json-error (to-jpg-result :result) request :processing)))
+      (log/wrap-log-error json-error (params-validator/get-error-message validation-result) request :bad_params))))
 
 
 (defn pdf [request]
@@ -172,8 +172,8 @@
           (if (= response-type "base64")
             (json-success {:result (rast/to-base64 (to-pdf-result :result))})
             (file-success (to-pdf-result :result) (get-file-name params) ".pdf"))
-          (log/wrap-log-error  json-error (to-pdf-result :result) params :processing)))
-      (log/wrap-log-error json-error (params-validator/get-error-message validation-result) params :bad_params))))
+          (log/wrap-log-error  json-error (to-pdf-result :result) request :processing)))
+      (log/wrap-log-error json-error (params-validator/get-error-message validation-result) request :bad_params))))
 
 
 (defn svg [request]
@@ -186,8 +186,8 @@
           (if (= response-type "base64")
             (json-success (rast/to-base64 (.getBytes (to-svg-result :result))))
             (file-success (.getBytes (to-svg-result :result)) (get-file-name params) ".svg"))
-          (log/wrap-log-error json-error (to-svg-result :result) params :processing)))
-      (log/wrap-log-error json-error (params-validator/get-error-message validation-result) params :bad_params))))
+          (log/wrap-log-error json-error (to-svg-result :result) request :processing)))
+      (log/wrap-log-error json-error (params-validator/get-error-message validation-result) request :bad_params))))
 
 
 (defn xml [request]
@@ -195,7 +195,7 @@
         validation-result (params-validator/validate-save-data-params params)]
     (if (params-validator/valid-result? validation-result)
       (file-success (.getBytes (params "data")) (get-file-name params) ".xml")
-      (log/wrap-log-error json-error (params-validator/get-error-message validation-result) params :bad_params))))
+      (log/wrap-log-error json-error (params-validator/get-error-message validation-result) request :bad_params))))
 
 
 (defn json [request]
@@ -203,7 +203,7 @@
         validation-result (params-validator/validate-save-data-params params)]
     (if (params-validator/valid-result? validation-result)
       (file-success (.getBytes (params "data")) (get-file-name params) ".json")
-      (log/wrap-log-error json-error (params-validator/get-error-message validation-result) params :bad_params))))
+      (log/wrap-log-error json-error (params-validator/get-error-message validation-result) request :bad_params))))
 
 
 (defn csv [request]
@@ -211,7 +211,7 @@
         validation-result (params-validator/validate-save-data-params params)]
     (if (params-validator/valid-result? validation-result)
       (file-success (.getBytes (params "data")) (get-file-name params) ".csv")
-      (log/wrap-log-error json-error (params-validator/get-error-message validation-result) params :bad_params))))
+      (log/wrap-log-error json-error (params-validator/get-error-message validation-result) request :bad_params))))
 
 
 (defn xlsx [request]
@@ -224,5 +224,5 @@
             output (new ByteArrayOutputStream)]
         (spreadheet/save-workbook! output wb)
         (file-success (.toByteArray output) file-name ".xlsx"))
-      (log/wrap-log-error json-error (params-validator/get-error-message validation-result) params :bad_params))))
+      (log/wrap-log-error json-error (params-validator/get-error-message validation-result) request :bad_params))))
 
