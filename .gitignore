@@ -6,3 +6,4 @@ target
 *.iml
 .nrepl-port
 .lein-repl-history
+log.txt

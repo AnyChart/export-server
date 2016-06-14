@@ -13,7 +13,9 @@
             [export-server.utils.rasterizator :as rasterizontor]
             [export-server.utils.config :as config]
             [compojure.route :as route]
-            [clojure.java.io :as io])
+            [clojure.java.io :as io]
+            [taoensso.timbre :as timbre]
+            [taoensso.timbre.appenders.core :as appenders])
   (:gen-class))
 
 (defn get-project-version
@@ -26,6 +28,18 @@
        (.get "version"))))
 
 (def server-name (str "AnyChart Export Server " (get-project-version)))
+
+
+(defn init-logger [log-file-name]
+  (clojure.java.io/delete-file log-file-name :quiet)
+  (timbre/merge-config!
+    {:appenders {:spit (appenders/spit-appender {:fname log-file-name})}})
+  ; Set the lowest-level to output as :debug
+  (timbre/set-level! :debug)
+  (Thread/setDefaultUncaughtExceptionHandler
+    (reify Thread$UncaughtExceptionHandler
+      (uncaughtException [_ thread ex]
+        (timbre/error ex "Uncaught exception on" (.getName thread))))))
 
 ;====================================================================================
 ; Server Usage
@@ -85,6 +99,9 @@
     :validate [#(< 0 % 0x10000) "Must be a number between 0 and 65536"]]
    ["-H" "--host HOST" "Ip, if has many ips to bind."
     :default (:host config/defaults)
+    ]
+   ["-F" "--log FILE" "File for server logging."
+    :default (:log config/defaults)
     ]
    ["-a" "--allow-scripts-executing ALLOW_SCRIPTS_EXECUTING" "Allow to execute violent scripts in phantom js."
     :parse-fn #(or (= "true" %) (= "1" %))
@@ -214,6 +231,7 @@
 (defn start-server [options summary]
   (if (:help options) (exit 0 (server-usage summary)))
   (prn (str "Starting export server on " (:host options) ":" (:port options)))
+  (init-logger (:log options))
   (rasterizontor/setup-phantom)
   (run-server app {:port (:port options) :ip (:host options)}))
 

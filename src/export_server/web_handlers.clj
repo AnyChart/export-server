@@ -7,7 +7,8 @@
             [export-server.utils.rasterizator :as rastr]
             [export-server.utils.params-validator :as params-validator]
             [export-server.utils.config :as config]
-            [export-server.utils.rasterizator :as rast])
+            [export-server.utils.rasterizator :as rast]
+            [export-server.utils.logging :as log])
   (:import (org.apache.commons.io.output ByteArrayOutputStream)))
 
 
@@ -143,8 +144,8 @@
           (if (= response-type "base64")
             (json-success (rast/to-base64 (to-png-result :result)))
             (file-success (to-png-result :result) (get-file-name params) ".png"))
-          (json-error (to-png-result :result))))
-      (json-error (params-validator/get-error-message validation-result)))))
+          (log/wrap-log-error json-error (to-png-result :result) params :processing)))
+      (log/wrap-log-error json-error (params-validator/get-error-message validation-result) params :bad_params))))
 
 
 (defn jpg [request]
@@ -157,8 +158,8 @@
           (if (= response-type "base64")
             (json-success (rast/to-base64 (to-jpg-result :result)))
             (file-success (to-jpg-result :result) (get-file-name params) ".jpg"))
-          (json-error (to-jpg-result :result))))
-      (json-error (params-validator/get-error-message validation-result)))))
+          (log/wrap-log-error json-error (to-jpg-result :result) params :processing)))
+      (log/wrap-log-error json-error (params-validator/get-error-message validation-result) params :bad_params))))
 
 
 (defn pdf [request]
@@ -171,9 +172,8 @@
           (if (= response-type "base64")
             (json-success {:result (rast/to-base64 (to-pdf-result :result))})
             (file-success (to-pdf-result :result) (get-file-name params) ".pdf"))
-          (json-error (to-pdf-result :result)))
-        )
-      (json-error (params-validator/get-error-message validation-result)))))
+          (log/wrap-log-error  json-error (to-pdf-result :result) params :processing)))
+      (log/wrap-log-error json-error (params-validator/get-error-message validation-result) params :bad_params))))
 
 
 (defn svg [request]
@@ -186,9 +186,8 @@
           (if (= response-type "base64")
             (json-success (rast/to-base64 (.getBytes (to-svg-result :result))))
             (file-success (.getBytes (to-svg-result :result)) (get-file-name params) ".svg"))
-          (json-error (to-svg-result :result)))
-        )
-      (json-error (params-validator/get-error-message validation-result)))))
+          (log/wrap-log-error json-error (to-svg-result :result) params :processing)))
+      (log/wrap-log-error json-error (params-validator/get-error-message validation-result) params :bad_params))))
 
 
 (defn xml [request]
@@ -196,7 +195,7 @@
         validation-result (params-validator/validate-save-data-params params)]
     (if (params-validator/valid-result? validation-result)
       (file-success (.getBytes (params "data")) (get-file-name params) ".xml")
-      (json-error (params-validator/get-error-message validation-result)))))
+      (log/wrap-log-error json-error (params-validator/get-error-message validation-result) params :bad_params))))
 
 
 (defn json [request]
@@ -204,7 +203,7 @@
         validation-result (params-validator/validate-save-data-params params)]
     (if (params-validator/valid-result? validation-result)
       (file-success (.getBytes (params "data")) (get-file-name params) ".json")
-      (json-error (params-validator/get-error-message validation-result)))))
+      (log/wrap-log-error json-error (params-validator/get-error-message validation-result) params :bad_params))))
 
 
 (defn csv [request]
@@ -212,7 +211,7 @@
         validation-result (params-validator/validate-save-data-params params)]
     (if (params-validator/valid-result? validation-result)
       (file-success (.getBytes (params "data")) (get-file-name params) ".csv")
-      (json-error (params-validator/get-error-message validation-result)))))
+      (log/wrap-log-error json-error (params-validator/get-error-message validation-result) params :bad_params))))
 
 
 (defn xlsx [request]
@@ -225,5 +224,5 @@
             output (new ByteArrayOutputStream)]
         (spreadheet/save-workbook! output wb)
         (file-success (.toByteArray output) file-name ".xlsx"))
-      (json-error (params-validator/get-error-message validation-result)))))
+      (log/wrap-log-error json-error (params-validator/get-error-message validation-result) params :bad_params))))
 
