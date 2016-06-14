@@ -31,7 +31,7 @@
 
                  [org.apache.xmlgraphics/batik-transcoder "1.8"]
                  [org.apache.xmlgraphics/batik-xml "1.8"]
-                 [org.apache.xmlgraphics/batik-codec "1.8"]
+                 [org.apache.xmlgraphics/batik-codec "1.7"]
 
                  ;csv to xslx
                  [dk.ative/docjure "1.10.0"]
