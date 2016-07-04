@@ -48,7 +48,7 @@
 (def defaults {
                :port 2000
                :host "localhost"
-               :log "log.txt"
+               :log nil
                :container-width  "1024px"
                :container-height "800px"
                :container-id "container"

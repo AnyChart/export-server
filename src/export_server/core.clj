@@ -230,8 +230,9 @@
 
 (defn start-server [options summary]
   (if (:help options) (exit 0 (server-usage summary)))
-  (prn (str "Starting export server on " (:host options) ":" (:port options)))
-  (init-logger (:log options))
+  (when (:log options)
+    (init-logger (:log options)))
+  (timbre/info (str "Starting export server on " (:host options) ":" (:port options)))
   (rasterizontor/setup-phantom)
   (run-server app {:port (:port options) :ip (:host options)}))
 
