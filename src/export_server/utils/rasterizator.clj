@@ -83,13 +83,17 @@
     svg))
 
 
+(defn remove-cursor [svg]
+  (clojure.string/replace svg #"cursor\s*:\s*[\w-]+\s*;?\s*" ""))
+
+
 ;====================================================================================
 ; SVG --> PDF
 ;====================================================================================
 (defn svg-to-pdf [svg pdf-size landscape x y]
   (try
     (with-open [out (new ByteArrayOutputStream)]
-      (pdf [{:size pdf-size :orientation (if landscape :landscape nil)} [:svg {:translate [x y]} (trim-svg-string svg)]] out)
+      (pdf [{:size pdf-size :orientation (if landscape :landscape nil)} [:svg {:translate [x y]} (remove-cursor (trim-svg-string svg))]] out)
       {:ok true :result (.toByteArray out)})
     (catch Exception e {:ok false :result (.getMessage e)})))
 
@@ -100,7 +104,8 @@
 (defn svg-to-jpg [svg widht height force-transparent-white quality]
   (try
     (with-open [out (new ByteArrayOutputStream)]
-      (let [string-reader (new StringReader svg)
+      (let [svg (remove-cursor svg)
+            string-reader (new StringReader svg)
             transcoder-input (new TranscoderInput string-reader)
             transcoder-output (new TranscoderOutput out)
             transcoder (new JPEGTranscoder)]
@@ -119,7 +124,8 @@
 (defn svg-to-png [svg widht height force-transparent-white]
   (try
     (with-open [out (new ByteArrayOutputStream)]
-      (let [string-reader (new StringReader svg)
+      (let [svg (remove-cursor svg)
+            string-reader (new StringReader svg)
             transcoder-input (new TranscoderInput string-reader)
             transcoder-output (new TranscoderOutput out)
             transcoder (new PNGTranscoder)]

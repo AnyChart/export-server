@@ -1,4 +1,4 @@
-(defproject export-server "1.2.2"
+(defproject export-server "1.2.3"
   :description "AnyChart export server, AnyChart Bundle version 7.10.1"
   :url "https://github.com/AnyChart/export-server"
   :license {:name "Eclipse Public License"
