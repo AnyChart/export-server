@@ -8,6 +8,7 @@
             [clojure.tools.cli :refer [parse-opts]]
             [ring.middleware.params :refer [wrap-params]]
             [ring.middleware.keyword-params :refer [wrap-keyword-params]]
+            [export-server.state :as state]
             [export-server.web-handlers :as web]
             [export-server.cmd-handlers :as cmd]
             [export-server.utils.rasterizator :as rasterizontor]
@@ -188,6 +189,14 @@
     :default (:pdf-landscape config/defaults)
     ]
 
+   ;Saving image or pdf to folder
+   ["-z" "--saving-folder PATH" "Path to save images or pdf"
+    :default nil
+    ]
+   ["-Z" "--saving-url-prefix PREFIX" "URL prefix will be returned to request"
+    :default ""
+    ]
+
    ;Export PDF Args--------------------------------------------------------------------------------------------------
    ["-v" "--version" "Print version, can be used without action"]
    ["-h" "--help"]
@@ -257,6 +266,7 @@
 ;====================================================================================
 (defn -main [& args]
   (let [{:keys [options arguments errors summary]} (parse-opts args common-options)]
+    (state/set-options options)
     (cond
       (:version options) (exit 0 server-name)
       (not= (count arguments) 1) (exit 1 (usage))

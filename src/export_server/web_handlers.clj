@@ -3,6 +3,8 @@
             [compojure.core :refer :all]
             [dk.ative.docjure.spreadsheet :as spreadheet]
             [clojure.data.csv :as csv-parser]
+            [clojure.java.io :as io]
+            [export-server.state :as state]
             [export-server.utils.responce :refer :all]
             [export-server.utils.rasterizator :as rastr]
             [export-server.utils.params-validator :as params-validator]
@@ -131,6 +133,14 @@
 (defn- get-file-name [params] (if (and (contains? params "file-name") (string? (params "file-name"))) (params "file-name") "anychart"))
 
 
+(defn save-file-and-get-url [data file-name extention]
+  (if-let [folder (:saving-folder @state/options)]
+    (let [new-file-name (rast/get-file-name-hash file-name)
+          path (str folder "/" new-file-name extention)]
+     (io/copy data (io/file path))
+     (json-success {:url (str (:saving-url-prefix @state/options) new-file-name extention)}))
+    (json-error "Saving folder isn't specified")))
+
 ;=======================================================================================================================
 ; Handlers
 ;=======================================================================================================================
@@ -138,13 +148,17 @@
   (let [params (request :form-params)
         validation-result (params-validator/validate-image-params params)]
     (if (params-validator/valid-result? validation-result)
-      (let [to-png-result (to-png params)
+      (let [{ok :ok result :result} (to-png params)
             response-type (get-response-type params)]
-        (if (to-png-result :ok)
+        (if ok
           (if (= response-type "base64")
-            (json-success (rast/to-base64 (to-png-result :result)))
-            (file-success (to-png-result :result) (get-file-name params) ".png"))
-          (log/wrap-log-error json-error (to-png-result :result) request :processing)))
+            (if (params "save")
+              (save-file-and-get-url (rast/to-base64 result) (get-file-name params) ".base64")
+              (json-success (rast/to-base64 result)))
+            (if (params "save")
+              (save-file-and-get-url result (get-file-name params) ".png")
+              (file-success result (get-file-name params) ".png")))
+          (log/wrap-log-error json-error result request :processing)))
       (log/wrap-log-error json-error (params-validator/get-error-message validation-result) request :bad_params))))
 
 
@@ -152,13 +166,17 @@
   (let [params (request :form-params)
         validation-result (params-validator/validate-image-params params)]
     (if (params-validator/valid-result? validation-result)
-      (let [to-jpg-result (to-jpg params)
+      (let [{ok :ok result :result} (to-jpg params)
             response-type (get-response-type params)]
-        (if (to-jpg-result :ok)
+        (if ok
           (if (= response-type "base64")
-            (json-success (rast/to-base64 (to-jpg-result :result)))
-            (file-success (to-jpg-result :result) (get-file-name params) ".jpg"))
-          (log/wrap-log-error json-error (to-jpg-result :result) request :processing)))
+            (if (params "save")
+              (save-file-and-get-url (rast/to-base64 result) (get-file-name params) ".base64")
+              (json-success (rast/to-base64 result)))
+            (if (params "save")
+              (save-file-and-get-url result (get-file-name params) ".jpg")
+              (file-success result (get-file-name params) ".jpg")))
+          (log/wrap-log-error json-error result request :processing)))
       (log/wrap-log-error json-error (params-validator/get-error-message validation-result) request :bad_params))))
 
 
@@ -166,13 +184,17 @@
   (let [params (request :form-params)
         validation-result (params-validator/validate-pdf-params params)]
     (if (params-validator/valid-result? validation-result)
-      (let [to-pdf-result (to-pdf params)
+      (let [{ok :ok result :result} (to-pdf params)
             response-type (get-response-type params)]
-        (if (to-pdf-result :ok)
+        (if ok
           (if (= response-type "base64")
-            (json-success {:result (rast/to-base64 (to-pdf-result :result))})
-            (file-success (to-pdf-result :result) (get-file-name params) ".pdf"))
-          (log/wrap-log-error  json-error (to-pdf-result :result) request :processing)))
+            (if (params "save")
+              (save-file-and-get-url (rast/to-base64 result) (get-file-name params) ".base64")
+              (json-success (rast/to-base64 result)))
+            (if (params "save")
+              (save-file-and-get-url result (get-file-name params) ".pdf")
+              (file-success result (get-file-name params) ".pdf")))
+          (log/wrap-log-error json-error result request :processing)))
       (log/wrap-log-error json-error (params-validator/get-error-message validation-result) request :bad_params))))
 
 
@@ -180,13 +202,17 @@
   (let [params (request :form-params)
         validation-result (params-validator/validate-image-params params)]
     (if (params-validator/valid-result? validation-result)
-      (let [to-svg-result (to-svg params)
+      (let [{ok :ok result :result} (to-svg params)
             response-type (get-response-type params)]
-        (if (to-svg-result :ok)
+        (if ok
           (if (= response-type "base64")
-            (json-success (rast/to-base64 (.getBytes (to-svg-result :result))))
-            (file-success (.getBytes (to-svg-result :result)) (get-file-name params) ".svg"))
-          (log/wrap-log-error json-error (to-svg-result :result) request :processing)))
+            (if (params "save")
+              (save-file-and-get-url (rast/to-base64 (.getBytes result)) (get-file-name params) ".base64")
+              (json-success (rast/to-base64 (.getBytes result))))
+            (if (params "save")
+              (save-file-and-get-url (.getBytes result) (get-file-name params) ".svg")
+              (file-success (.getBytes result) (get-file-name params) ".svg")))
+          (log/wrap-log-error json-error result request :processing)))
       (log/wrap-log-error json-error (params-validator/get-error-message validation-result) request :bad_params))))
 
 

@@ -13,7 +13,8 @@
            )
   (:require [clojure.data.codec.base64 :as b64]
             [tikkba.transcoder :as transcoder]
-            [clj-webdriver.core :as core])
+            [clj-webdriver.core :as core]
+            [digest :as d])
   (:use clj-webdriver.taxi
         clj-pdf.core
         [clj-webdriver.driver :only [init-driver]]
@@ -135,3 +136,10 @@
 ; Base64 encode
 ;====================================================================================
 (defn to-base64 [byte-array] (String. (b64/encode byte-array) "UTF-8"))
+
+;====================================================================================
+; File's name for local saving
+;====================================================================================
+(defn get-file-name-hash [file-name]
+  (let [hash (d/md5 (str (System/currentTimeMillis) "_" (rand-int (Integer/MAX_VALUE))))]
+    (str file-name "_" hash)))

@@ -40,8 +40,10 @@
                  ;JSON
                  [cheshire "5.6.1"]
 
-                 ;; logging
+                 ;; logging and other utils
                  [com.taoensso/timbre "4.4.0"]
+                 [clj-time "0.12.0"]
+                 [digest "1.4.4"]
 
                  ;tests
                  [peridot "0.4.4"]]
