@@ -7,9 +7,11 @@
             [export-server.state :as state]
             [export-server.utils.responce :refer :all]
             [export-server.utils.rasterizator :as rastr]
+            [export-server.utils.rasterizator :as rast]
+            [export-server.utils.phantom :as browser]
+            ;[export-server.utils.jbrowser :as browser]
             [export-server.utils.params-validator :as params-validator]
             [export-server.utils.config :as config]
-            [export-server.utils.rasterizator :as rast]
             [export-server.utils.logging :as log])
   (:import (org.apache.commons.io.output ByteArrayOutputStream)))
 
@@ -79,7 +81,7 @@
     (cond
       (and (= data-type "script") (not @allow-script-executing)) {:ok false :result "Script executing is not allowed"}
       (= data-type "svg") (rastr/svg-to-png data width height force-transparent-white)
-      (= data-type "script") (let [to-svg-result (rastr/script-to-svg data false false (params-to-options params))]
+      (= data-type "script") (let [to-svg-result (browser/script-to-svg data false false (params-to-options params))]
                                (if (to-svg-result :ok)
                                  (rastr/svg-to-png (to-svg-result :result) width height force-transparent-white)
                                  to-svg-result))
@@ -96,7 +98,7 @@
     (cond
       (and (= data-type "script") (not @allow-script-executing)) {:ok false :result "Script executing is not allowed"}
       (= data-type "svg") (rastr/svg-to-jpg data width height force-transparent-white quality)
-      (= data-type "script") (let [to-svg-result (rastr/script-to-svg data false false (params-to-options params))]
+      (= data-type "script") (let [to-svg-result (browser/script-to-svg data false false (params-to-options params))]
                                (if (to-svg-result :ok)
                                  (rastr/svg-to-jpg (to-svg-result :result) width height force-transparent-white quality)
                                  to-svg-result))
@@ -113,7 +115,7 @@
     (cond
       (and (= data-type "script") (not @allow-script-executing)) {:ok false :result "Script executing is not allowed"}
       (= data-type "svg") (rastr/svg-to-pdf data pdf-size landscape x y)
-      (= data-type "script") (let [to-svg-result (rastr/script-to-svg data false false (params-to-options params))]
+      (= data-type "script") (let [to-svg-result (browser/script-to-svg data false false (params-to-options params))]
                                (if (to-svg-result :ok)
                                  (rastr/svg-to-pdf (to-svg-result :result) pdf-size landscape x y)
                                  to-svg-result))
@@ -126,7 +128,7 @@
     (cond
       (and (= data-type "script") (not @allow-script-executing)) {:ok false :result "Script executing is not allowed"}
       (= data-type "svg") {:ok true :result data}
-      (= data-type "script") (rastr/script-to-svg data false false (params-to-options params))
+      (= data-type "script") (browser/script-to-svg data false false (params-to-options params))
       :else {:ok false :result "Unknown data type"})))
 
 

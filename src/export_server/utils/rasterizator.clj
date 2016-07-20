@@ -1,91 +1,24 @@
 (ns export-server.utils.rasterizator
-  (:import (org.openqa.selenium WebDriverException)
-           (org.openqa.selenium.phantomjs PhantomJSDriver)
-           (org.openqa.selenium.remote DesiredCapabilities)
-           (org.apache.batik.transcoder.image JPEGTranscoder)
+  (:import (org.apache.batik.transcoder.image JPEGTranscoder)
            (org.apache.batik.transcoder.image PNGTranscoder)
            (org.apache.batik.transcoder TranscoderInput)
            (org.apache.batik.transcoder TranscoderOutput)
            (org.apache.batik.transcoder SVGAbstractTranscoder)
            (java.io StringReader)
-           (java.io ByteArrayOutputStream)
-           (java.lang Float)
-           )
+           (java.io ByteArrayOutputStream))
   (:require [clojure.data.codec.base64 :as b64]
             [tikkba.transcoder :as transcoder]
-            [clj-webdriver.core :as core]
-            [digest :as d])
-  (:use clj-webdriver.taxi
-        clj-pdf.core
-        [clj-webdriver.driver :only [init-driver]]
-        [clojure.java.io :as io]
-        [clojure.java.io :only [output-stream]]))
-
-;====================================================================================
-; PhantomJS initialization
-;====================================================================================
-(defn setup-phantom []
-  (set-driver! (init-driver {:webdriver (PhantomJSDriver. (DesiredCapabilities.))})))
-
-(defn exit [status msg]
-  (println msg)
-  (System/exit status))
-
-
-;====================================================================================
-; Script --> SVG
-;====================================================================================
-(def anychart-load-script "var args = arguments;(function(d) {var js, id = 'anychart', ref = d.getElementsByTagName('head')[0];if (d.getElementById(id)) {return;}js = d.createElement('script');js.id = id;js.src = args[0];ref.appendChild(js);}(document));")
-(def anychart-script-path (str (io/resource "js/anychart-bundle.min.js")))
-(def anychart-binary (slurp (io/resource "js/anychart-bundle.min.js")))
-(def replacesvgsize (slurp (io/resource "js/replacesvgsize.min.js")))
+            [digest :as d]
+            [clj-pdf.core :refer :all]
+            [clojure.java.io :as io :refer [output-stream]]))
 
 (defn- trim-svg-string [str]
   (let [left-trim-str (clojure.string/replace str #"^\"" "")
         right-trim-str (clojure.string/replace left-trim-str #"\"$" "")]
     right-trim-str))
 
-
-(defn exec-script-to-svg [script exit-on-error options]
-  (let [startup
-        (try
-          (execute-script "document.body.innerHTML = '<div id=\"' + arguments[0] + '\" style=\"width:' + arguments[1] + ';height:' + arguments[2] + ';\"></div>'", [(:container-id options) (:container-width options) (:container-height options)])
-          (catch Exception e (str "Failed to execute Startup Script\n" (.getMessage e))))
-        binary
-        (try
-          (execute-script anychart-binary)
-          (catch Exception e (str "Failed to execute AnyChat Binary File\n" (.getMessage e))))
-        script
-        (try
-          (execute-script script)
-          (execute-script replacesvgsize)
-          (catch Exception e (str "Failed to execute Script\n" (.getMessage e))))
-        svg
-        (try
-          (html (first (elements "svg")))
-          (catch Exception e (str "Failed to take SVG Structure\n" (.getMessage e))))
-
-        shoutdown
-        (try
-          (execute-script "while (document.body.hasChildNodes()){document.body.removeChild(document.body.lastChild);}", [])
-          (catch Exception e (str "Failed to execute Shoutdown Script\n" (.getMessage e))))
-
-        error (some #(when (not (nil? %)) %) [startup binary script shoutdown])]
-    (if error
-      (if exit-on-error (exit 1 error) {:ok false :result error})
-      {:ok true :result (trim-svg-string (clojure.string/replace svg #"\"" "'"))})))
-
-
-(defn script-to-svg [script quit-ph exit-on-error options]
-  (if (not (bound? (var *driver*))) (setup-phantom))
-  (let [svg (exec-script-to-svg script exit-on-error options)]
-    (if quit-ph (quit))
-    svg))
-
-
-(defn remove-cursor [svg]
+(defn- remove-cursor [svg]
   (clojure.string/replace svg #"cursor\s*:\s*[\w-]+\s*;?\s*" ""))
-
 
 ;====================================================================================
 ; SVG --> PDF

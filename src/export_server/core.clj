@@ -11,7 +11,8 @@
             [export-server.state :as state]
             [export-server.web-handlers :as web]
             [export-server.cmd-handlers :as cmd]
-            [export-server.utils.rasterizator :as rasterizontor]
+            [export-server.utils.phantom :as browser]
+            ;[export-server.utils.jbrowser :as browser]
             [export-server.utils.config :as config]
             [compojure.route :as route]
             [clojure.java.io :as io]
@@ -242,7 +243,7 @@
   (when (:log options)
     (init-logger (:log options)))
   (timbre/info (str "Starting export server on " (:host options) ":" (:port options)))
-  (rasterizontor/setup-phantom)
+  (browser/setup-phantom)
   (run-server app {:port (:port options) :ip (:host options)}))
 
 

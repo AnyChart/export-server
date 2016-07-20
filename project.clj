@@ -15,6 +15,11 @@
                  [org.apache.httpcomponents/httpclient "4.5.2"]
                  [clj-webdriver/clj-webdriver "0.7.2"]
                  [com.github.detro.ghostdriver/phantomjsdriver "1.1.0"]
+                 ;[selmer "1.0.7"]
+                 ;jbrowser deps, need to comment clj-wedriver and phantomjsdriver
+                 ;[com.machinepublishers/jbrowserdriver "0.14.12"]
+                 ;[org.slf4j/slf4j-api "1.7.21"]
+                 ;[org.slf4j/slf4j-simple "1.7.21"]
 
                  ;params validation
                  [bouncer "1.0.0"]

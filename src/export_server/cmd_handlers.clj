@@ -1,6 +1,7 @@
 (ns export-server.cmd-handlers
-  (:require [export-server.utils.rasterizator :as rasterizator])
-  (:require [clojure.java.io :as io]))
+  (:require [export-server.utils.rasterizator :as rasterizator]
+            [export-server.utils.phantom :as browser]
+            [clojure.java.io :as io]))
 
 
 (defn- get-pdf-size [options]
@@ -23,28 +24,28 @@
 
 (defn png [options]
   (let [script (if (:script options) (:script options) (slurp (:input-file options)))
-        svg ((rasterizator/script-to-svg script true true options) :result)
+        svg ((browser/script-to-svg script true true options) :result)
         image (:result (rasterizator/svg-to-png svg (:image-width options) (:image-height options) (:force-transparent-white options)))]
     (out image options ".png")))
 
 
 (defn jpg [options]
   (let [script (if (:script options) (:script options) (slurp (:input-file options)))
-        svg ((rasterizator/script-to-svg script true true options) :result)
+        svg ((browser/script-to-svg script true true options) :result)
         image (:result (rasterizator/svg-to-jpg svg (:image-width options) (:image-height options) (:force-transparent-white options) (:jpg-quality options)))]
     (out image options ".jpg")))
 
 
 (defn pdf [options]
   (let [script (if (:script options) (:script options) (slurp (:input-file options)))
-        svg ((rasterizator/script-to-svg script true true options) :result)
+        svg ((browser/script-to-svg script true true options) :result)
         image (:result (rasterizator/svg-to-pdf svg (get-pdf-size options) (:pdf-landscape options) (:pdf-x options) (:pdf-y options)))]
     (out image options ".pdf")))
 
 
 (defn svg [options]
   (let [script (if (:script options) (:script options) (slurp (:input-file options)))
-        svg ((rasterizator/script-to-svg script true true options) :result)
+        svg ((browser/script-to-svg script true true options) :result)
         output-file (:output-file options)]
     (if (nil? output-file)
       (println svg)
