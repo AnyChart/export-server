@@ -22,7 +22,6 @@
   (.add drivers driver))
 
 (defn setup-phantom []
-  ;(set-driver! (init-driver {:webdriver (PhantomJSDriver. (DesiredCapabilities.))}))
   (alter-var-root (var drivers)
                   (fn [_]
                     (doto (java.util.concurrent.ConcurrentLinkedQueue.)
@@ -49,17 +48,8 @@
         right-trim-str (clojure.string/replace left-trim-str #"\"$" "")]
     right-trim-str))
 
-(defn- get-script [script]
-  (str "document.body.innerHTML = '<div id=\"' + arguments[0] + '\" style=\"width:' + arguments[1] + ';height:' + arguments[2] + ';\"></div>';"
-       anychart-binary
-       script))
-
 (defn- exec-script-to-svg [d script exit-on-error options]
-  (let [;run-all
-        ; (try
-        ;   (execute-script d (get-script script) [(:container-id options) (:container-width options) (:container-height options)])
-        ;   (catch Exception e (str "Failed to execute Startup Script\n" (.getMessage e))))
-        startup
+  (let [startup
         (try
           (execute-script d "document.body.innerHTML = '<div id=\"' + arguments[0] + '\" style=\"width:' + arguments[1] + ';height:' + arguments[2] + ';\"></div>'", [(:container-id options) (:container-width options) (:container-height options)])
           (catch Exception e (str "Failed to execute Startup Script\n" (.getMessage e))))
@@ -80,7 +70,6 @@
                 (if (> (System/currentTimeMillis) (+ now 2000))
                   "error"
                   (do
-                    (prn "Waiting for svg...")
                     (Thread/sleep 10)
                     (recur))))))
           (catch Exception e (str "Failed to wait for SVG\n" (.getMessage e))))
