@@ -20,6 +20,9 @@
             [taoensso.timbre.appenders.core :as appenders])
   (:gen-class))
 
+;====================================================================================
+; Main utils
+;====================================================================================
 (defn get-project-version
   ([] (get-project-version "export-server" "export-server"))
   ([groupid artifact] (-> (doto (Properties.)
@@ -31,7 +34,6 @@
 
 (def server-name (str "AnyChart Export Server " (get-project-version)))
 
-
 (defn init-logger [log-file-name]
   (clojure.java.io/delete-file log-file-name :quiet)
   (timbre/merge-config!
@@ -42,6 +44,7 @@
     (reify Thread$UncaughtExceptionHandler
       (uncaughtException [_ thread ex]
         (timbre/error ex "Uncaught exception on" (.getName thread))))))
+
 
 ;====================================================================================
 ; Server Usage
@@ -64,7 +67,6 @@
 ;====================================================================================
 ; Command Line Usage
 ;====================================================================================
-
 (defn cmd-usage [options-summary]
   (->> [server-name
         ""
@@ -78,11 +80,9 @@
         ]
        (string/join \newline)))
 
-
 (defn exit [status msg]
   (println msg)
   (System/exit status))
-
 
 (defn error-msg [errors]
   (str "The following errors occurred while parsing your command:\n\n"
@@ -220,9 +220,8 @@
 
 
 ;====================================================================================
-; Actions
+; Server Actions
 ;====================================================================================
-
 (defroutes app-routes
            (GET "/status" [] "ok")
            (POST "/status" [] "ok")
@@ -238,15 +237,24 @@
 
 (def app (-> app-routes wrap-params))
 
+(defn shutdown-server []
+  (timbre/info "Shutdown...")
+  (state/stop-server)
+  (browser/stop-phantom))
+
 (defn start-server [options summary]
   (if (:help options) (exit 0 (server-usage summary)))
   (when (:log options)
     (init-logger (:log options)))
   (timbre/info (str "Starting export server on " (:host options) ":" (:port options)))
   (browser/setup-phantom)
-  (run-server app {:port (:port options) :ip (:host options)}))
+  (state/set-server (run-server app {:port (:port options) :ip (:host options)}))
+  (.addShutdownHook (Runtime/getRuntime) (Thread. shutdown-server)))
 
 
+;====================================================================================
+; Cmd Actions
+;====================================================================================
 (defn cmd-export [options summary]
   (if (:help options) (exit 0 (cmd-usage summary)))
   (let [script (:script options)
@@ -259,7 +267,6 @@
               "jpg" (cmd/jpg options)
               "svg" (cmd/svg options)
               "pdf" (cmd/pdf options)))))
-
 
 
 ;====================================================================================

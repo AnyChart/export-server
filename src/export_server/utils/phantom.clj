@@ -13,24 +13,30 @@
 (defn- create-driver []
   (init-driver {:webdriver (PhantomJSDriver. (DesiredCapabilities.))}))
 
-(defonce drivers nil)
+(defonce drivers (atom []))
+(defonce drivers-queue nil)
 
 (defn- get-free-driver []
-  (.poll drivers))
+  (.poll drivers-queue))
 
 (defn- return-driver [driver]
-  (.add drivers driver))
+  (.add drivers-queue driver))
 
 (defn setup-phantom []
-  (alter-var-root (var drivers)
+  (reset! drivers [(create-driver) (create-driver) (create-driver) (create-driver)])
+  (alter-var-root (var drivers-queue)
                   (fn [_]
-                    (doto (java.util.concurrent.ConcurrentLinkedQueue.)
-                      (.add (create-driver))
-                      (.add (create-driver))
-                      (.add (create-driver))
-                      (.add (create-driver))))))
+                    (let [queue (java.util.concurrent.ConcurrentLinkedQueue.)]
+                      (doseq [driver @drivers]
+                        (.add queue driver))
+                      queue))))
 
-(defn exit [status msg]
+(defn stop-phantom []
+  (doseq [driver @drivers]
+    (quit driver)))
+
+(defn exit [driver status msg]
+  (quit driver)
   (println msg)
   (System/exit status))
 
@@ -87,7 +93,7 @@
           (catch Exception e (str "Failed to execute Shoutdown Script\n" (.getMessage e))))
         error (some #(when (not (nil? %)) %) [startup binary script shoutdown waiting resize])]
     (if error
-      (if exit-on-error (exit 1 error) {:ok false :result error})
+      (if exit-on-error (exit d 1 error) {:ok false :result error})
       {:ok true :result (trim-svg-string (clojure.string/replace svg #"\"" "'"))})))
 
 (defn script-to-svg [script quit-ph exit-on-error options]
