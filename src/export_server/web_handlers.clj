@@ -12,7 +12,8 @@
             ;[export-server.utils.jbrowser :as browser]
             [export-server.utils.params-validator :as params-validator]
             [export-server.utils.config :as config]
-            [export-server.utils.logging :as log])
+            [export-server.utils.logging :as log]
+            [me.raynes.fs :as fs])
   (:import (org.apache.commons.io.output ByteArrayOutputStream)))
 
 
@@ -139,9 +140,10 @@
   (if-let [folder (:saving-folder @state/options)]
     (let [new-file-name (rast/get-file-name-hash file-name)
           path (str folder "/" new-file-name extention)]
-     (io/copy data (io/file path))
-     (json-success {:url (str (:saving-url-prefix @state/options) new-file-name extention)}))
-    (json-error "Saving folder isn't specified")))
+      (fs/mkdirs folder)
+      (io/copy data (io/file path))
+      (json-success {:url (str (:saving-url-prefix @state/options) new-file-name extention)}))
+    (json-error "Saving folder isn't specified.")))
 
 ;=======================================================================================================================
 ; Handlers

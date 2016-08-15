@@ -23,6 +23,11 @@
 ;====================================================================================
 ; Main utils
 ;====================================================================================
+(defn jar-location
+  "if run locally returns clojure.jar path"
+  [& [ns]]
+  (-> (or ns (class *ns*)) .getProtectionDomain .getCodeSource .getLocation .getPath clojure.java.io/file .getParent))
+
 (defn get-project-version
   ([] (get-project-version "export-server" "export-server"))
   ([groupid artifact] (-> (doto (Properties.)
@@ -192,7 +197,7 @@
 
    ;Saving image or pdf to folder
    ["-z" "--saving-folder PATH" "Path to save images or pdf"
-    :default nil
+    :default (str (jar-location) "/save")
     ]
    ["-Z" "--saving-url-prefix PREFIX" "URL prefix will be returned to request"
     :default ""

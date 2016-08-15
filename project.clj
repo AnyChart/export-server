@@ -49,6 +49,7 @@
                  [com.taoensso/timbre "4.4.0"]
                  [clj-time "0.12.0"]
                  [digest "1.4.4"]
+                 [me.raynes/fs "1.4.6"]
 
                  ;tests
                  [peridot "0.4.4"]]
