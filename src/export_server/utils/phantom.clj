@@ -94,7 +94,7 @@
         error (some #(when (not (nil? %)) %) [startup binary script shoutdown waiting resize])]
     (if error
       (if exit-on-error (exit d 1 error) {:ok false :result error})
-      {:ok true :result (trim-svg-string (clojure.string/replace svg #"\"" "'"))})))
+      {:ok true :result (trim-svg-string svg)})))
 
 (defn script-to-svg [script quit-ph exit-on-error options]
   (if-let [driver (if quit-ph (create-driver) (get-free-driver))]
