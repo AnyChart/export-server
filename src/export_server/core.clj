@@ -1,5 +1,6 @@
 (ns export-server.core
-  (:import (java.util Properties))
+  (:import (java.util Properties)
+           (java.nio.charset Charset))
   (:use [compojure.route :only [not-found]]
         org.httpkit.server
         compojure.core)
@@ -286,6 +287,8 @@
       (not= (count arguments) 1) (exit 1 (usage))
       errors (exit 1 (error-msg errors)))
     (reset! web/allow-script-executing (:allow-scripts-executing options))
+    (timbre/info "Charset: " (Charset/defaultCharset))
+    (timbre/info "FileEncoding: " (System/getProperty "file.encoding"))
     (case (first arguments)
       "server" (start-server options summary)
       "cmd" (cmd-export options summary)
