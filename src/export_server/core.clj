@@ -111,7 +111,7 @@
     :default (:log config/defaults)
     ]
    ["-a" "--allow-scripts-executing ALLOW_SCRIPTS_EXECUTING" "Allow to execute violent scripts in phantom js."
-    :parse-fn #(or (= "true" %) (= "1" %))
+    :parse-fn #(or (= "true" %) (= "1" %) (= "y" %) (= "yes" %))
     :default true
     ]
 
@@ -279,6 +279,7 @@
 ;====================================================================================
 (defn -main [& args]
   (let [{:keys [options arguments errors summary]} (parse-opts args common-options)]
+    (prn (:allow-scripts-executing options))
     (state/set-options options)
     (cond
       (:version options) (exit 0 server-name)
