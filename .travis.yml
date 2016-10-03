@@ -4,7 +4,6 @@ script: lein2 uberjar
 sudo: false
 branches:
   only:
-  - master
   - staging
 cache:
   directories:
@@ -14,8 +13,7 @@ before_install:
   -in id_rsa.enc -out id_rsa -d
 - mv id_rsa .travis/id_rsa
 after_success:
-- if [ "$TRAVIS_BRANCH" == "staging" ]; then export APP="export-server-stg"; fi
-- if [ "$TRAVIS_BRANCH" == "master" ]; then export APP="export-server-prod"; fi
+- if [ "$TRAVIS_BRANCH" == "staging" ]; then export APP="export-server-public-stg"; fi
 - echo "Deploying to $SERVER"
 - cp .travis/known_hosts ~/.ssh/known_hosts
 - cp .travis/id_rsa.pub ~/.ssh/id_rsa.pub
@@ -26,7 +24,6 @@ after_success:
 - chmod 600 .travis/id_rsa
 - chmod 600 .travis/id_rsa.pub
 - ssh-add ~/.ssh/id_rsa
-- scp -i .travis/id_rsa target/export-server-standalone.jar root@104.236.66.244:/apps/$APP/export-server-standalone.jar
-- ssh -v -v -v root@104.236.66.244 "supervisorctl restart $APP"
+- scp -i .travis/id_rsa target/export-server-standalone.jar root@104.131.77.49:/apps/$APP/export-server-standalone.jar
 notifications:
   slack: anychart-team:sJRPhNn8Ur8yVdhvhgp6EbDM
