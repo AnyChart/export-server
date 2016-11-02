@@ -15,9 +15,11 @@
 ;====================================================================================
 ; SVG string helpers
 ;====================================================================================
+;; remove empty images - cause of error during pdf processing
 (defn- remove-empty-img [svg]
   (clojure.string/replace svg #"<image[^>]*xlink:href=\"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7\"[^\<]*" ""))
 
+;; remove paths with 0.00001 opacity - cause of some other labels invisibility
 (defn- remove-opacity [svg]
   (clojure.string/replace svg #"<path[^>]*fill-opacity=\"0\.0+1\"[^<]*" ""))
 
