@@ -12,6 +12,20 @@
             [clj-pdf.core :refer :all]
             [clojure.java.io :as io :refer [output-stream]]))
 
+;====================================================================================
+; SVG string helpers
+;====================================================================================
+;; remove empty images - cause of error during pdf processing
+(defn- remove-empty-img [svg]
+  (clojure.string/replace svg #"<image[^>]*xlink:href=\"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7\"[^\<]*" ""))
+
+;; remove paths with 0.00001 opacity - cause of some other labels invisibility
+(defn- remove-opacity [svg]
+  (clojure.string/replace svg #"<path[^>]*fill-opacity=\"0\.0+1\"[^<]*" ""))
+
+(defn- clear-svg [svg]
+  (-> svg remove-empty-img remove-opacity))
+
 (defn- trim-svg-string [str]
   (let [left-trim-str (clojure.string/replace str #"^\"" "")
         right-trim-str (clojure.string/replace left-trim-str #"\"$" "")]
@@ -26,7 +40,9 @@
 (defn svg-to-pdf [svg pdf-size landscape x y]
   (try
     (with-open [out (new ByteArrayOutputStream)]
-      (pdf [{:size pdf-size :orientation (if landscape :landscape nil)} [:svg {:translate [x y]} (remove-cursor (trim-svg-string svg))]] out)
+      (pdf [{:size pdf-size :orientation (if landscape :landscape nil)}
+            [:svg {:translate [x y]} (clear-svg (remove-cursor (trim-svg-string svg)))]]
+           out)
       {:ok true :result (.toByteArray out)})
     (catch Exception e {:ok false :result (.getMessage e)})))
 
@@ -37,7 +53,7 @@
 (defn svg-to-jpg [svg widht height force-transparent-white quality]
   (try
     (with-open [out (new ByteArrayOutputStream)]
-      (let [svg (remove-cursor svg)
+      (let [svg (remove-empty-img (remove-cursor svg))
             string-reader (new StringReader svg)
             transcoder-input (new TranscoderInput string-reader)
             transcoder-output (new TranscoderOutput out)
@@ -47,8 +63,7 @@
         (.addTranscodingHint transcoder JPEGTranscoder/KEY_HEIGHT (float height))
         (.addTranscodingHint transcoder JPEGTranscoder/KEY_FORCE_TRANSPARENT_WHITE (boolean force-transparent-white))
         (.transcode transcoder transcoder-input transcoder-output)
-        {:ok true :result (.toByteArray out)}
-        ))
+        {:ok true :result (.toByteArray out)}))
     (catch Exception e {:ok false :result (.getMessage e)})))
 
 ;====================================================================================
@@ -57,18 +72,16 @@
 (defn svg-to-png [svg widht height force-transparent-white]
   (try
     (with-open [out (new ByteArrayOutputStream)]
-      (let [svg (remove-cursor svg)
+      (let [svg (remove-empty-img (remove-cursor svg))
             string-reader (new StringReader svg)
             transcoder-input (new TranscoderInput string-reader)
             transcoder-output (new TranscoderOutput out)
             transcoder (new PNGTranscoder)]
-
         (.addTranscodingHint transcoder JPEGTranscoder/KEY_WIDTH (float widht))
         (.addTranscodingHint transcoder JPEGTranscoder/KEY_HEIGHT (float height))
         (.addTranscodingHint transcoder JPEGTranscoder/KEY_FORCE_TRANSPARENT_WHITE (boolean force-transparent-white))
         (.transcode transcoder transcoder-input transcoder-output)
-        {:ok true :result (.toByteArray out)}
-        ))
+        {:ok true :result (.toByteArray out)}))
     (catch Exception e {:ok false :result (.getMessage e)})))
 
 ;====================================================================================

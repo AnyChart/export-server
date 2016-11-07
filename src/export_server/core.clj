@@ -1,5 +1,6 @@
 (ns export-server.core
-  (:import (java.util Properties))
+  (:import (java.util Properties)
+           (java.nio.charset Charset))
   (:use [compojure.route :only [not-found]]
         org.httpkit.server
         compojure.core)
@@ -111,7 +112,7 @@
     :default (:log config/defaults)
     ]
    ["-a" "--allow-scripts-executing ALLOW_SCRIPTS_EXECUTING" "Allow to execute violent scripts in phantom js."
-    :parse-fn #(or (= "true" %) (= "1" %))
+    :parse-fn #(or (= "true" %) (= "1" %) (= "y" %) (= "yes" %))
     :default true
     ]
 
@@ -279,12 +280,15 @@
 ;====================================================================================
 (defn -main [& args]
   (let [{:keys [options arguments errors summary]} (parse-opts args common-options)]
+    (prn (:allow-scripts-executing options))
     (state/set-options options)
     (cond
       (:version options) (exit 0 server-name)
       (not= (count arguments) 1) (exit 1 (usage))
       errors (exit 1 (error-msg errors)))
     (reset! web/allow-script-executing (:allow-scripts-executing options))
+    (timbre/info "Charset: " (Charset/defaultCharset))
+    (timbre/info "FileEncoding: " (System/getProperty "file.encoding"))
     (case (first arguments)
       "server" (start-server options summary)
       "cmd" (cmd-export options summary)
