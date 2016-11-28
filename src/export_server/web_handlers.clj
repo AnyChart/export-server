@@ -13,6 +13,7 @@
             [export-server.utils.params-validator :as params-validator]
             [export-server.utils.config :as config]
             [export-server.utils.logging :as log]
+            [export-server.sharing.twitter :as twitter]
             [me.raynes.fs :as fs])
   (:import (org.apache.commons.io.output ByteArrayOutputStream)))
 
@@ -148,6 +149,16 @@
 ;=======================================================================================================================
 ; Handlers
 ;=======================================================================================================================
+(defn sharing-twitter [request]
+  (let [params (request :form-params)
+        validation-result (params-validator/validate-sharing-params params)]
+    (if (params-validator/valid-result? validation-result)
+      (let [{ok :ok result :result} (to-png params)]
+        (if ok
+          (twitter/twitter request (rast/to-base64 result))
+          (log/wrap-log-error json-error result request :processing)))
+      (log/wrap-log-error json-error (params-validator/get-error-message validation-result) request :bad_params))))
+
 (defn png [request]
   (let [params (request :form-params)
         validation-result (params-validator/validate-image-params params)]

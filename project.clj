@@ -11,6 +11,20 @@
                  [compojure "1.5.0"]
                  [ring "1.5.0"]
 
+                 ;; sharing
+                 [clj-oauth "1.5.5"]
+                 [oauth-clj "0.1.15"]
+                 [oauth/oauth.one "0.5.0"]
+                 [ring/ring-codec "1.0.1"]
+                 [clj-http "2.3.0"]
+                 [camel-snake-kebab "0.4.0"]
+
+                 [clojure.jdbc/clojure.jdbc-c3p0 "0.3.2"]
+                 [honeysql "0.8.1"]
+                 [org.clojure/java.jdbc "0.6.1"]
+                 [mysql/mysql-connector-java "6.0.4"]
+                 [clojurewerkz/urly "1.0.0"]
+
                  ;phantomJS
                  [org.apache.httpcomponents/httpclient "4.5.2"]
                  [clj-webdriver/clj-webdriver "0.7.2"]

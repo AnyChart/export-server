@@ -9,12 +9,15 @@
             [clojure.tools.cli :refer [parse-opts]]
             [ring.middleware.params :refer [wrap-params]]
             [ring.middleware.keyword-params :refer [wrap-keyword-params]]
+            [ring.middleware.session :refer [wrap-session]]
             [export-server.state :as state]
             [export-server.web-handlers :as web]
             [export-server.cmd-handlers :as cmd]
             [export-server.utils.phantom :as browser]
             ;[export-server.utils.jbrowser :as browser]
             [export-server.utils.config :as config]
+            [export-server.sharing.twitter :as twitter]
+            [export-server.sharing.storage :as storage :refer [create-storage init]]
             [compojure.route :as route]
             [clojure.java.io :as io]
             [taoensso.timbre :as timbre]
@@ -231,6 +234,8 @@
 (defroutes app-routes
            (GET "/status" [] "ok")
            (POST "/status" [] "ok")
+           (POST "/sharing/twitter" [] web/sharing-twitter)
+           (POST "/sharing/twitter_oauth" [] twitter/twitter-oauth)
            (POST "/png" [] web/png)
            (POST "/jpg" [] web/jpg)
            (POST "/svg" [] web/svg)
@@ -241,7 +246,8 @@
            (POST "/xlsx" [] web/xlsx)
            (route/not-found "<p>Page not found.</p>"))
 
-(def app (-> app-routes wrap-params))
+;(def app (-> app-routes wrap-params))
+(def app (-> app-routes wrap-params (wrap-session {:store (create-storage)})))
 
 (defn shutdown-server []
   (timbre/info "Shutdown...")
@@ -254,6 +260,7 @@
     (init-logger (:log options)))
   (timbre/info (str "Starting export server on " (:host options) ":" (:port options)))
   (browser/setup-phantom)
+  (storage/init "stg")
   (state/set-server (run-server app {:port (:port options) :ip (:host options)}))
   (.addShutdownHook (Runtime/getRuntime) (Thread. shutdown-server)))
 

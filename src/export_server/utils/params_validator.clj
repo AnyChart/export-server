@@ -46,6 +46,10 @@
     (not (or (contains? params "responseType") (contains? params "response-type"))) [[(str "response-type must be one of the values: " (clojure.string/join ", " (map name available-rasterization-response-types)))]]
     :else (bouncer/validate params image-params-validations)))
 
+(defn validate-sharing-params [params]
+  (cond
+    (not (or (contains? params "dataType") (contains? params "data-type"))) [[(str "data-type must be one of the values: " (clojure.string/join ", " (map name available-rasterization-data-types)))]]
+    :else (bouncer/validate params image-params-validations)))
 
 (defn validate-pdf-params [params]
   (cond
