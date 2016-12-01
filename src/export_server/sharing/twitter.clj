@@ -15,7 +15,7 @@
   (one/make-consumer
     {:access-uri     "https://api.twitter.com/oauth/access_token"
      :authorize-uri  "https://api.twitter.com/oauth/authorize"
-     :callback-uri   "http://localhost:2000/sharing/twitter_oauth1"
+     :callback-uri   "http://localhost:2000/sharing/twitter_oauth"
      ;:callback-uri   "http://export.anychart.stg/sharing/twitter_oauth"
      :key            "ffhhDbj6TYVWKtcBh6QyzUTmz"
      :request-uri    "https://api.twitter.com/oauth/request_token"
