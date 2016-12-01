@@ -1,7 +1,7 @@
 (ns export-server.sharing.twitter
   (:use org.httpkit.server
         compojure.core)
-  (:require [ring.util.response :refer [redirect]]
+  (:require [ring.util.response :as rutils :refer [redirect response]]
             [compojure.route :as route :refer [not-found]]
             [clj-http.client :as client]
             [oauth.one :as one :refer []]
@@ -9,14 +9,14 @@
             [taoensso.timbre :as timbre]
             [export-server.utils.responce :as resp]
             [export-server.sharing.storage :as storage]
-            [export-server.sharing.twitter-utils :refer [create-oauth-request timestamp]]))
+            [export-server.sharing.twitter-utils :as twutils :refer [create-oauth-request timestamp]]))
 
 (def consumer
   (one/make-consumer
     {:access-uri     "https://api.twitter.com/oauth/access_token"
      :authorize-uri  "https://api.twitter.com/oauth/authorize"
-     ;:callback-uri   "http://localhost:2000/sharing/twitter_oauth1"
-     :callback-uri   "http://export.anychart.stg/sharing/twitter_oauth"
+     :callback-uri   "http://localhost:2000/sharing/twitter_oauth1"
+     ;:callback-uri   "http://export.anychart.stg/sharing/twitter_oauth"
      :key            "ffhhDbj6TYVWKtcBh6QyzUTmz"
      :request-uri    "https://api.twitter.com/oauth/request_token"
      :secret         "v7UWu1ChJMHG5xfyd51hACqdNIj3mUidfVCQY47mAffVtQJoQz"
@@ -65,14 +65,14 @@
           data (ring.util.codec/form-decode (:body token-response))]
       (if-let [oauth-token (get data "oauth_token")]
         (let [auth-url (one/authorization-url consumer {"oauth_token" oauth-token})]
-          (resp/json-success {:status :ok :auth-url auth-url}))
+          (redirect auth-url))
         (resp/json-error "Get oauth request token error")))
     (catch Exception e
       (timbre/error "Get authorization url error" e)
       (resp/json-error "Get authorization url error"))))
 
 
-(defn twitter [{session :session :as request} img-base64]
+(defn twitter-old [{session :session :as request} img-base64]
   (if-let [creds (-> session :db :twitter)]
     (let [oauth-token (:oauth-token creds)
           oauth-token-secret (:oauth-token-secret creds)]
@@ -84,8 +84,7 @@
         (assoc-in response [:session :local] {:img  img-base64
                                               :time (timestamp)})))))
 
-
-(defn twitter-oauth [{session :session :as request}]
+(defn twitter-oauth-old [{session :session :as request}]
   (let [;; pass oauth data ;oauth-token (get (:params req) "oauth_token") and ;oauth-verifier (get (:params req) "oauth_verifier")
         token-request (one/access-token-request consumer (:params request))
         token-response (try (client/request token-request)
@@ -105,4 +104,45 @@
       (do
         (timbre/error "Get access token error")
         (resp/json-error "Get access token  url error")))))
+
+
+(defn twitter [{session :session :as request} img-base64]
+  (let [response (if (-> session :db :twitter)
+                   (rutils/response (twutils/confirm-dialog img-base64))
+                   (auth-url))]
+    (assoc-in response [:session :local] {:img  img-base64
+                                          :time (timestamp)})))
+
+(defn twitter-oauth [{session :session :as request}]
+  (let [;; pass oauth data ;oauth-token (get (:params req) "oauth_token") and ;oauth-verifier (get (:params req) "oauth_verifier")
+        token-request (one/access-token-request consumer (:params request))
+        token-response (try (client/request token-request)
+                            (catch Exception e {}))
+        creds (ring.util.codec/form-decode (:body token-response))
+        oauth-token (get creds "oauth_token")
+        oauth-token-secret (get creds "oauth_token_secret")]
+    (if (and oauth-token oauth-token-secret)
+      (let [response (if-let [image (-> session :local :img)]
+                       (rutils/response (twutils/confirm-dialog image))
+                       (resp/json-error "Image upload time expired"))]
+        (-> response
+            (assoc-in [:session :db :twitter] {:oauth-token        oauth-token
+                                               :oauth-token-secret oauth-token-secret})
+            (assoc-in [:session :local] nil)))
+      (do
+        (timbre/error "Get access token error")
+        (resp/json-error "Get access token  url error")))))
+
+(defn twitter-confirm [{session :session :as request}]
+  (if-let [creds (-> session :db :twitter)]
+    (let [oauth-token (:oauth-token creds)
+          oauth-token-secret (:oauth-token-secret creds)
+          message (get-in request [:params "message"])]
+      (if-let [image (-> session :local :img)]
+        (update-status-with-img oauth-token oauth-token-secret image message)
+        (resp/json-error "Image upload time expired")))
+    (resp/json-error "Session error, probably, expired")))
+
+(defn dialog [req]
+  (twutils/confirm-dialog nil))
 

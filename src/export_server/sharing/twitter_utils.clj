@@ -1,5 +1,6 @@
 (ns export-server.sharing.twitter-utils
-  (:require [oauth.one :as one]))
+  (:require [oauth.one :as one]
+            [selmer.parser :refer [render-file]]))
 
 (defn timestamp []
   (quot (System/currentTimeMillis) 1000))
@@ -23,3 +24,6 @@
                   request-data
                   oauth-token-secret)]
     (-> request (assoc-in [:headers "Accept"] "*/*"))))
+
+(defn confirm-dialog [image]
+  (render-file "templates/twdialog.selmer" {:image image}))

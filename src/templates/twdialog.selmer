@@ -1,0 +1,39 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Gallery Generator</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+    <!-- jquery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+
+<script>
+    function close(){
+        window.close();
+    }
+</script>
+
+<div class="container" style="width: 500px; margin-top: 20px;">
+    <form action="/sharing/twitter_confirm" method="post">
+        <div class="form-group">
+            <label for="exampleInputEmail1">Text</label>
+            <input type="text" name="message" class="form-control" id="exampleInputEmail1" placeholder="Type your message" value="My new chart! #anychart">
+        </div>
+
+        <div class="form-group">
+            <!--<img style="max-width: 450px;" src="http://www.telegraph.co.uk/content/dam/news/2016/05/24/potd%20cat-large_trans++eo_i_u9APj8RuoebjoAHt0k9u7HhRJvuo-ZLenGRumA.jpg">-->
+            <img style="max-width: 450px;" src="data:image/gif;base64,{{image}}">
+        </div>
+        <button type="submit" class="btn btn-default">Post</button>
+        <button type="button" class="btn btn-default" onclick="close();">Cancel</button>
+    </form>
+</div>
+</body>
+
+</html>

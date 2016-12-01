@@ -12,6 +12,7 @@
                  [ring "1.5.0"]
 
                  ;; sharing
+                 [selmer "1.10.1"]
                  [clj-oauth "1.5.5"]
                  [oauth-clj "0.1.15"]
                  [oauth/oauth.one "0.5.0"]
