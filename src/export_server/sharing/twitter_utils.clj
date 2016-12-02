@@ -33,4 +33,4 @@
   (response (render-file "templates/tw_success.selmer" {:message message})))
 
 (defn error-dialog [message]
-  (response (render-file "templates/tw_success.selmer" {:message message})))
+  (response (render-file "templates/tw_error.selmer" {:message message})))

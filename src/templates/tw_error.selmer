@@ -13,11 +13,16 @@
 <body>
 
 <script type="text/javascript">
-    window.close();
+    function closeDialog(){
+        window.close();
+    }
+    setTimeout(closeDialog, 5000);
 </script>
 
 <div class="container" style="width: 500px; margin-top: 20px;">
-    <p>{{message}}</p>
+    <p>Error! {{message}}</p>
+    <p>The window will close after 5 seconds.</p>
+    <p><button  class="btn btn-default" onclick="closeDialog()">Close</button></p>
 </div>
 </body>
 
