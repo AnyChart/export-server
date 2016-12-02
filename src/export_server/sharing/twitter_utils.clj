@@ -1,6 +1,7 @@
 (ns export-server.sharing.twitter-utils
   (:require [oauth.one :as one]
-            [selmer.parser :refer [render-file]]))
+            [selmer.parser :refer [render-file]]
+            [ring.util.response :as rutils :refer [response]]))
 
 (defn timestamp []
   (quot (System/currentTimeMillis) 1000))
@@ -26,4 +27,10 @@
     (-> request (assoc-in [:headers "Accept"] "*/*"))))
 
 (defn confirm-dialog [image]
-  (render-file "templates/twdialog.selmer" {:image image}))
+  (response (render-file "templates/tw_dialog.selmer" {:image image})))
+
+(defn success-dialog [message]
+  (response (render-file "templates/tw_success.selmer" {:message message})))
+
+(defn error-dialog [message]
+  (response (render-file "templates/tw_success.selmer" {:message message})))

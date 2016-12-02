@@ -7,9 +7,10 @@
             [oauth.one :as one :refer []]
             [cheshire.core :refer :all]
             [taoensso.timbre :as timbre]
-            [export-server.utils.responce :as resp]
+            [export-server.utils.responce :as resp :refer [json-error json-success]]
             [export-server.sharing.storage :as storage]
-            [export-server.sharing.twitter-utils :as twutils :refer [create-oauth-request timestamp]]))
+            [export-server.sharing.twitter-utils :as twutils :refer [create-oauth-request timestamp confirm-dialog
+                                                                     success-dialog error-dialog]]))
 
 (def consumer
   (one/make-consumer
@@ -53,9 +54,9 @@
 (defn update-status-with-img [oauth-token oauth-token-secret img-base64 text-message]
   (if-let [media-id (upload-image oauth-token oauth-token-secret img-base64)]
     (if-let [_ (update-status oauth-token oauth-token-secret text-message media-id)]
-      (resp/json-success {:status :ok})
-      (resp/json-error "Update status error"))
-    (resp/json-error "Upload image error")))
+      (success-dialog "Chart has been posted!")
+      (error-dialog "Update status error!"))
+    (error-dialog "Upload image error")))
 
 
 (defn auth-url []
@@ -66,10 +67,10 @@
       (if-let [oauth-token (get data "oauth_token")]
         (let [auth-url (one/authorization-url consumer {"oauth_token" oauth-token})]
           (redirect auth-url))
-        (resp/json-error "Get oauth request token error")))
+        (error-dialog "Get oauth request token error")))
     (catch Exception e
       (timbre/error "Get authorization url error" e)
-      (resp/json-error "Get authorization url error"))))
+      (error-dialog "Get authorization url error"))))
 
 
 (defn twitter-old [{session :session :as request} img-base64]
@@ -96,19 +97,19 @@
       (let [response (if-let [image (-> session :local :img)]
                        (update-status-with-img oauth-token oauth-token-secret image
                                                "www.anychart.com #anychart")
-                       (resp/json-error "Image upload time expired"))]
+                       (error-dialog "Image upload time expired"))]
         (-> response
             (assoc-in [:session :db :twitter] {:oauth-token        oauth-token
                                                :oauth-token-secret oauth-token-secret})
             (assoc-in [:session :local] nil)))
       (do
         (timbre/error "Get access token error")
-        (resp/json-error "Get access token  url error")))))
+        (error-dialog "Get access token  url error")))))
 
 
 (defn twitter [{session :session :as request} img-base64]
   (let [response (if (-> session :db :twitter)
-                   (rutils/response (twutils/confirm-dialog img-base64))
+                   (confirm-dialog img-base64)
                    (auth-url))]
     (assoc-in response [:session :local] {:img  img-base64
                                           :time (timestamp)})))
@@ -123,15 +124,15 @@
         oauth-token-secret (get creds "oauth_token_secret")]
     (if (and oauth-token oauth-token-secret)
       (let [response (if-let [image (-> session :local :img)]
-                       (rutils/response (twutils/confirm-dialog image))
-                       (resp/json-error "Image upload time expired"))]
+                       (confirm-dialog image)
+                       (error-dialog "Image upload time expired"))]
         (-> response
             (assoc-in [:session :db :twitter] {:oauth-token        oauth-token
                                                :oauth-token-secret oauth-token-secret})
             (assoc-in [:session :local] nil)))
       (do
         (timbre/error "Get access token error")
-        (resp/json-error "Get access token  url error")))))
+        (error-dialog "Get access token  url error")))))
 
 (defn twitter-confirm [{session :session :as request}]
   (if-let [creds (-> session :db :twitter)]
@@ -140,8 +141,8 @@
           message (get-in request [:params "message"])]
       (if-let [image (-> session :local :img)]
         (update-status-with-img oauth-token oauth-token-secret image message)
-        (resp/json-error "Image upload time expired")))
-    (resp/json-error "Session error, probably, expired")))
+        (error-dialog "Image upload time expired")))
+    (error-dialog "Session error, probably, expired")))
 
 (defn dialog [req]
   (twutils/confirm-dialog nil))

@@ -9,12 +9,11 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-
 </head>
 <body>
 
-<script>
-    function close(){
+<script type="text/javascript">
+    function closeDialog(){
         window.close();
     }
 </script>
@@ -31,7 +30,7 @@
             <img style="max-width: 450px;" src="data:image/gif;base64,{{image}}">
         </div>
         <button type="submit" class="btn btn-default">Post</button>
-        <button type="button" class="btn btn-default" onclick="close();">Cancel</button>
+        <button type="button" class="btn btn-default" onclick="closeDialog();">Cancel</button>
     </form>
 </div>
 </body>
