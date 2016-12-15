@@ -16,6 +16,7 @@
             [export-server.utils.phantom :as browser]
             ;[export-server.utils.jbrowser :as browser]
             [export-server.utils.config :as config]
+            [export-server.sharing.core :as sharing]
             [export-server.sharing.twitter :as twitter]
             [export-server.sharing.storage :as storage :refer [create-storage init]]
             [compojure.route :as route]
@@ -262,7 +263,7 @@
     (init-logger (:log options)))
   (timbre/info (str "Starting export server on " (:host options) ":" (:port options)))
   (browser/setup-phantom)
-  (storage/init "stg")
+  (sharing/init "stg")
   (state/set-server (run-server app {:port (:port options) :ip (:host options)}))
   (.addShutdownHook (Runtime/getRuntime) (Thread. shutdown-server)))
 

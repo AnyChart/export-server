@@ -71,7 +71,7 @@
   :plugins [[lein-localrepo "0.5.3"]
             [lein-ancient "0.6.10"]]
   :main ^:aot export-server.core
-  :profiles {:uberjar {:aot :all}}
+  :profiles {:dev {:jvm-opts ["-Ddev=true"]}
+             :uberjar {:aot :all}}
   :jar-name "export-server.jar"
-  :uberjar-name "export-server-standalone.jar"
-  )
+  :uberjar-name "export-server-standalone.jar")

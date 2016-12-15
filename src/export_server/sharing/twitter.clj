@@ -12,16 +12,23 @@
             [export-server.sharing.twitter-utils :as twutils :refer [create-oauth-request timestamp confirm-dialog
                                                                      success-dialog error-dialog]]))
 
-(def consumer
-  (one/make-consumer
-    {:access-uri     "https://api.twitter.com/oauth/access_token"
-     :authorize-uri  "https://api.twitter.com/oauth/authorize"
-     :callback-uri   "http://localhost:2000/sharing/twitter_oauth"
-     ;:callback-uri   "http://export.anychart.stg/sharing/twitter_oauth"
-     :key            "ffhhDbj6TYVWKtcBh6QyzUTmz"
-     :request-uri    "https://api.twitter.com/oauth/request_token"
-     :secret         "v7UWu1ChJMHG5xfyd51hACqdNIj3mUidfVCQY47mAffVtQJoQz"
-     :signature-algo :hmac-sha1}))
+(def consumer nil)
+
+(defn init [mode]
+  (let [callback-uri (cond
+                       (System/getProperty "dev") "http://localhost:2000/sharing/twitter_oauth"
+                       (= mode "prod") "http://export.anychart.com/sharing/twitter_oauth"
+                       :else "http://export.anychart.stg/sharing/twitter_oauth")]
+    (alter-var-root (var consumer)
+                    (constantly (one/make-consumer
+                                  {:access-uri     "https://api.twitter.com/oauth/access_token"
+                                   :authorize-uri  "https://api.twitter.com/oauth/authorize"
+                                   :callback-uri   callback-uri
+                                   :key            "ffhhDbj6TYVWKtcBh6QyzUTmz"
+                                   :request-uri    "https://api.twitter.com/oauth/request_token"
+                                   :secret         "v7UWu1ChJMHG5xfyd51hACqdNIj3mUidfVCQY47mAffVtQJoQz"
+                                   :signature-algo :hmac-sha1})))))
+
 
 (defn img-to-base64 [path]
   (with-open [out (java.io.ByteArrayOutputStream.)
@@ -71,40 +78,6 @@
     (catch Exception e
       (timbre/error "Get authorization url error" e)
       (error-dialog "Get authorization url error"))))
-
-
-(defn twitter-old [{session :session :as request} img-base64]
-  (if-let [creds (-> session :db :twitter)]
-    (let [oauth-token (:oauth-token creds)
-          oauth-token-secret (:oauth-token-secret creds)]
-      (update-status-with-img oauth-token oauth-token-secret
-                              img-base64
-                              "www.anychart.com #anychart"))
-    (do
-      (let [response (auth-url)]
-        (assoc-in response [:session :local] {:img  img-base64
-                                              :time (timestamp)})))))
-
-(defn twitter-oauth-old [{session :session :as request}]
-  (let [;; pass oauth data ;oauth-token (get (:params req) "oauth_token") and ;oauth-verifier (get (:params req) "oauth_verifier")
-        token-request (one/access-token-request consumer (:params request))
-        token-response (try (client/request token-request)
-                            (catch Exception e {}))
-        creds (ring.util.codec/form-decode (:body token-response))
-        oauth-token (get creds "oauth_token")
-        oauth-token-secret (get creds "oauth_token_secret")]
-    (if (and oauth-token oauth-token-secret)
-      (let [response (if-let [image (-> session :local :img)]
-                       (update-status-with-img oauth-token oauth-token-secret image
-                                               "www.anychart.com #anychart")
-                       (error-dialog "Image upload time expired"))]
-        (-> response
-            (assoc-in [:session :db :twitter] {:oauth-token        oauth-token
-                                               :oauth-token-secret oauth-token-secret})
-            (assoc-in [:session :local] nil)))
-      (do
-        (timbre/error "Get access token error")
-        (error-dialog "Get access token  url error")))))
 
 
 (defn twitter [{session :session :as request} img-base64]
