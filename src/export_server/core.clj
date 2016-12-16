@@ -113,7 +113,7 @@
     ]
    ["-a" "--allow-scripts-executing ALLOW_SCRIPTS_EXECUTING" "Allow to execute violent scripts in phantom js."
     :parse-fn #(or (= "true" %) (= "1" %) (= "y" %) (= "yes" %))
-    :default true
+    :default false
     ]
 
    ;Command Line Common Args--------------------------------------------------------------------------------------------
@@ -253,7 +253,8 @@
   (when (:log options)
     (init-logger (:log options)))
   (timbre/info (str "Starting export server on " (:host options) ":" (:port options)))
-  (browser/setup-phantom)
+  (when (:allow-scripts-executing options)
+    (browser/setup-phantom))
   (state/set-server (run-server app {:port (:port options) :ip (:host options)}))
   (.addShutdownHook (Runtime/getRuntime) (Thread. shutdown-server)))
 
