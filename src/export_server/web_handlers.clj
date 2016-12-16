@@ -82,7 +82,7 @@
     (cond
       (and (= data-type "script") (not @allow-script-executing)) {:ok     false
                                                                   :result {:message "Script executing is not allowed"
-                                                                           :status 403}}
+                                                                           :http-code 403}}
       (= data-type "svg") (rastr/svg-to-png data width height force-transparent-white)
       (= data-type "script") (let [to-svg-result (browser/script-to-svg data false false (params-to-options params))]
                                (if (to-svg-result :ok)
@@ -101,7 +101,7 @@
     (cond
       (and (= data-type "script") (not @allow-script-executing)) {:ok     false
                                                                   :result {:message "Script executing is not allowed"
-                                                                           :status 403}}
+                                                                           :http-code 403}}
       (= data-type "svg") (rastr/svg-to-jpg data width height force-transparent-white quality)
       (= data-type "script") (let [to-svg-result (browser/script-to-svg data false false (params-to-options params))]
                                (if (to-svg-result :ok)
@@ -120,7 +120,7 @@
     (cond
       (and (= data-type "script") (not @allow-script-executing)) {:ok     false
                                                                   :result {:message "Script executing is not allowed"
-                                                                           :status 403}}
+                                                                           :http-code 403}}
       (= data-type "svg") (rastr/svg-to-pdf data pdf-size landscape x y)
       (= data-type "script") (let [to-svg-result (browser/script-to-svg data false false (params-to-options params))]
                                (if (to-svg-result :ok)
@@ -135,7 +135,7 @@
     (cond
       (and (= data-type "script") (not @allow-script-executing)) {:ok     false
                                                                   :result {:message "Script executing is not allowed"
-                                                                           :status 403}}
+                                                                           :http-code 403}}
       (= data-type "svg") {:ok true :result data}
       (= data-type "script") (browser/script-to-svg data false false (params-to-options params))
       :else {:ok false :result "Unknown data type"})))

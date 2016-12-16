@@ -14,8 +14,8 @@
       (header "Access-Control-Allow-Headers" "X-Requested-With")))
 
 (defn json-error [result]
-  (-> (response (generate-string {:error (if (string? result) result (:message result))}))
-      (status (or (:status result) 400))
+  (-> (response (generate-string {:error (if (:http-code result) (:message result) result)}))
+      (status (or (:http-code result) 400))
       (content-type "application/json")
       (header "Access-Control-Allow-Origin" "*")
       (header "Access-Control-Allow-Methods" "POST")
