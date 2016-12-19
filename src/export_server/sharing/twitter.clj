@@ -23,10 +23,14 @@
                     (constantly (one/make-consumer
                                   {:access-uri     "https://api.twitter.com/oauth/access_token"
                                    :authorize-uri  "https://api.twitter.com/oauth/authorize"
-                                   :callback-uri   callback-uri
-                                   :key            "ffhhDbj6TYVWKtcBh6QyzUTmz"
                                    :request-uri    "https://api.twitter.com/oauth/request_token"
-                                   :secret         "v7UWu1ChJMHG5xfyd51hACqdNIj3mUidfVCQY47mAffVtQJoQz"
+                                   :callback-uri   callback-uri
+                                   ;; test creds
+                                   ;:key            "ffhhDbj6TYVWKtcBh6QyzUTmz"
+                                   ;:secret         "v7UWu1ChJMHG5xfyd51hACqdNIj3mUidfVCQY47mAffVtQJoQz"
+                                   ;; anychart app creda
+                                   :key            "XK5JT7wpIJryzaIHO7Ne2FhN9"
+                                   :secret         "a5IrvU0BNvDGcDR8jBGIWUXyKQuNDlptmFZXZhVg5h2npygqic"
                                    :signature-algo :hmac-sha1})))))
 
 
