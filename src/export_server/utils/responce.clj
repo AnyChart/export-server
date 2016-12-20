@@ -8,15 +8,15 @@
 (defn json-success [result]
   (-> (response (generate-string (if (string? result) {:result result} result)))
       (status 200)
-      (content-type "json")
+      (content-type "application/json")
       (header "Access-Control-Allow-Origin" "*")
       (header "Access-Control-Allow-Methods" "POST")
       (header "Access-Control-Allow-Headers" "X-Requested-With")))
 
 (defn json-error [result]
-  (-> (response (generate-string {:error result}))
-      (status 400)
-      (content-type "json")
+  (-> (response (generate-string {:error (if (:http-code result) (:message result) result)}))
+      (status (or (:http-code result) 400))
+      (content-type "application/json")
       (header "Access-Control-Allow-Origin" "*")
       (header "Access-Control-Allow-Methods" "POST")
       (header "Access-Control-Allow-Headers" "X-Requested-With")))
