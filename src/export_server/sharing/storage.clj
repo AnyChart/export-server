@@ -28,27 +28,16 @@
 (defn sn->id [name]
   (get sn (keyword name)))
 
-(def db-spec-prod {:classname   "com.mysql.cj.jdbc.Driver"
-                   :subprotocol "mysql"
-                   :subname     "//localhost:3306/export_prod?characterEncoding=UTF-8&serverTimezone=UTC"
-                   :user        "export_prod_user"
-                   :password    "prodpass"
-                   :stringtype  "unspecified"})
+(defn create-db-spec [db port user password]
+  {:classname   "com.mysql.cj.jdbc.Driver"
+   :subprotocol "mysql"
+   :subname     (str "//localhost:" port "/" db "?characterEncoding=UTF-8&serverTimezone=UTC")
+   :user        user
+   :password    password
+   :stringtype  "unspecified"})
 
-(def db-spec-stg {:classname   "com.mysql.cj.jdbc.Driver"
-                  :subprotocol "mysql"
-                  :subname     "//localhost:3306/export_stg?characterEncoding=UTF-8&serverTimezone=UTC"
-                  :user        "export_stg_user"
-                  :password    "stgpass"
-                  :stringtype  "unspecified"})
-
-(defn init [mode]
-  (let [db-spec (case mode
-                  "prod" db-spec-prod
-                  db-spec-stg)
-        conn (db/connection-pool db-spec)]
-    (reset! state {:mode mode
-                   :conn conn})))
+(defn init [db port user password]
+  (reset! state {:conn (db/connection-pool (create-db-spec db port user password))}))
 
 (defn read-db [key]
   (let [auths (db/query @state (-> (select :sn :oauth-token :oauth-token-secret)

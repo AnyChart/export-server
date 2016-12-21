@@ -1,4 +1,5 @@
-(ns export-server.utils.config)
+(ns export-server.utils.config
+  (:require [export-server.utils.util :refer [jar-location]]))
 
 (def available-pdf-sizes {:a0           {:width "841mm" :height "1189mm"}
                           :a1           {:width "594mm" :height "841mm"}
@@ -46,9 +47,17 @@
 (def available-rasterization-response-types #{"file" "base64"})
 
 (def defaults {
+               ;; server
+               :allow-scripts-executing false
                :port 2000
                :host "localhost"
                :log nil
+               :saving-url-prefix ""
+               :saving-folder (str (jar-location) "/save")
+
+               ;; cmd
+               :output-file "anychart"
+               :output-path ""
                :container-width  "1024px"
                :container-height "800px"
                :container-id "container"
@@ -63,5 +72,4 @@
                :pdf-y 0
                :pdf-width nil
                :pdf-height nil
-               :pdf-landscape false
-               })
+               :pdf-landscape false})

@@ -14,25 +14,16 @@
 
 (def consumer nil)
 
-(defn init [mode]
-  (let [callback-uri (cond
-                       (System/getProperty "dev") "http://localhost:2000/sharing/twitter_oauth"
-                       (= mode "prod") "http://export.anychart.com/sharing/twitter_oauth"
-                       :else "http://export.anychart.stg/sharing/twitter_oauth")]
-    (alter-var-root (var consumer)
-                    (constantly (one/make-consumer
-                                  {:access-uri     "https://api.twitter.com/oauth/access_token"
-                                   :authorize-uri  "https://api.twitter.com/oauth/authorize"
-                                   :request-uri    "https://api.twitter.com/oauth/request_token"
-                                   :callback-uri   callback-uri
-                                   ;; test creds
-                                   ;:key            "ffhhDbj6TYVWKtcBh6QyzUTmz"
-                                   ;:secret         "v7UWu1ChJMHG5xfyd51hACqdNIj3mUidfVCQY47mAffVtQJoQz"
-                                   ;; anychart app creda
-                                   :key            "XK5JT7wpIJryzaIHO7Ne2FhN9"
-                                   :secret         "a5IrvU0BNvDGcDR8jBGIWUXyKQuNDlptmFZXZhVg5h2npygqic"
-                                   :signature-algo :hmac-sha1})))))
-
+(defn init [key secret callback]
+  (alter-var-root (var consumer)
+                  (constantly (one/make-consumer
+                                {:access-uri     "https://api.twitter.com/oauth/access_token"
+                                 :authorize-uri  "https://api.twitter.com/oauth/authorize"
+                                 :request-uri    "https://api.twitter.com/oauth/request_token"
+                                 :callback-uri   callback
+                                 :key            key
+                                 :secret         secret
+                                 :signature-algo :hmac-sha1}))))
 
 (defn img-to-base64 [path]
   (with-open [out (java.io.ByteArrayOutputStream.)

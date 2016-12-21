@@ -28,11 +28,6 @@
 ;====================================================================================
 ; Main utils
 ;====================================================================================
-(defn jar-location
-  "if run locally returns clojure.jar path"
-  [& [ns]]
-  (-> (or ns (class *ns*)) .getProtectionDomain .getCodeSource .getLocation .getPath clojure.java.io/file .getParent))
-
 (defn get-project-version
   ([] (get-project-version "export-server" "export-server"))
   ([groupid artifact] (-> (doto (Properties.)
@@ -103,115 +98,87 @@
 ; Common Usage
 ;====================================================================================
 (def common-options
-  [
+  [["-C" "--config PATH" "Path to config"
+    :default nil]
+
    ;Server Args--------------------------------------------------------------------------------------------
    ["-P" "--port PORT" "Port number for the server."
-    :default (:port config/defaults)
     :parse-fn #(Integer/parseInt %)
     :validate [#(< 0 % 0x10000) "Must be a number between 0 and 65536"]]
-   ["-H" "--host HOST" "Ip, if has many ips to bind."
-    :default (:host config/defaults)
-    ]
-   ["-F" "--log FILE" "File for server logging."
-    :default (:log config/defaults)
-    ]
+
+   ["-H" "--host HOST" "Ip, if has many ips to bind."]
+
+   ["-F" "--log FILE" "File for server logging."]
+
    ["-a" "--allow-scripts-executing ALLOW_SCRIPTS_EXECUTING" "Allow to execute violent scripts in phantom js."
-    :parse-fn #(or (= "true" %) (= "1" %) (= "y" %) (= "yes" %))
-    :default false
-    ]
+    :parse-fn #(or (= "true" %) (= "1" %) (= "y" %) (= "yes" %))]
+
+   ;Saving image or pdf to folder
+   ["-z" "--saving-folder PATH" "Path to save images or pdf"]
+   ["-Z" "--saving-url-prefix PREFIX" "URL prefix will be returned to request"]
+
+   ;; sharing
+   [nil "--sharing-port PORT" "Sharing mysql database port" :parse-fn #(Integer/parseInt %)]
+   [nil "--sharing-db NAME" "Sharing mysql database name"]
+   [nil "--sharing-user USER" "Sharing mysql database user"]
+   [nil "--sharing-password PASSWORD" "Sharing mysql database password"]
+
+   ;; twitter
+   [nil "--twitter-key KEY" "Twitter application key"]
+   [nil "--twitter-secret SECRET" "Twitter application secret"]
+   [nil "--twitter-callback" "Twitter application callback URL"]
 
    ;Command Line Common Args--------------------------------------------------------------------------------------------
-   ["-s" "--script SCRIPT" "JavaScript String to Execute."
-    :default nil
-    ]
-   ["-i" "--input-file INPUT_FILE" "JavaScript file to Execute"
-    :default nil
-    ]
-   ["-o" "--output-file OUTPUT_FILE" "Output File name, file extentions is optional."
-    :default "anychart"
-    ]
-   ["-p" "--output-path OUTPUT_PATH" "Output File Directory"
-    :default ""
-    ]
+   ["-s" "--script SCRIPT" "JavaScript String to Execute." ]
+
+   ["-i" "--input-file INPUT_FILE" "JavaScript file to Execute"]
+
+   ["-o" "--output-file OUTPUT_FILE" "Output File name, file extentions is optional."]
+
+   ["-p" "--output-path OUTPUT_PATH" "Output File Directory"]
+
    ["-t" "--type TYPE" "Type of the output file."
-    :default (:type config/defaults)
     :validate [#(contains? #{"png" "jpg" "svg" "pdf"} %) "Type must be one of the following types: png, jpg, svg, pdf"]]
 
-   ["-c" "--container-id CONTAINER_ID" "Container id."
-    :default (:container-id config/defaults)
-    ]
+   ["-c" "--container-id CONTAINER_ID" "Container id."]
 
-   ["-W" "--container-width CONTAINER_WIDTH" "Container width."
-    :default (:container-width config/defaults)
-    ]
+   ["-W" "--container-width CONTAINER_WIDTH" "Container width."]
 
-   ["-L" "--container-height CONTAINER_HEIGHT" "Container height"
-    :default (:container-height config/defaults)
-    ]
-
+   ["-L" "--container-height CONTAINER_HEIGHT" "Container height"]
 
    ;Export Images Args--------------------------------------------------------------------------------------------------
    ["-w" "--image-width IMAGE_WIDTH" "Image width."
-    :default (:image-width config/defaults)
-    :parse-fn #(Integer/parseInt %)
-    ]
+    :parse-fn #(Integer/parseInt %)]
 
    ["-l" "--image-height IMAGE_HEIGHT" "Image height"
-    :default (:image-height config/defaults)
-    :parse-fn #(Integer/parseInt %)
-    ]
-   ["-f" "--force-transparent-white FORCE_TRANSPARENT_WHITE" "Force transparent to white"
-    :default (:force-transparent-white config/defaults)
-    ]
+    :parse-fn #(Integer/parseInt %)]
+
+   ["-f" "--force-transparent-white FORCE_TRANSPARENT_WHITE" "Force transparent to white"]
 
    ["-q" "--jpg-quality JPG_QUALITY" "Image quality,"
-    :default (:jpg-quality config/defaults)
-    :parse-fn #(Float/parseFloat %)
-    ]
-
+    :parse-fn #(Float/parseFloat %)]
 
    ;Export PDF Args--------------------------------------------------------------------------------------------------
    ["-S" "--pdf-size PDF-SIZE" "PDF Size"
-    :default (:pdf-size config/defaults)
-    :parse-fn #(keyword %)
-    ]
+    :parse-fn #(keyword %)]
 
    ["-X" "--pdf-width PDF-WIDTH" "Pdf width"
-    :default (:pdf-width config/defaults)
-    :parse-fn #(Integer/parseInt %)
-    ]
+    :parse-fn #(Integer/parseInt %)]
 
    ["-Y" "--pdf-height PDF-HEIGHT" "Pdf height"
-    :default (:pdf-width config/defaults)
-    :parse-fn #(Integer/parseInt %)
-    ]
+    :parse-fn #(Integer/parseInt %)]
 
    ["-x" "--pdf-x PDF-X" "Pdf X"
-    :default (:pdf-x config/defaults)
-    :parse-fn #(Integer/parseInt %)
-    ]
+    :parse-fn #(Integer/parseInt %)]
 
    ["-y" "--pdf-y PDF-Y" "Pdf Y"
-    :default (:pdf-y config/defaults)
-    :parse-fn #(Integer/parseInt %)
-    ]
+    :parse-fn #(Integer/parseInt %)]
 
-   ["-O" "--pdf-landscape PDF-LANDSCAPE" "PDF Orientation"
-    :default (:pdf-landscape config/defaults)
-    ]
-
-   ;Saving image or pdf to folder
-   ["-z" "--saving-folder PATH" "Path to save images or pdf"
-    :default (str (jar-location) "/save")
-    ]
-   ["-Z" "--saving-url-prefix PREFIX" "URL prefix will be returned to request"
-    :default ""
-    ]
+   ["-O" "--pdf-landscape PDF-LANDSCAPE" "PDF Orientation"]
 
    ;Export PDF Args--------------------------------------------------------------------------------------------------
    ["-v" "--version" "Print version, can be used without action"]
-   ["-h" "--help"]
-   ])
+   ["-h" "--help"]])
 
 (defn usage []
   (->> [server-name
@@ -254,7 +221,7 @@
 
 (defn shutdown-server []
   (timbre/info "Shutdown...")
-  (state/stop-server)
+  (state/stop-server!)
   (browser/stop-phantom))
 
 (defn start-server [options summary]
@@ -262,10 +229,12 @@
   (when (:log options)
     (init-logger (:log options)))
   (timbre/info (str "Starting export server on " (:host options) ":" (:port options)))
-  (sharing/init "stg")
+  (if (sharing/init options)
+    (timbre/info "Sharing initialiazed")
+    (timbre/warn "Sharing did not initialize. Provide both twitter-* and sharing-* options."))
   (when (:allow-scripts-executing options)
     (browser/setup-phantom))
-  (state/set-server (run-server app {:port (:port options) :ip (:host options)}))
+  (state/set-server! (run-server app {:port (:port options) :ip (:host options)}))
   (.addShutdownHook (Runtime/getRuntime) (Thread. shutdown-server)))
 
 
@@ -291,16 +260,15 @@
 ;====================================================================================
 (defn -main [& args]
   (let [{:keys [options arguments errors summary]} (parse-opts args common-options)]
-    (prn (:allow-scripts-executing options))
-    (state/set-options options)
     (cond
       (:version options) (exit 0 server-name)
-      (not= (count arguments) 1) (exit 1 (usage))
-      errors (exit 1 (error-msg errors)))
-    (reset! web/allow-script-executing (:allow-scripts-executing options))
-    (timbre/info "Charset: " (Charset/defaultCharset))
-    (timbre/info "FileEncoding: " (System/getProperty "file.encoding"))
-    (case (first arguments)
-      "server" (start-server options summary)
-      "cmd" (cmd-export options summary)
-      (exit 1 (usage)))))
+      errors (exit 1 (error-msg errors))
+      (nil? (state/init (first arguments) options)) (exit 1 "Can't read config file"))
+    (let [options @state/options
+          mode (:mode options)]
+      (reset! web/allow-script-executing (:allow-scripts-executing options))
+      (println options)
+      (case mode
+        "server" (start-server options summary)
+        "cmd" (cmd-export options summary)
+        (exit 1 (usage))))))
