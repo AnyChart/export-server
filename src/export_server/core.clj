@@ -267,7 +267,6 @@
     (let [options @state/options
           mode (:mode options)]
       (reset! web/allow-script-executing (:allow-scripts-executing options))
-      (println options)
       (case mode
         "server" (start-server options summary)
         "cmd" (cmd-export options summary)
