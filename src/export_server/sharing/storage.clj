@@ -40,28 +40,31 @@
   (reset! state {:conn (db/connection-pool (create-db-spec db port user password))}))
 
 (defn read-db [key]
-  (let [auths (db/query @state (-> (select :sn :oauth-token :oauth-token-secret)
-                                   (from :auth) (where [:= key :session])))
-        result (reduce #(assoc %1
-                         (id->sn (:sn %2))
-                         (transform-keys ->kebab-case (dissoc %2 :sn)))
-                       {} auths)]
-    ; (prn "Storage Read session: " key result)
-    result))
+  (when (:conn @state)
+    (let [auths (db/query @state (-> (select :sn :oauth-token :oauth-token-secret)
+                                    (from :auth) (where [:= key :session])))
+         result (reduce #(assoc %1
+                          (id->sn (:sn %2))
+                          (transform-keys ->kebab-case (dissoc %2 :sn)))
+                        {} auths)]
+     ; (prn "Storage Read session: " key result)
+     result)))
 
 (defn delete-db [key]
   ; (prn "Storage Delete session: " key)
-  (db/exec @state (-> (delete-from :auth) (where [:= key :session]))))
+  (when (:conn @state)
+    (db/exec @state (-> (delete-from :auth) (where [:= key :session])))))
 
 (defn write-db [key data]
-  (delete-db key)
-  ; (prn "Storage write session: " key data)
-  (let [insert-rows (mapv (fn [[sn {token        :oauth-token
-                                    token-secret :oauth-token-secret}]]
-                            [key (sn->id sn) token token-secret]) data)]
-    (db/exec @state (-> (insert-into :auth)
-                        (columns :session :sn :oauth_token :oauth_token_secret)
-                        (values insert-rows)))))
+  (when (:conn @state)
+    (delete-db key)
+    ; (prn "Storage write session: " key data)
+    (let [insert-rows (mapv (fn [[sn {token        :oauth-token
+                                      token-secret :oauth-token-secret}]]
+                              [key (sn->id sn) token token-secret]) data)]
+      (db/exec @state (-> (insert-into :auth)
+                          (columns :session :sn :oauth_token :oauth_token_secret)
+                          (values insert-rows))))))
 
 (defn read-local [key]
   (get @memory key))
