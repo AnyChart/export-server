@@ -1,38 +1,42 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Gallery Generator</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
-    <!-- jquery -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <title>AnyChart Twitter posting</title>
+    <link rel="stylesheet" type="text/css" href="/tw_dialog.css">
 </head>
 <body>
-
 <script type="text/javascript">
-    function closeDialog(){
+    function closeDialog() {
         window.close();
     }
 </script>
-
-<div class="container" style="width: 500px; margin-top: 20px;">
-    <form action="/sharing/twitter_confirm" method="post">
-        <div class="form-group">
-            <label for="exampleInputEmail1">Text</label>
-            <input type="text" name="message" class="form-control" id="exampleInputEmail1" placeholder="Type your message" value="My new chart! #anychart">
+<div class="main">
+    <div class="header">
+        <div class="inline-header">
+            <a class="logo-img" target="_blank" href="https://twitter.com/home"></a>
+            <a target="_blank" title="{{name}}" href="https://twitter.com/{{screen-name}}">
+                <img class="avatar-img" src="{{profile-image-url}}">
+            </a>
         </div>
-
-        <div class="form-group">
-            <!--<img style="max-width: 450px;" src="http://www.telegraph.co.uk/content/dam/news/2016/05/24/potd%20cat-large_trans++eo_i_u9APj8RuoebjoAHt0k9u7HhRJvuo-ZLenGRumA.jpg">-->
-            <img style="max-width: 450px;" src="data:image/gif;base64,{{image}}">
-        </div>
-        <button type="submit" class="btn btn-default">Post</button>
-        <button type="button" class="btn btn-default" onclick="closeDialog();">Cancel</button>
-    </form>
+    </div>
+    <div class="bd">
+        <h2 class="title">Share a chart with your followers</h2>
+        <form action="/sharing/twitter_confirm" method="post">
+            <div class="form-group">
+            <textarea type="text" name="message" class="form-control" autofocus
+                      placeholder="Type your message"></textarea>
+            </div>
+            <div class="form-group img-container">
+                <img class="chart-img" src="data:image/gif;base64,{{image}}">
+            </div>
+            <fieldset class="buttons-container">
+                <button class="button tw-button" type="submit">Tweet</button>
+                <button class="button default-button" type="button" class="btn btn-default" onclick="closeDialog();">
+                    Cancel
+                </button>
+            </fieldset>
+        </form>
+    </div>
 </div>
 </body>
-
 </html>

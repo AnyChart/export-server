@@ -200,12 +200,12 @@
 ; Server Actions
 ;====================================================================================
 (defroutes app-routes
+           (route/resources "/")
            (GET "/status" [] "ok")
            (POST "/status" [] "ok")
            (POST "/sharing/twitter" [] web/sharing-twitter)
            (GET "/sharing/twitter_oauth" [] twitter/twitter-oauth)
            (POST "/sharing/twitter_confirm" [] twitter/twitter-confirm)
-           (GET "/dialog" [] twitter/dialog)
            (POST "/png" [] web/png)
            (POST "/jpg" [] web/jpg)
            (POST "/svg" [] web/svg)

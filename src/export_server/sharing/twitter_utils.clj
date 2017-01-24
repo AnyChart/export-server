@@ -6,28 +6,36 @@
 (defn timestamp []
   (quot (System/currentTimeMillis) 1000))
 
-(defn nonce []
-  (str "kYjzVBB8Y0ZFabxSW" (+ 10000 (rand-int 10000)) (timestamp)))
+(defn users-show-request [consumer access-token access-token-secret screen_name]
+  (one/sign-request consumer
+                    {:request-method :get
+                     :url            "https://api.twitter.com/1.1/users/show.json"
+                     :query-params   {"screen_name" screen_name}}
+                    {:token  access-token
+                     :secret access-token-secret}))
 
-(defn create-oauth-request [consumer oautn-token oauth-token-secret url params]
-  (let [request-data {:request-method :post
-                      :url            url
-                      :form-params    params
-                      :oauth-headers  (sorted-map
-                                        "oauth_consumer_key" (:key consumer)
-                                        "oauth_nonce" (nonce)
-                                        "oauth_signature_method" "HMAC-SHA1"
-                                        "oauth_timestamp" (timestamp)
-                                        "oauth_token" oautn-token
-                                        "oauth_version" "1.0")}
-        request (one/sign-request
-                  consumer
-                  request-data
-                  oauth-token-secret)]
-    (-> request (assoc-in [:headers "Accept"] "*/*"))))
+(defn statuses-update-request [consumer access-token access-token-secret message media-id]
+  (one/sign-request consumer
+                    {:request-method :post
+                     :url            "https://api.twitter.com/1.1/statuses/update.json"
+                     :form-params    {"status"    message
+                                      "media_ids" media-id}}
+                    {:token  access-token
+                     :secret access-token-secret}))
 
-(defn confirm-dialog [image]
-  (response (render-file "templates/tw_dialog.selmer" {:image image})))
+(defn media-upload-request [consumer access-token access-token-secret img-base64]
+  (one/sign-request consumer
+                    {:request-method :post
+                     :url            "https://upload.twitter.com/1.1/media/upload.json"
+                     :form-params    {"media" img-base64}}
+                    {:token  access-token
+                     :secret access-token-secret}))
+
+(defn confirm-dialog [image profile-image-url screen-name name]
+  (response (render-file "templates/tw_dialog.selmer" {:image image
+                                                       :profile-image-url profile-image-url
+                                                       :screen-name screen-name
+                                                       :name name})))
 
 (defn success-dialog [message]
   (response (render-file "templates/tw_success.selmer" {:message message})))

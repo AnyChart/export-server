@@ -13,9 +13,7 @@
 
                  ;; sharing
                  [selmer "1.10.1"]
-                 [clj-oauth "1.5.5"]
-                 [oauth-clj "0.1.15"]
-                 [oauth/oauth.one "0.5.0"]
+                 [oauth/oauth.one "0.7.0"]
                  [ring/ring-codec "1.0.1"]
                  [clj-http "2.3.0"]
                  [camel-snake-kebab "0.4.0"]

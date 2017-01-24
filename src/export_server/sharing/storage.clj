@@ -8,6 +8,20 @@
             [camel-snake-kebab.extras :refer [transform-keys]])
   (:import (java.util UUID)))
 
+;CREATE TABLE auth (
+;  id BIGINT NOT NULL AUTO_INCREMENT,
+;  sn TINYINT NOT NULL,
+;  user_id VARCHAR (1024),
+;  screen_name VARCHAR (1024),
+;  name VARCHAR (1024),
+;  image_url VARCHAR (1024),
+;  session CHAR (36) NOT NULL,
+;  oauth_token VARCHAR(1024),
+;  oauth_token_secret VARCHAR(1024),
+;  time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+;  PRIMARY KEY (id)
+;) DEFAULT CHARSET=utf8;
+
 (defonce sn {:twitter   1
              :facebook  2
              :linkedin  3
@@ -41,14 +55,14 @@
 
 (defn read-db [key]
   (when (:conn @state)
-    (let [auths (db/query @state (-> (select :sn :oauth-token :oauth-token-secret)
-                                    (from :auth) (where [:= key :session])))
-         result (reduce #(assoc %1
-                          (id->sn (:sn %2))
-                          (transform-keys ->kebab-case (dissoc %2 :sn)))
-                        {} auths)]
-     ; (prn "Storage Read session: " key result)
-     result)))
+    (let [auths (db/query @state (-> (select :sn :oauth-token :oauth-token-secret :image-url :screen-name :name :user-id)
+                                     (from :auth) (where [:= key :session])))
+          result (reduce #(assoc %1
+                           (id->sn (:sn %2))
+                           (transform-keys ->kebab-case (dissoc %2 :sn)))
+                         {} auths)]
+      ; (prn "Storage Read session: " key result)
+      result)))
 
 (defn delete-db [key]
   ; (prn "Storage Delete session: " key)
@@ -58,12 +72,11 @@
 (defn write-db [key data]
   (when (:conn @state)
     (delete-db key)
-    ; (prn "Storage write session: " key data)
-    (let [insert-rows (mapv (fn [[sn {token        :oauth-token
-                                      token-secret :oauth-token-secret}]]
-                              [key (sn->id sn) token token-secret]) data)]
+    ;(prn "Storage write session: " key data)
+    (let [insert-rows (mapv (fn [[sn {:keys [oauth-token oauth-token-secret screen-name name user-id image-url]}]]
+                              [key (sn->id sn) oauth-token oauth-token-secret user-id screen-name name image-url]) data)]
       (db/exec @state (-> (insert-into :auth)
-                          (columns :session :sn :oauth_token :oauth_token_secret)
+                          (columns :session :sn :oauth_token :oauth_token_secret :user_id :screen_name :name :image_url)
                           (values insert-rows))))))
 
 (defn read-local [key]

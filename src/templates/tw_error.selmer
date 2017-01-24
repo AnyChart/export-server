@@ -1,17 +1,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Gallery Generator</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
-    <!-- jquery -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <title>AnyChart Twitter posting</title>
+    <style>
+        body{
+            font-family: sans-serif, "Helvetica Neue",Helvetica,Arial;
+        }
+    </style>
 </head>
 <body>
-
 <script type="text/javascript">
     function closeDialog(){
         window.close();
@@ -19,11 +16,10 @@
     setTimeout(closeDialog, 5000);
 </script>
 
-<div class="container" style="width: 500px; margin-top: 20px;">
+<div style="width: 500px; margin-top: 20px;">
     <p>Error! {{message}}</p>
     <p>The window will close after 5 seconds.</p>
-    <p><button  class="btn btn-default" onclick="closeDialog()">Close</button></p>
+    <p><button onclick="closeDialog()">Close</button></p>
 </div>
 </body>
-
 </html>

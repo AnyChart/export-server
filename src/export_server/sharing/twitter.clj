@@ -9,7 +9,10 @@
             [taoensso.timbre :as timbre]
             [export-server.utils.responce :as resp :refer [json-error json-success]]
             [export-server.sharing.storage :as storage]
-            [export-server.sharing.twitter-utils :as twutils :refer [create-oauth-request timestamp confirm-dialog
+            [export-server.sharing.twitter-utils :as twutils :refer [statuses-update-request
+                                                                     media-upload-request
+                                                                     users-show-request
+                                                                     timestamp confirm-dialog
                                                                      success-dialog error-dialog]]))
 
 (def consumer nil)
@@ -33,22 +36,17 @@
 
 (defn update-status [oauth-token oauth-token-secret text-message media-id]
   (try
-    (let [status-request (create-oauth-request consumer oauth-token oauth-token-secret
-                                               "https://api.twitter.com/1.1/statuses/update.json"
-                                               {"status"    text-message
-                                                "media_ids" media-id})
-          status-response (client/request status-request)]
-      status-response)
+    (let [request (statuses-update-request consumer oauth-token oauth-token-secret text-message media-id)
+          response (client/request request)]
+      response)
     (catch Exception e (timbre/error "Update status error" e) false)))
 
 
 (defn upload-image [oauth-token oauth-token-secret img-base64]
   (try
-    (let [upload-request (create-oauth-request consumer oauth-token oauth-token-secret
-                                               "https://upload.twitter.com/1.1/media/upload.json"
-                                               {"media" img-base64})
-          upload-resp (client/request upload-request)
-          media-id (:media_id_string (parse-string (:body upload-resp) true))]
+    (let [request (media-upload-request consumer oauth-token oauth-token-secret img-base64)
+          response (client/request request)
+          media-id (:media_id_string (parse-string (:body response) true))]
       media-id)
     (catch Exception e (timbre/error "Update status error" e) false)))
 
@@ -59,6 +57,15 @@
       (success-dialog "Chart has been posted!")
       (error-dialog "Update status error!"))
     (error-dialog "Upload image error")))
+
+
+(defn user-info [oauth-token oauth-token-secret user-id screen-name]
+  (try
+    (let [request (users-show-request consumer oauth-token oauth-token-secret screen-name)
+          response (client/request request)
+          data (parse-string (:body response) true)]
+      data)
+    (catch Exception e (timbre/error "Get user info error" e) false)))
 
 
 (defn auth-url []
@@ -76,8 +83,8 @@
 
 
 (defn twitter [{session :session :as request} img-base64]
-  (let [response (if (-> session :db :twitter)
-                   (confirm-dialog img-base64)
+  (let [response (if-let [data (-> session :db :twitter)]
+                   (confirm-dialog img-base64 (:image-url data) (:screen-name data) (:name data))
                    (auth-url))]
     (assoc-in response [:session :local] {:img  img-base64
                                           :time (timestamp)})))
@@ -89,14 +96,21 @@
                             (catch Exception e {}))
         creds (ring.util.codec/form-decode (:body token-response))
         oauth-token (get creds "oauth_token")
-        oauth-token-secret (get creds "oauth_token_secret")]
+        oauth-token-secret (get creds "oauth_token_secret")
+        user-id (get creds "user_id")
+        screen-name (get creds "screen_name")
+        {:keys [profile_image_url name]} (user-info oauth-token oauth-token-secret user-id screen-name)]
     (if (and oauth-token oauth-token-secret)
       (let [response (if-let [image (-> session :local :img)]
-                       (confirm-dialog image)
+                       (confirm-dialog image profile_image_url screen-name name)
                        (error-dialog "Image upload time expired"))]
         (-> response
             (assoc-in [:session :db :twitter] {:oauth-token        oauth-token
-                                               :oauth-token-secret oauth-token-secret})
+                                               :oauth-token-secret oauth-token-secret
+                                               :user-id            user-id
+                                               :screen-name        screen-name
+                                               :name               name
+                                               :image-url          profile_image_url})
             (assoc-in [:session :local] nil)))
       (do
         (timbre/error "Get access token error")
@@ -112,6 +126,4 @@
         (error-dialog "Image upload time expired")))
     (error-dialog "Session error, probably, expired")))
 
-(defn dialog [req]
-  (twutils/confirm-dialog nil))
 
