@@ -95,20 +95,17 @@
         token-response (try (client/request token-request)
                             (catch Exception e {}))
         creds (ring.util.codec/form-decode (:body token-response))
-        oauth-token (get creds "oauth_token")
-        oauth-token-secret (get creds "oauth_token_secret")
-        user-id (get creds "user_id")
-        screen-name (get creds "screen_name")
-        {:keys [profile_image_url name]} (user-info oauth-token oauth-token-secret user-id screen-name)]
-    (if (and oauth-token oauth-token-secret)
+        {:strs [oauth_token oauth_token_secret user_id screen_name]} creds
+        {:keys [profile_image_url name]} (user-info oauth_token oauth_token_secret user_id screen_name)]
+    (if (and oauth_token oauth_token_secret)
       (let [response (if-let [image (-> session :local :img)]
-                       (confirm-dialog image profile_image_url screen-name name)
+                       (confirm-dialog image profile_image_url screen_name name)
                        (error-dialog "Image upload time expired"))]
         (-> response
-            (assoc-in [:session :db :twitter] {:oauth-token        oauth-token
-                                               :oauth-token-secret oauth-token-secret
-                                               :user-id            user-id
-                                               :screen-name        screen-name
+            (assoc-in [:session :db :twitter] {:oauth-token        oauth_token
+                                               :oauth-token-secret oauth_token_secret
+                                               :user-id            user_id
+                                               :screen-name        screen_name
                                                :name               name
                                                :image-url          profile_image_url})
             (assoc-in [:session :local] nil)))
