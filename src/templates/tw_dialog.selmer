@@ -49,7 +49,7 @@
         </div>
     </div>
     <div class="bd">
-        <p id="error-message">Your Tweet was over 140 characters. You'll have to be more clever.</p>
+        <p id="error-message" style="display: none;">Your Tweet was over 140 characters. You'll have to be more clever.</p>
         <h2 class="title">Share a chart with your followers</h2>
         <form action="/sharing/twitter_confirm" method="post">
             <div class="form-group">
