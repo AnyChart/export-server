@@ -9,6 +9,35 @@
     function closeDialog() {
         window.close();
     }
+    window.onload = function () {
+        var charCountLabel = document.getElementById('char-count');
+        var textArea = document.getElementById('message-area');
+        var errorMessage = document.getElementById('error-message');
+
+        var changeFunc = function () {
+            var count = 140 - textArea.value.length;
+            charCountLabel.innerText = count;
+            if (count < 20) {
+                charCountLabel.style.color = '#e81c4f';
+                charCountLabel.style.fontWeight = 'bold';
+            } else {
+                charCountLabel.style.color = '#66757f';
+                charCountLabel.style.fontWeight = 'normal';
+            }
+        };
+
+        textArea.onkeyup = changeFunc;
+        textArea.onblur = changeFunc;
+
+        document.forms[0].onsubmit = function () {
+            if (textArea.value.length > 140) {
+                errorMessage.style.display = "block";
+                textArea.style.borderColor = "#e81c4f";
+                return false;
+            }
+            return true;
+        };
+    }
 </script>
 <div class="main">
     <div class="header">
@@ -20,16 +49,18 @@
         </div>
     </div>
     <div class="bd">
+        <p id="error-message">Your Tweet was over 140 characters. You'll have to be more clever.</p>
         <h2 class="title">Share a chart with your followers</h2>
         <form action="/sharing/twitter_confirm" method="post">
             <div class="form-group">
-            <textarea type="text" name="message" class="form-control" autofocus
+            <textarea id="message-area" type="text" name="message" class="form-control" autofocus
                       placeholder="Type your message"></textarea>
             </div>
             <div class="form-group img-container">
                 <img class="chart-img" src="data:image/gif;base64,{{image}}">
             </div>
             <fieldset class="buttons-container">
+                <span id="char-count">140</span>
                 <button class="button tw-button" type="submit">Tweet</button>
                 <button class="button default-button" type="button" class="btn btn-default" onclick="closeDialog();">
                     Cancel

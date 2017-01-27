@@ -178,3 +178,21 @@ fieldset{
     border: 1px solid #ccd6dd;
 }
 
+#char-count{
+    user-select: none;
+    display: inline-block;
+    color: #66757f;
+    margin-right: 8px;
+    width: 3em;
+    text-align: right;
+    cursor: default;
+}
+#error-message{
+    color: white;
+    background-color: #e81c4f;
+    position: relative;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    display: none;
+}
