@@ -19,12 +19,23 @@
 (defn- remove-empty-img [svg]
   (clojure.string/replace svg #"<image[^>]*xlink:href=\"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7\"[^\<]*" ""))
 
-;; remove paths with 0.00001 opacity - cause of some other labels invisibility
+;; remove paths with 0.00001 (1e-005 for IE) opacity - cause of some other labels invisibility
 (defn- remove-opacity [svg]
-  (clojure.string/replace svg #"<path[^>]*fill-opacity=\"0\.0+1\"[^<]*" ""))
+  (-> svg
+      (clojure.string/replace #"<path[^>]*fill-opacity=\"0\.0+1\"[^<]*" "")
+      (clojure.string/replace #"<path[^>]*fill-opacity=\"1e-005\"[^<]*" "")))
+
+;; fill="rgba(0,232,121,0.05)" --> fill="rgba(0,232,121)" fill-opacity="0.05"
+;; stroke="rgba(0,232,121,0.05)" --> stroke="rgba(0,232,121)" stroke-opacity="0.05"
+(defn replace-rgba [svg]
+  (-> svg
+      (clojure.string/replace #"fill=\"rgba\(([^,\)]*),([^,\)]*),([^,\)]*),([^,\)]*)\)\""
+                              "fill=\"rgb($1,$2,$3)\" fill-opacity=\"$4\"")
+      (clojure.string/replace #"stroke=\"rgba\(([^,\)]*),([^,\)]*),([^,\)]*),([^,\)]*)\)\""
+                              "stroke=\"rgb($1,$2,$3)\" stroke-opacity=\"$4\"")))
 
 (defn- clear-svg [svg]
-  (-> svg remove-empty-img remove-opacity))
+  (-> svg remove-empty-img remove-opacity replace-rgba))
 
 (defn- trim-svg-string [str]
   (let [left-trim-str (clojure.string/replace str #"^\"" "")
@@ -53,7 +64,7 @@
 (defn svg-to-jpg [svg widht height force-transparent-white quality]
   (try
     (with-open [out (new ByteArrayOutputStream)]
-      (let [svg (remove-empty-img (remove-cursor svg))
+      (let [svg (-> svg remove-cursor remove-empty-img replace-rgba)
             string-reader (new StringReader svg)
             transcoder-input (new TranscoderInput string-reader)
             transcoder-output (new TranscoderOutput out)
@@ -72,7 +83,7 @@
 (defn svg-to-png [svg widht height force-transparent-white]
   (try
     (with-open [out (new ByteArrayOutputStream)]
-      (let [svg (remove-empty-img (remove-cursor svg))
+      (let [svg (-> svg remove-cursor remove-empty-img replace-rgba)
             string-reader (new StringReader svg)
             transcoder-input (new TranscoderInput string-reader)
             transcoder-output (new TranscoderOutput out)
