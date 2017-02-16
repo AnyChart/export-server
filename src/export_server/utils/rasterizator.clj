@@ -34,9 +34,6 @@
       (clojure.string/replace #"stroke=\"rgba\(([^,\)]*),([^,\)]*),([^,\)]*),([^,\)]*)\)\""
                               "stroke=\"rgb($1,$2,$3)\" stroke-opacity=\"$4\"")))
 
-(defn- clear-svg [svg]
-  (-> svg remove-empty-img remove-opacity replace-rgba))
-
 (defn- trim-svg-string [str]
   (let [left-trim-str (clojure.string/replace str #"^\"" "")
         right-trim-str (clojure.string/replace left-trim-str #"\"$" "")]
@@ -45,6 +42,9 @@
 (defn- remove-cursor [svg]
   (clojure.string/replace svg #"cursor\s*:\s*[\w-]+\s*;?\s*" ""))
 
+(defn- clear-svg [svg]
+  (-> svg remove-cursor remove-empty-img remove-opacity replace-rgba))
+
 ;====================================================================================
 ; SVG --> PDF
 ;====================================================================================
@@ -52,7 +52,7 @@
   (try
     (with-open [out (new ByteArrayOutputStream)]
       (pdf [{:size pdf-size :orientation (if landscape :landscape nil)}
-            [:svg {:translate [x y]} (clear-svg (remove-cursor (trim-svg-string svg)))]]
+            [:svg {:translate [x y]} (clear-svg (trim-svg-string svg))]]
            out)
       {:ok true :result (.toByteArray out)})
     (catch Exception e {:ok false :result (.getMessage e)})))
@@ -64,7 +64,7 @@
 (defn svg-to-jpg [svg widht height force-transparent-white quality]
   (try
     (with-open [out (new ByteArrayOutputStream)]
-      (let [svg (-> svg remove-cursor remove-empty-img replace-rgba)
+      (let [svg (clear-svg svg)
             string-reader (new StringReader svg)
             transcoder-input (new TranscoderInput string-reader)
             transcoder-output (new TranscoderOutput out)
@@ -83,7 +83,7 @@
 (defn svg-to-png [svg widht height force-transparent-white]
   (try
     (with-open [out (new ByteArrayOutputStream)]
-      (let [svg (-> svg remove-cursor remove-empty-img replace-rgba)
+      (let [svg (clear-svg svg)
             string-reader (new StringReader svg)
             transcoder-input (new TranscoderInput string-reader)
             transcoder-output (new TranscoderOutput out)
