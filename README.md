@@ -66,4 +66,4 @@ java -jar export-server.jar -C settings.toml
 To use Twitter sharing be sure you have setup your MySQL database properly with [SQL scheme](https://github.com/AnyChart/export-server/blob/master/src/sql/scheme.sql).
 
 ## License
-[© AnyChart.com - JavaScript charts](http://www.anychart.com). Export Server released under the [ECLIPSE PUBLIC LICENSE](https://github.com/AnyChart/export-server/blob/master/LICENSE).
+[© AnyChart.com - JavaScript charts](http://www.anychart.com). Export Server released under the [Apache 2.0 License](https://github.com/AnyChart/export-server/blob/master/LICENSE).
