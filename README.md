@@ -1,10 +1,12 @@
+[<img src="https://cdn.anychart.com/images/logo-transparent-segoe.png?2" width="234px" alt="AnyChart - Robust JavaScript/HTML5 Chart library for any project">](https://anychart.com)
 # AnyChart Export Server
 
 ## Usage 
 
-You can read full description [here](//docs.anychart.com/Common_Settings/Server-side_Rendering)
+You can read full description [here](//docs.anychart.com/Common_Settings/Server-side_Rendering).
 
-Config file format
+Export server config file uses [TOML](https://github.com/toml-lang/toml) format:
+
 ```
 # can be "server" or "cmd"
 mode = "server"
@@ -20,7 +22,6 @@ log = "/path/to/log/file"
 folder = "/export-server/shared"
 # prefix which will be returned when saving image
 prefix = "http://static.example.com/shared/"
-
 
 [server.sharing]
 # MySQL settings
@@ -55,3 +56,12 @@ pdf-width  = 500
 pdf-height = 500
 jpg-quality = 1
 ```
+
+You can pass a config file witn `-C` option, e.g.
+
+```
+java -jar export-server.jar -C settings.toml
+ ```
+
+## License
+[© AnyChart.com - JavaScript charts](http://www.anychart.com). Export Server released under the [ECLIPSE PUBLIC LICENSE](https://github.com/AnyChart/export-server/blob/master/LICENSE).
