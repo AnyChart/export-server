@@ -1,7 +1,6 @@
 (ns export-server.db.core
   (:require [clojure.java.jdbc :as clj-jdbc]
-            [honeysql.core :as sql]
-            [honeysql.helpers :refer :all])
+            [honeysql.core :as sql])
   (:import (com.mchange.v2.c3p0 ComboPooledDataSource)))
 
 (defn connection-pool

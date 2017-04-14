@@ -178,7 +178,7 @@
 
    ;Export PDF Args--------------------------------------------------------------------------------------------------
    ["-v" "--version" "Print version, can be used without action"]
-   ["-h" "--help"]])
+   ["-h" "--help" "Print help"]])
 
 (defn usage []
   (->> [server-name

@@ -39,7 +39,7 @@
 
                  ;command line args
                  [org.clojure/tools.cli "0.3.5"]
-                 [clj-toml "0.3.1"]
+                 [toml "0.1.2"]
 
                  ;rasterization
                  [clj-pdf "2.2.1"]

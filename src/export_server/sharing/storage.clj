@@ -3,7 +3,7 @@
             [export-server.db.core :as db]
             [export-server.sharing.twitter-utils :refer [timestamp]]
             [honeysql.core :as sql]
-            [honeysql.helpers :refer :all]
+            [honeysql.helpers :as h]
             [camel-snake-kebab.core :refer [->kebab-case]]
             [camel-snake-kebab.extras :refer [transform-keys]])
   (:import (java.util UUID)))
@@ -55,8 +55,8 @@
 
 (defn read-db [key]
   (when (:conn @state)
-    (let [auths (db/query @state (-> (select :sn :oauth-token :oauth-token-secret :image-url :screen-name :name :user-id)
-                                     (from :auth) (where [:= key :session])))
+    (let [auths (db/query @state (-> (h/select :sn :oauth-token :oauth-token-secret :image-url :screen-name :name :user-id)
+                                     (h/from :auth) (h/where [:= key :session])))
           result (reduce #(assoc %1
                            (id->sn (:sn %2))
                            (transform-keys ->kebab-case (dissoc %2 :sn)))
@@ -67,7 +67,7 @@
 (defn delete-db [key]
   ; (prn "Storage Delete session: " key)
   (when (:conn @state)
-    (db/exec @state (-> (delete-from :auth) (where [:= key :session])))))
+    (db/exec @state (-> (h/delete-from :auth) (h/where [:= key :session])))))
 
 (defn write-db [key data]
   (when (:conn @state)
@@ -75,9 +75,9 @@
     ;(prn "Storage write session: " key data)
     (let [insert-rows (mapv (fn [[sn {:keys [oauth-token oauth-token-secret screen-name name user-id image-url]}]]
                               [key (sn->id sn) oauth-token oauth-token-secret user-id screen-name name image-url]) data)]
-      (db/exec @state (-> (insert-into :auth)
-                          (columns :session :sn :oauth_token :oauth_token_secret :user_id :screen_name :name :image_url)
-                          (values insert-rows))))))
+      (db/exec @state (-> (h/insert-into :auth)
+                          (h/columns :session :sn :oauth_token :oauth_token_secret :user_id :screen_name :name :image_url)
+                          (h/values insert-rows))))))
 
 (defn read-local [key]
   (get @memory key))

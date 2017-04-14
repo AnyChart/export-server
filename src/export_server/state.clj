@@ -1,5 +1,5 @@
 (ns export-server.state
-  (:require [clj-toml.core :as toml]
+  (:require [toml.core :as toml]
             [export-server.utils.config :as default-config]
             [clojure.walk :refer [keywordize-keys]]))
 
@@ -66,11 +66,13 @@
    :pdf-width               (combine-option :pdf-width options cmd config)
    :container-id            (combine-option :container-id options cmd config)
    :input-file              (combine-option :input-file options cmd config)
-   :jpg-quality             (combine-option :jpg-quality options cmd config)})
+   :jpg-quality             (combine-option :jpg-quality options cmd config)
+
+   :help                    (:help options)})
 
 (defn init [mode options]
   (if-let [config-path (:config options)]
-    (when-let [file-options (try (-> config-path slurp toml/parse-string keywordize-keys)
+    (when-let [file-options (try (-> config-path slurp (toml/read :keywordize))
                                  (catch Exception e nil))]
       (set-options! (combine-settings mode options file-options default-config/defaults)))
     (set-options! (combine-settings mode options {} default-config/defaults))))
