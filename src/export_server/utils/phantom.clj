@@ -60,7 +60,8 @@
           new-handle (first (clojure.set/difference (set new-handles) (set prev-handles)))
           prev-handle (first prev-handles)]
       (.window (.switchTo (:webdriver d)) new-handle)
-      ;(prn "handles: " (.getWindowHandles (:webdriver d)))
+      ;(prn "prev handles: " prev-handles)
+      ;(prn "Current: " (.getWindowHandle (:webdriver d)))
       (let [startup
             (try
               (execute-script d "document.body.innerHTML = '<div id=\"' + arguments[0] + '\" style=\"width:' + arguments[1] + ';height:' + arguments[2] + ';\"></div>'", [(:container-id options) (:container-width options) (:container-height options)])
@@ -101,7 +102,6 @@
         (execute-script d "window.close(\"\")")
         (.window (.switchTo (:webdriver d)) prev-handle)
         ;(prn "End handles: " (.getWindowHandles (:webdriver d)))
-        ;(prn "Current handle: " (.getWindowHandle (:webdriver d)))
         (if error
           (if exit-on-error (exit d 1 error) {:ok false :result error})
           {:ok true :result (trim-svg-string svg)})))))
