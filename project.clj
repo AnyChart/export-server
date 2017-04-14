@@ -26,8 +26,19 @@
 
                  ;phantomJS
                  [org.apache.httpcomponents/httpclient "4.5.2"]
-                 [clj-webdriver/clj-webdriver "0.7.2"]
-                 [com.github.detro.ghostdriver/phantomjsdriver "1.1.0"]
+                 [clj-webdriver "0.7.2"]
+                 ;; https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java
+                 [org.seleniumhq.selenium/selenium-java "3.3.1"]
+                 [com.codeborne/phantomjsdriver "1.4.2"
+                  :exclusions [org.seleniumhq.selenium/selenium-java
+                               org.seleniumhq.selenium/selenium-server
+                               org.seleniumhq.selenium/selenium-remote-driver]]
+                 ;; https://mvnrepository.com/artifact/com.google.guava/guava
+                 [com.google.guava/guava "21.0"]
+
+                 ;[com.codeborne/phantomjsdriver "1.4.2"]
+                 ;[com.github.detro.ghostdriver/phantomjsdriver "1.1.0"]
+
                  ;[selmer "1.0.7"]
                  ;jbrowser deps, need to comment clj-wedriver and phantomjsdriver
                  ;[com.machinepublishers/jbrowserdriver "0.14.12"]
