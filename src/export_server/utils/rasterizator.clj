@@ -5,16 +5,19 @@
            (org.apache.batik.transcoder TranscoderOutput)
            (org.apache.batik.transcoder SVGAbstractTranscoder)
            (java.io StringReader)
-           (java.io ByteArrayOutputStream))
+           (java.io ByteArrayOutputStream ByteArrayInputStream)
+           (javax.imageio ImageIO)
+           (java.awt.image BufferedImage)
+           (java.awt Color))
   (:require [clojure.data.codec.base64 :as b64]
             [tikkba.transcoder :as transcoder]
             [digest :as d]
             [clj-pdf.core :refer :all]
             [clojure.java.io :as io :refer [output-stream]]))
 
-;====================================================================================
+;=======================================================================================================================
 ; SVG string helpers
-;====================================================================================
+;=======================================================================================================================
 ;; remove empty images - cause of error during pdf processing
 (defn- remove-empty-img [svg]
   (clojure.string/replace svg #"<image[^>]*xlink:href=\"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7\"[^\<]*" ""))
@@ -45,22 +48,36 @@
 (defn- clear-svg [svg]
   (-> svg remove-cursor remove-empty-img remove-opacity replace-rgba))
 
-;====================================================================================
+;=======================================================================================================================
 ; SVG --> PDF
-;====================================================================================
-(defn svg-to-pdf [svg pdf-size landscape x y]
+;=======================================================================================================================
+(defn svg-to-pdf [img pdf-size landscape x y]
   (try
     (with-open [out (new ByteArrayOutputStream)]
       (pdf [{:size pdf-size :orientation (if landscape :landscape nil)}
-            [:svg {:translate [x y]} (clear-svg (trim-svg-string svg))]]
+            ;[:svg {:translate [x y]} (clear-svg (trim-svg-string svg))]
+            [:image {:translate [x y]} img]]
            out)
       {:ok true :result (.toByteArray out)})
     (catch Exception e {:ok false :result (.getMessage e)})))
 
+;=======================================================================================================================
+; PNG --> JPG
+;=======================================================================================================================
+(defn png-to-jpg [png-bytes]
+  (let [bais (ByteArrayInputStream. png-bytes)
+        bufferedImage (ImageIO/read bais)
+        baos (ByteArrayOutputStream.)
+        newBufferedImage (BufferedImage. (.getWidth bufferedImage)
+                                         (.getHeight bufferedImage)
+                                         BufferedImage/TYPE_INT_RGB)]
+    (.drawImage (.createGraphics newBufferedImage) bufferedImage 0 0 Color/WHITE nil)
+    (ImageIO/write newBufferedImage "JPG" baos)
+    {:ok true :result (.toByteArray baos)}))
 
-;====================================================================================
+;=======================================================================================================================
 ; SVG --> JPG
-;====================================================================================
+;=======================================================================================================================
 (defn svg-to-jpg [svg widht height force-transparent-white quality]
   (try
     (with-open [out (new ByteArrayOutputStream)]
@@ -77,9 +94,9 @@
         {:ok true :result (.toByteArray out)}))
     (catch Exception e {:ok false :result (.getMessage e)})))
 
-;====================================================================================
+;=======================================================================================================================
 ; SVG --> PNG
-;====================================================================================
+;=======================================================================================================================
 (defn svg-to-png [svg widht height force-transparent-white]
   (try
     (with-open [out (new ByteArrayOutputStream)]
@@ -95,14 +112,14 @@
         {:ok true :result (.toByteArray out)}))
     (catch Exception e {:ok false :result (.getMessage e)})))
 
-;====================================================================================
+;=======================================================================================================================
 ; Base64 encode
-;====================================================================================
+;=======================================================================================================================
 (defn to-base64 [byte-array] (String. (b64/encode byte-array) "UTF-8"))
 
-;====================================================================================
+;=======================================================================================================================
 ; File's name for local saving
-;====================================================================================
+;=======================================================================================================================
 (defn get-file-name-hash [file-name]
   (let [hash (d/md5 (str (System/currentTimeMillis) "_" (rand-int (Integer/MAX_VALUE))))]
     (str file-name "_" hash)))

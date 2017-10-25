@@ -9,7 +9,7 @@
             [export-server.utils.rasterizator :as rastr]
             [export-server.utils.rasterizator :as rast]
             [export-server.utils.phantom :as browser]
-            ;[export-server.utils.jbrowser :as browser]
+    ;[export-server.utils.jbrowser :as browser]
             [export-server.utils.params-validator :as params-validator]
             [export-server.utils.config :as config]
             [export-server.utils.logging :as log]
@@ -82,13 +82,11 @@
         force-transparent-white (get-force-transparent-white params)]
     (cond
       (and (= data-type "script") (not @allow-script-executing)) {:ok     false
-                                                                  :result {:message "Script executing is not allowed"
+                                                                  :result {:message   "Script executing is not allowed"
                                                                            :http-code 403}}
-      (= data-type "svg") (rastr/svg-to-png data width height force-transparent-white)
-      (= data-type "script") (let [to-svg-result (browser/script-to-svg data false false (params-to-options params))]
-                               (if (to-svg-result :ok)
-                                 (rastr/svg-to-png (to-svg-result :result) width height force-transparent-white)
-                                 to-svg-result))
+      ;(= data-type "svg") (rastr/svg-to-png data width height force-transparent-white)
+      (= data-type "svg") (browser/svg-to-png data false false width height)
+      (= data-type "script") (browser/script-to-svg data false false (params-to-options params) :png)
       :else {:ok false :result "Unknown data type"})))
 
 
@@ -101,13 +99,17 @@
         quality (if (contains? params "quality") (read-string (params "quality")) (:jpg-quality config/defaults))]
     (cond
       (and (= data-type "script") (not @allow-script-executing)) {:ok     false
-                                                                  :result {:message "Script executing is not allowed"
+                                                                  :result {:message   "Script executing is not allowed"
                                                                            :http-code 403}}
-      (= data-type "svg") (rastr/svg-to-jpg data width height force-transparent-white quality)
-      (= data-type "script") (let [to-svg-result (browser/script-to-svg data false false (params-to-options params))]
-                               (if (to-svg-result :ok)
-                                 (rastr/svg-to-jpg (to-svg-result :result) width height force-transparent-white quality)
-                                 to-svg-result))
+      ;(= data-type "svg") (rastr/svg-to-jpg data width height force-transparent-white quality)
+      (= data-type "svg") (let [png-result (browser/svg-to-png data false false width height)]
+                            (if (png-result :ok)
+                              (rastr/png-to-jpg (png-result :result))
+                              png-result))
+      (= data-type "script") (let [png-result (browser/script-to-svg data false false (params-to-options params) :png)]
+                               (if (png-result :ok)
+                                 (rastr/png-to-jpg (png-result :result))
+                                 png-result))
       :else {:ok false :result "Unknown data type"})))
 
 
@@ -115,18 +117,24 @@
   (let [data (params "data")
         data-type (get-data-type params)
         pdf-size (get-pdf-size params)
+        width (if (seq? pdf-size) (first pdf-size) 1024)
+        height (if (seq? pdf-size) (second pdf-size) 800)
         landscape (if (contains? params "landscape") (get-boolean-unit params "landscape") (:pdf-landscape config/defaults))
         x (get-pdf-x params)
         y (get-pdf-y params)]
     (cond
       (and (= data-type "script") (not @allow-script-executing)) {:ok     false
-                                                                  :result {:message "Script executing is not allowed"
+                                                                  :result {:message   "Script executing is not allowed"
                                                                            :http-code 403}}
-      (= data-type "svg") (rastr/svg-to-pdf data pdf-size landscape x y)
-      (= data-type "script") (let [to-svg-result (browser/script-to-svg data false false (params-to-options params))]
-                               (if (to-svg-result :ok)
-                                 (rastr/svg-to-pdf (to-svg-result :result) pdf-size landscape x y)
-                                 to-svg-result))
+      ;(= data-type "svg") (rastr/svg-to-pdf data pdf-size landscape x y)
+      (= data-type "svg") (let [png-result (browser/svg-to-png data false false width height)]
+                            (if (:ok png-result)
+                              (rastr/svg-to-pdf (:result png-result) pdf-size landscape x y)
+                              png-result))
+      (= data-type "script") (let [png-result (browser/script-to-svg data false false (params-to-options params) :png)]
+                               (if (:ok png-result)
+                                 (rastr/svg-to-pdf (:result png-result) pdf-size landscape x y)
+                                 png-result))
       :else {:ok false :result "Unknown data type"})))
 
 
@@ -135,10 +143,10 @@
         data-type (get-data-type params)]
     (cond
       (and (= data-type "script") (not @allow-script-executing)) {:ok     false
-                                                                  :result {:message "Script executing is not allowed"
+                                                                  :result {:message   "Script executing is not allowed"
                                                                            :http-code 403}}
       (= data-type "svg") {:ok true :result data}
-      (= data-type "script") (browser/script-to-svg data false false (params-to-options params))
+      (= data-type "script") (browser/script-to-svg data false false (params-to-options params) :svg)
       :else {:ok false :result "Unknown data type"})))
 
 

@@ -24,28 +24,31 @@
 
 (defn png [options]
   (let [script (if (:script options) (:script options) (slurp (:input-file options)))
-        svg ((browser/script-to-svg script true true options) :result)
-        image (:result (rasterizator/svg-to-png svg (:image-width options) (:image-height options) (:force-transparent-white options)))]
+        image ((browser/script-to-svg script true true options :png) :result)
+        ;image (:result (rasterizator/svg-to-png svg (:image-width options) (:image-height options) (:force-transparent-white options)))
+        ]
     (out image options ".png")))
 
 
 (defn jpg [options]
   (let [script (if (:script options) (:script options) (slurp (:input-file options)))
-        svg ((browser/script-to-svg script true true options) :result)
-        image (:result (rasterizator/svg-to-jpg svg (:image-width options) (:image-height options) (:force-transparent-white options) (:jpg-quality options)))]
+        png ((browser/script-to-svg script true true options :png) :result)
+        ;image (:result (rasterizator/svg-to-jpg svg (:image-width options) (:image-height options) (:force-transparent-white options) (:jpg-quality options)))
+        image (:result (rasterizator/png-to-jpg png))]
     (out image options ".jpg")))
 
 
 (defn pdf [options]
   (let [script (if (:script options) (:script options) (slurp (:input-file options)))
-        svg ((browser/script-to-svg script true true options) :result)
-        image (:result (rasterizator/svg-to-pdf svg (get-pdf-size options) (:pdf-landscape options) (:pdf-x options) (:pdf-y options)))]
+        png ((browser/script-to-svg script true true options :png) :result)
+        ;image (:result (rasterizator/svg-to-pdf svg (get-pdf-size options) (:pdf-landscape options) (:pdf-x options) (:pdf-y options)))
+        image (:result (rasterizator/svg-to-pdf png (get-pdf-size options) (:pdf-landscape options) (:pdf-x options) (:pdf-y options)))]
     (out image options ".pdf")))
 
 
 (defn svg [options]
   (let [script (if (:script options) (:script options) (slurp (:input-file options)))
-        svg ((browser/script-to-svg script true true options) :result)
+        svg ((browser/script-to-svg script true true options :svg) :result)
         output-file (:output-file options)]
     (if (nil? output-file)
       (println svg)

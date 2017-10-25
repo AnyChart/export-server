@@ -53,15 +53,15 @@
                  [toml "0.1.2"]
 
                  ;rasterization
-                 [clj-pdf "2.2.1"]
+                 [clj-pdf "2.2.30"]
                  [tikkba "0.6.0" :exclusions [org.clojure/clojure org.clojars.pallix/batik]]
                  [org.clojars.pallix/xerces "2.5.0"]
                  [org.clojars.pallix/xml-apis "2.5.0"]
                  [org.clojars.pallix/xml-apis-ext "2.5.0"]
 
-                 [org.apache.xmlgraphics/batik-transcoder "1.8"]
-                 [org.apache.xmlgraphics/batik-xml "1.8"]
-                 [org.apache.xmlgraphics/batik-codec "1.7"]
+                 [org.apache.xmlgraphics/batik-transcoder "1.9.1"]
+                 [org.apache.xmlgraphics/batik-xml "1.9.1"]
+                 [org.apache.xmlgraphics/batik-codec "1.9.1"]
 
                  ;csv to xslx
                  [dk.ative/docjure "1.10.0"]
