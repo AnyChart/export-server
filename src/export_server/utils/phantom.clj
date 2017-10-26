@@ -33,7 +33,9 @@
 
 (defn stop-phantom []
   (doseq [driver @drivers]
-    (quit driver)))
+    (try
+      (quit driver)
+      (catch Exception e nil))))
 
 (defn exit [driver status msg]
   (quit driver)
