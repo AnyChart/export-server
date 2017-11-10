@@ -117,8 +117,8 @@
   (let [data (params "data")
         data-type (get-data-type params)
         pdf-size (get-pdf-size params)
-        width (if (seq? pdf-size) (first pdf-size) 1024)
-        height (if (seq? pdf-size) (second pdf-size) 800)
+        width (if (seq pdf-size) (first pdf-size) 1024)
+        height (if (seq pdf-size) (second pdf-size) 800)
         landscape (if (contains? params "landscape") (get-boolean-unit params "landscape") (:pdf-landscape config/defaults))
         x (get-pdf-x params)
         y (get-pdf-y params)]
