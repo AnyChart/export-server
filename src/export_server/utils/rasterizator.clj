@@ -51,7 +51,7 @@
 ;=======================================================================================================================
 ; SVG --> PDF
 ;=======================================================================================================================
-(defn svg-to-pdf [img pdf-size landscape x y]
+(defn svg-to-pdf [img pdf-size width height landscape x y]
   (try
     ;(with-open [out (output-stream (clojure.java.io/file "/media/ssd/sibental/export-server-data/1.png"))]
     ;  (.write out img))
@@ -65,8 +65,9 @@
              :bottom-margin 0}
             ;[:svg {:translate [x y]} (clear-svg (trim-svg-string svg))]
             [:image {:translate [x y]
-                     :width     (first pdf-size)
-                     :height    (second pdf-size)} img]]
+                     :width     width
+                     ;:height    height
+                     } img]]
            out)
       {:ok true :result (.toByteArray out)})
     (catch Exception e {:ok false :result (.getMessage e)})))

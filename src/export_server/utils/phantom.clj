@@ -56,7 +56,7 @@
         right-trim-str (clojure.string/replace left-trim-str #"\"$" "")]
     right-trim-str))
 
-(defn- exec-script-to-svg [d script exit-on-error options type]
+(defn- exec-script-to-png [d script exit-on-error options type]
   (let [prev-handles (.getWindowHandles (:webdriver d))]
     (execute-script d "window.open(\"\")")
     (let [new-handles (.getWindowHandles (:webdriver d))
@@ -108,6 +108,9 @@
         (execute-script d "window.close(\"\")")
         (.window (.switchTo (:webdriver d)) prev-handle)
         ;(prn "End handles: " (.getWindowHandles (:webdriver d)))
+        ;(with-open [out (output-stream (clojure.java.io/file "/media/ssd/sibental/export-server-data/script-to-png.png"))]
+        ;  (.write out screenshot))
+
         (if error
           (if exit-on-error
             (exit d 1 error)
@@ -116,9 +119,9 @@
             :png {:ok true :result screenshot}
             :svg {:ok true :result svg}))))))
 
-(defn script-to-svg [script quit-ph exit-on-error options type]
+(defn script-to-png [script quit-ph exit-on-error options type]
   (if-let [driver (if quit-ph (create-driver) (get-free-driver))]
-    (let [svg (exec-script-to-svg driver script exit-on-error options type)]
+    (let [svg (exec-script-to-png driver script exit-on-error options type)]
       (if quit-ph (quit driver) (return-driver driver))
       svg)
     {:ok false :result "Driver isn't available\n"}))
