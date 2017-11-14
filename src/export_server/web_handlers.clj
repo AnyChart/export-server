@@ -69,10 +69,9 @@
 
 
 (defn params-to-options [params]
-  {
-   :container-id     (if (contains? params "container-id") (params "container-id") (config/defaults :container-id))
-   :container-width  (if (contains? params "container-width") (params "container-width") (config/defaults :container-width))
-   :container-height (if (contains? params "container-height") (params "container-height") (config/defaults :container-height))})
+  {:container-id     (get params "container-id" (:container-id config/defaults))
+   :container-width  (get params "container-width" (:container-width config/defaults))
+   :container-height (get params "container-height" (:container-height config/defaults))})
 
 (defn- to-png [params]
   (let [data (params "data")
@@ -86,7 +85,7 @@
                                                                            :http-code 403}}
       ;(= data-type "svg") (rastr/svg-to-png data width height force-transparent-white)
       (= data-type "svg") (browser/svg-to-png data false false width height)
-      (= data-type "script") (browser/script-to-svg data false false (params-to-options params) :png)
+      (= data-type "script") (browser/script-to-png data false false (params-to-options params) :png)
       :else {:ok false :result "Unknown data type"})))
 
 
@@ -106,7 +105,7 @@
                             (if (png-result :ok)
                               (rastr/png-to-jpg (png-result :result))
                               png-result))
-      (= data-type "script") (let [png-result (browser/script-to-svg data false false (params-to-options params) :png)]
+      (= data-type "script") (let [png-result (browser/script-to-png data false false (params-to-options params) :png)]
                                (if (png-result :ok)
                                  (rastr/png-to-jpg (png-result :result))
                                  png-result))
@@ -117,8 +116,9 @@
   (let [data (params "data")
         data-type (get-data-type params)
         pdf-size (get-pdf-size params)
-        width (if (seq pdf-size) (first pdf-size) 1024)
-        height (if (seq pdf-size) (second pdf-size) 800)
+        ;; default clj-pdf sizes for :a4
+        width (if (coll? pdf-size) (first pdf-size) 595)
+        height (if (coll? pdf-size) (second pdf-size) 842)
         landscape (if (contains? params "landscape") (get-boolean-unit params "landscape") (:pdf-landscape config/defaults))
         x (get-pdf-x params)
         y (get-pdf-y params)]
@@ -129,11 +129,11 @@
       ;(= data-type "svg") (rastr/svg-to-pdf data pdf-size landscape x y)
       (= data-type "svg") (let [png-result (browser/svg-to-png data false false width height)]
                             (if (:ok png-result)
-                              (rastr/svg-to-pdf (:result png-result) pdf-size landscape x y)
+                              (rastr/svg-to-pdf (:result png-result) pdf-size width height landscape x y)
                               png-result))
-      (= data-type "script") (let [png-result (browser/script-to-svg data false false (params-to-options params) :png)]
+      (= data-type "script") (let [png-result (browser/script-to-png data false false (params-to-options params) :png)]
                                (if (:ok png-result)
-                                 (rastr/svg-to-pdf (:result png-result) pdf-size landscape x y)
+                                 (rastr/svg-to-pdf (:result png-result) pdf-size width height landscape x y)
                                  png-result))
       :else {:ok false :result "Unknown data type"})))
 
@@ -146,7 +146,7 @@
                                                                   :result {:message   "Script executing is not allowed"
                                                                            :http-code 403}}
       (= data-type "svg") {:ok true :result data}
-      (= data-type "script") (browser/script-to-svg data false false (params-to-options params) :svg)
+      (= data-type "script") (browser/script-to-png data false false (params-to-options params) :svg)
       :else {:ok false :result "Unknown data type"})))
 
 

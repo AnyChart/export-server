@@ -1,5 +1,6 @@
 (ns export-server.utils.responce
-  (:import (java.io File FileOutputStream))
+  (:import (java.io File FileOutputStream ByteArrayInputStream)
+           (java.util Date))
   (:require [cheshire.core :refer :all])
   (:use ring.util.response
         [ring.util.time :only (format-date)]
@@ -22,10 +23,9 @@
       (header "Access-Control-Allow-Headers" "X-Requested-With")))
 
 (defn file-success [byte-array file-name file-extention]
-  (let [file  ((partial apply #(File/createTempFile %1 %2) ["anychart-export-tmp" file-extention]))
-        fos (new FileOutputStream file)]
-    (.write fos byte-array)
-    (-> (response file)
+  (let [content-length (count byte-array)
+        date (format-date (Date.))]
+    (-> (response (ByteArrayInputStream. byte-array))
         (status 200)
         (content-type (case file-extention
                         ".svg" "image/svg+xml"
@@ -37,8 +37,8 @@
                         ".xls" "application/vnd.ms-excel"
                         ".xlsx" "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                         ".jpg" "image/jpeg"))
-        (header "Content-Length" (.length file))
-        (header "Last-Modified" (format-date (last-modified-date file)))
+        (header "Content-Length" content-length)
+        (header "Last-Modified" date)
         (header "Content-Description" "File Transfer")
         (header "Content-Disposition" (str "attachment; filename=\"" file-name file-extention "\""))
         (header "Content-Transfer-Encoding" "binary")

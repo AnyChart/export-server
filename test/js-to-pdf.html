@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Export Server JavaScript to PDF test</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+</head>
+<body>
+<form id="form" action="http://localhost:2000/pdf" method="post">
+    <input id="form-data" type="hidden" name="data" value="">
+    <input type="hidden" name="data-type" value="script">
+    <input type="hidden" name="response-type" value="file">
+</form>
+<button value="send" onclick="send_pie()">Send Pie Chart</button>
+<button value="send" onclick="send_column()">send Column Chart</button>
+<script>
+    var pie_chart = 'anychart.onDocumentReady(function () {     var chart = anychart.pie([         [\'Department Stores\', 6371664],         [\'Discount Stores\', 7216301],         [\'Men\\\'s/Women\\\'s Stores\', 1486621],         [\'Juvenile Specialty Stores\', 786622],         [\'All other outlets\', 900000]     ]);      chart.title(\'ACME Corp. apparel sales through different retail channels\')         .radius(\'43%\')         .innerRadius(\'30%\');     chart.container(\'container\');     chart.draw(); });';
+    var column_chart = 'anychart.onDocumentReady(function () {     var chart = anychart.column();      chart.animation(true);      chart.title(\'Top 10 Cosmetic Products by Revenue\');      var series = chart.column([         [\'Rouge\', \'80540\'],         [\'Foundation\', \'94190\'],         [\'Mascara\', \'102610\'],         [\'Lip gloss\', \'110430\'],         [\'Lipstick\', \'128000\'],         [\'Nail polish\', \'143760\'],         [\'Eyebrow pencil\', \'170670\'],         [\'Eyeliner\', \'213210\'],         [\'Eyeshadows\', \'249980\']     ]);      series.tooltip().titleFormat(\'{%X}\');      series.tooltip()         .position(\'center-top\')         .anchor(\'center-bottom\')         .offsetX(0)         .offsetY(5)         .format(\'${%Value}{groupsSeparator: }\');      chart.yScale().minimum(0);      chart.yAxis().labels().format(\'${%Value}{groupsSeparator: }\');      chart.tooltip().positionMode(\'point\');     chart.interactivity().hoverMode(\'by-x\');      chart.xAxis().title(\'Product\');     chart.yAxis().title(\'Revenue\');      chart.container(\'container\');      chart.draw(); });';
+
+
+    function send_pie() {
+        document.getElementById('form-data').setAttribute('value', pie_chart);
+        document.getElementById('form').submit();
+    }
+
+    function send_column() {
+        document.getElementById('form-data').setAttribute('value', column_chart);
+        document.getElementById('form').submit();
+    }
+</script>
+</body>
+</html>
