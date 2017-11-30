@@ -152,6 +152,8 @@
             error (some #(when (not (nil? %)) %) [startup shoutdown])]
         (execute-script d "window.close(\"\")")
         (.window (.switchTo (:webdriver d)) prev-handle)
+        ;(with-open [out (output-stream (clojure.java.io/file "/media/ssd/sibental/export-server-data/script-to-png.png"))]
+        ;  (.write out screenshot))
         (if error
           (if exit-on-error
             (exit d 1 error)
