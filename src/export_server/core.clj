@@ -232,8 +232,7 @@
   (if (sharing/init options)
     (timbre/info "Sharing initialiazed")
     (timbre/warn "Sharing did not initialize. Provide both twitter-* and sharing-* options."))
-  (when (:allow-scripts-executing options)
-    (browser/setup-phantom))
+  (browser/setup-phantom)
   (state/set-server! (run-server app {:port (:port options) :ip (:host options)}))
   (.addShutdownHook (Runtime/getRuntime) (Thread. shutdown-server)))
 

@@ -9,7 +9,9 @@
       (contains? options :pdf-width)
       (contains? options :pdf-height)
       (not (nil? (:pdf-width options)))
-      (not (nil? (:pdf-height options)))) [(:pdf-width options) (:pdf-height options)] (:pdf-size options)))
+      (not (nil? (:pdf-height options))))
+    [(:pdf-width options) (:pdf-height options)]
+    (:pdf-size options)))
 
 (defn out [result options ext]
   (let [output-file (if (:output-file options) (:output-file options) (str (java.util.UUID/randomUUID)))
@@ -24,28 +26,40 @@
 
 (defn png [options]
   (let [script (if (:script options) (:script options) (slurp (:input-file options)))
-        svg ((browser/script-to-svg script true true options) :result)
-        image (:result (rasterizator/svg-to-png svg (:image-width options) (:image-height options) (:force-transparent-white options)))]
+        image (:result (browser/script-to-png script true true options :png))
+        ;image (:result (rasterizator/svg-to-png svg (:image-width options) (:image-height options) (:force-transparent-white options)))
+        ]
     (out image options ".png")))
 
 
 (defn jpg [options]
   (let [script (if (:script options) (:script options) (slurp (:input-file options)))
-        svg ((browser/script-to-svg script true true options) :result)
-        image (:result (rasterizator/svg-to-jpg svg (:image-width options) (:image-height options) (:force-transparent-white options) (:jpg-quality options)))]
+        png (:result (browser/script-to-png script true true options :png))
+        ;image (:result (rasterizator/svg-to-jpg svg (:image-width options) (:image-height options) (:force-transparent-white options) (:jpg-quality options)))
+        image (:result (rasterizator/png-to-jpg png))]
     (out image options ".jpg")))
 
 
 (defn pdf [options]
   (let [script (if (:script options) (:script options) (slurp (:input-file options)))
-        svg ((browser/script-to-svg script true true options) :result)
-        image (:result (rasterizator/svg-to-pdf svg (get-pdf-size options) (:pdf-landscape options) (:pdf-x options) (:pdf-y options)))]
+        png (:result (browser/script-to-png script true true options :png))
+        ;image (:result (rasterizator/svg-to-pdf svg (get-pdf-size options) (:pdf-landscape options) (:pdf-x options) (:pdf-y options)))
+        pdf-size (get-pdf-size options)
+        width (if (coll? pdf-size) (first pdf-size) 1024)
+        height (if (coll? pdf-size) (second pdf-size) 800)
+        image (:result (rasterizator/svg-to-pdf png
+                                                pdf-size
+                                                width
+                                                height
+                                                (:pdf-landscape options)
+                                                (:pdf-x options)
+                                                (:pdf-y options)))]
     (out image options ".pdf")))
 
 
 (defn svg [options]
   (let [script (if (:script options) (:script options) (slurp (:input-file options)))
-        svg ((browser/script-to-svg script true true options) :result)
+        svg (:result (browser/script-to-png script true true options :svg))
         output-file (:output-file options)]
     (if (nil? output-file)
       (println svg)
