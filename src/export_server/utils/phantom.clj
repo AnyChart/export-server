@@ -1,7 +1,8 @@
 (ns export-server.utils.phantom
-  (:import (org.openqa.selenium.phantomjs PhantomJSDriver)
+  (:import (org.openqa.selenium.phantomjs PhantomJSDriver PhantomJSDriverService)
            (org.openqa.selenium.remote DesiredCapabilities)
-           (org.openqa.selenium Dimension))
+           (org.openqa.selenium Dimension)
+           (java.util ArrayList))
   (:require [clj-webdriver.core :as core]
             [clj-webdriver.taxi :refer :all :as taxi]
             [clj-webdriver.driver :refer [init-driver]]
@@ -11,7 +12,13 @@
 ; PhantomJS initialization
 ;====================================================================================
 (defn- create-driver []
-  (init-driver {:webdriver (PhantomJSDriver. (DesiredCapabilities.))}))
+  (let [caps (DesiredCapabilities.)
+        cliArgsCap (ArrayList.)]
+    (.add cliArgsCap "--web-security=false")
+    (.add cliArgsCap "--ssl-protocol=any")
+    (.add cliArgsCap "--ignore-ssl-errors=true")
+    (.setCapability caps PhantomJSDriverService/PHANTOMJS_CLI_ARGS cliArgsCap)
+    (init-driver {:webdriver (PhantomJSDriver. caps)})))
 
 (defonce drivers (atom []))
 (defonce drivers-queue nil)
