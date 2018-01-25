@@ -144,7 +144,8 @@
           new-handle (first (clojure.set/difference (set new-handles) (set prev-handles)))
           prev-handle (first prev-handles)]
       (.window (.switchTo (:webdriver d)) new-handle)
-      (.setSize (.window (.manage (:webdriver d))) (Dimension. width height))
+      (when (and width height)
+        (.setSize (.window (.manage (:webdriver d))) (Dimension. width height)))
       (let [startup
             (try
               (execute-script d "document.body.style.margin = 0;

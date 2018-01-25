@@ -48,6 +48,9 @@
    :twitter-callback        (or (:twitter-callback options) (:callback twitter))
 
    ;; cmd
+   :svg                     (combine-option :svg options cmd config)
+   :svg-file                (combine-option :svg-file options cmd config)
+
    :output-file             (combine-option :output-file options cmd config)
    :container-width         (combine-option :container-width options cmd config)
    :pdf-height              (combine-option :pdf-height options cmd config)

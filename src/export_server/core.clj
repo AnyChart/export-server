@@ -14,7 +14,7 @@
             [export-server.web-handlers :as web]
             [export-server.cmd-handlers :as cmd]
             [export-server.utils.phantom :as browser]
-            ;[export-server.utils.jbrowser :as browser]
+    ;[export-server.utils.jbrowser :as browser]
             [export-server.utils.config :as config]
             [export-server.sharing.core :as sharing]
             [export-server.sharing.twitter :as twitter]
@@ -31,11 +31,11 @@
 (defn get-project-version
   ([] (get-project-version "export-server" "export-server"))
   ([groupid artifact] (-> (doto (Properties.)
-         (.load (-> "META-INF/maven/%s/%s/pom.properties"
-                    (format groupid artifact)
-                    (io/resource)
-                    (io/reader))))
-       (.get "version"))))
+                            (.load (-> "META-INF/maven/%s/%s/pom.properties"
+                                       (format groupid artifact)
+                                       (io/resource)
+                                       (io/reader))))
+                          (.get "version"))))
 
 (def server-name (str "AnyChart Export Server " (get-project-version)))
 
@@ -129,9 +129,13 @@
    [nil "--twitter-callback" "Twitter application callback URL"]
 
    ;Command Line Common Args--------------------------------------------------------------------------------------------
-   ["-s" "--script SCRIPT" "JavaScript String to Execute." ]
+   ["-s" "--script SCRIPT" "JavaScript String to Execute."]
 
    ["-i" "--input-file INPUT_FILE" "JavaScript file to Execute"]
+
+   [nil "--svg SVG" "SVG string to Execute"]
+
+   [nil "--svg-file SVG_FILE" "SVG file to Execute"]
 
    ["-o" "--output-file OUTPUT_FILE" "Output File name, file extentions is optional."]
 
@@ -241,17 +245,32 @@
 ; Cmd Actions
 ;====================================================================================
 (defn cmd-export [options summary]
-  (if (:help options) (exit 0 (cmd-usage summary)))
+  (if (:help options)
+    (exit 0 (cmd-usage summary)))
   (let [script (:script options)
-        file (:input-file options)]
+        file (:input-file options)
+        svg (:svg options)
+        svg-file (:svg-file options)]
     (cond
-      (and (nil? script) (nil? file)) (exit 1 (error-msg ["script or file should be specified in 'cmd' mode."]))
-      (and file (not (.exists (io/file file)))) (exit 1 (error-msg ["Input File not exists."]))
-      :else (case (:type options)
-              "png" (cmd/png options)
-              "jpg" (cmd/jpg options)
-              "svg" (cmd/svg options)
-              "pdf" (cmd/pdf options)))))
+      (and (nil? script)
+           (nil? file)
+           (nil? svg)
+           (nil? svg-file))
+      (exit 1 (error-msg ["script or file should be specified in 'cmd' mode."]))
+
+      (and file
+           (not (.exists (io/file file))))
+      (exit 1 (error-msg ["Input File not exists."]))
+
+      (and svg-file
+           (not (.exists (io/file svg-file))))
+      (exit 1 (error-msg ["Svg file not exists."]))
+
+      (or script file)
+      (cmd/script->export options)
+
+      (or svg svg-file)
+      (cmd/svg->export options))))
 
 
 ;====================================================================================
