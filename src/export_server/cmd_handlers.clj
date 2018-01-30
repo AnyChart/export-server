@@ -1,7 +1,8 @@
 (ns export-server.cmd-handlers
   (:require [export-server.utils.rasterizator :as rasterizator]
             [export-server.utils.phantom :as browser]
-            [clojure.java.io :as io]))
+            [clojure.java.io :as io])
+  (:import (org.apache.commons.io FilenameUtils)))
 
 ;=======================================================================================================================
 ; Helpers
@@ -118,15 +119,42 @@
 ;=======================================================================================================================
 ; HTML page handlers
 ;=======================================================================================================================
+(defn html->png [options file]
+  (let [image (:result (browser/html-to-png file true true (:image-width options) (:image-height options)))]
+    (out image options ".png")))
+
+
+(defn html->jpg [options file]
+  (let [image (:result (browser/html-to-png file true true (:image-width options) (:image-height options)))
+        image (:result (rasterizator/png-to-jpg image))]
+    (out image options ".jpg")))
+
+
+(defn html->pdf [options file]
+  (let [png (:result (browser/html-to-png file true true (:image-width options) (:image-height options)))
+        pdf-size (get-pdf-size options)
+        width (if (coll? pdf-size) (first pdf-size) 1024)
+        height (if (coll? pdf-size) (second pdf-size) 800)
+        image (:result (rasterizator/svg-to-pdf png
+                                                pdf-size
+                                                width
+                                                height
+                                                (:pdf-landscape options)
+                                                (:pdf-x options)
+                                                (:pdf-y options)))]
+    (out image options ".pdf")))
+
+
+(defn html->svg [options file]
+  (let [svg (:result (browser/html-to-png file true true (:image-width options) (:image-height options) true))]
+    (out (.getBytes svg) options ".svg")))
+
 
 (defn html->export [options]
-  (let [html (or (:html options)
-                (slurp (:html-page options)))]
+  (let [file (:html-file options)
+        file (-> file io/file .getAbsolutePath FilenameUtils/normalize)]
     (case (:type options)
-
-      ;"png" (svg->png options svg)
-      ;"jpg" (svg->jpg options svg)
-      ;"svg" (svg->svg options svg)
-      ;"pdf" (svg->pdf options svg)
-
-      )))
+      "png" (html->png options file)
+      "jpg" (html->jpg options file)
+      "svg" (html->svg options file)
+      "pdf" (html->pdf options file))))

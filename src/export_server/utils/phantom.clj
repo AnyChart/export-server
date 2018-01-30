@@ -176,3 +176,66 @@
       (if quit-ph (quit driver) (return-driver driver))
       png-result)
     {:ok false :result "Driver isn't available\n"}))
+
+
+;=======================================================================================================================
+; HTML --> PNG
+;=======================================================================================================================
+(defn exec-html-to-png [d file exit-on-error width height svg-type?]
+  (let [prev-handles (.getWindowHandles (:webdriver d))]
+    (execute-script d "window.open(\"\")")
+    (let [new-handles (.getWindowHandles (:webdriver d))
+          new-handle (first (clojure.set/difference (set new-handles) (set prev-handles)))
+          prev-handle (first prev-handles)]
+      (.window (.switchTo (:webdriver d)) new-handle)
+      (when (and width height)
+        (.setSize (.window (.manage (:webdriver d))) (Dimension. width height)))
+
+      (let [startup (.get (:webdriver d) (str "file://" file))
+
+            waiting
+            (try
+              (let [now (System/currentTimeMillis)]
+                (loop []
+                  (if (not-empty (elements d "svg"))
+                    nil
+                    (if (> (System/currentTimeMillis) (+ now 4000))
+                      "error"
+                      (do
+                        (Thread/sleep 10)
+                        (recur))))))
+              (catch Exception e (str "Failed to wait for SVG\n" (.getMessage e))))
+
+            svg
+            (try
+              (taxi/html d (first (elements d "svg")))
+              (catch Exception e (str "Failed to take SVG Structure\n" (.getMessage e))))
+
+            screenshot (take-screenshot d :bytes nil)
+
+            shutdown
+            (try
+              (execute-script d "while (document.body.hasChildNodes()){document.body.removeChild(document.body.lastChild);}", [])
+              (catch Exception e (str "Failed to execute Shoutdown Script\n" (.getMessage e))))
+
+            error (some #(when (not (nil? %)) %) [startup shutdown])]
+
+        (execute-script d "window.close(\"\")")
+        (.window (.switchTo (:webdriver d)) prev-handle)
+
+        (with-open [out (output-stream (clojure.java.io/file "/media/ssd/sibental/export-server-data/html-to-png.png"))]
+          (.write out screenshot))
+
+        (if error
+          (if exit-on-error
+            (exit d 1 error)
+            {:ok false :result error})
+          {:ok true :result (if svg-type? svg screenshot)})))))
+
+
+(defn html-to-png [file quit-ph exit-on-error width height & [svg-type?]]
+  (if-let [driver (if quit-ph (create-driver) (get-free-driver))]
+    (let [png-result (exec-html-to-png driver file exit-on-error width height svg-type?)]
+      (if quit-ph (quit driver) (return-driver driver))
+      png-result)
+    {:ok false :result "Driver isn't available\n"}))

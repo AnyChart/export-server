@@ -50,6 +50,7 @@
    ;; cmd
    :svg                     (combine-option :svg options cmd config)
    :svg-file                (combine-option :svg-file options cmd config)
+   :html-file               (combine-option :html-file options cmd config)
 
    :output-file             (combine-option :output-file options cmd config)
    :container-width         (combine-option :container-width options cmd config)
