@@ -45,7 +45,7 @@
 (defn- remove-cursor [svg]
   (clojure.string/replace svg #"cursor\s*:\s*[\w-]+\s*;?\s*" ""))
 
-(defn- clear-svg [svg]
+(defn clear-svg [svg]
   (-> svg remove-cursor remove-empty-img remove-opacity replace-rgba))
 
 ;=======================================================================================================================

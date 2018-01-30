@@ -114,3 +114,19 @@
       "jpg" (svg->jpg options svg)
       "svg" (svg->svg options svg)
       "pdf" (svg->pdf options svg))))
+
+;=======================================================================================================================
+; HTML page handlers
+;=======================================================================================================================
+
+(defn html->export [options]
+  (let [html (or (:html options)
+                (slurp (:html-page options)))]
+    (case (:type options)
+
+      ;"png" (svg->png options svg)
+      ;"jpg" (svg->jpg options svg)
+      ;"svg" (svg->svg options svg)
+      ;"pdf" (svg->pdf options svg)
+
+      )))

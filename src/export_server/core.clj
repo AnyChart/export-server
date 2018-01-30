@@ -137,6 +137,10 @@
 
    [nil "--svg-file SVG_FILE" "SVG file to Execute"]
 
+   ;[nil "--page HTML_PAGE" "HTML page string to Execute"]
+
+   ;[nil "--page-file HTML_PAGE_FILE" "HTML page file to Execute"]
+
    ["-o" "--output-file OUTPUT_FILE" "Output File name, file extentions is optional."]
 
    ["-p" "--output-path OUTPUT_PATH" "Output File Directory"]
@@ -250,13 +254,17 @@
   (let [script (:script options)
         file (:input-file options)
         svg (:svg options)
-        svg-file (:svg-file options)]
+        svg-file (:svg-file options)
+        page (:page options)
+        page-file (:page-file)]
     (cond
       (and (nil? script)
            (nil? file)
            (nil? svg)
-           (nil? svg-file))
-      (exit 1 (error-msg ["script or file should be specified in 'cmd' mode."]))
+           (nil? svg-file)
+           (nil? page)
+           (nil? page-file))
+      (exit 1 (error-msg ["script, file or HTML page should be specified in 'cmd' mode."]))
 
       (and file
            (not (.exists (io/file file))))
@@ -266,11 +274,19 @@
            (not (.exists (io/file svg-file))))
       (exit 1 (error-msg ["Svg file not exists."]))
 
+      (and page-file
+           (not (.exists (io/file page-file))))
+      (exit 1 (error-msg ["HTML page file not exists."]))
+
       (or script file)
       (cmd/script->export options)
 
       (or svg svg-file)
-      (cmd/svg->export options))))
+      (cmd/svg->export options)
+
+      (or page page-file)
+      (cmd/html->export options)
+      )))
 
 
 ;====================================================================================

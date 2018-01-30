@@ -6,7 +6,8 @@
   (:require [clj-webdriver.core :as core]
             [clj-webdriver.taxi :refer :all :as taxi]
             [clj-webdriver.driver :refer [init-driver]]
-            [clojure.java.io :as io :refer [output-stream]]))
+            [clojure.java.io :as io :refer [output-stream]]
+            [export-server.utils.rasterizator :as rasterizator]))
 
 ;====================================================================================
 ; PhantomJS initialization
@@ -170,7 +171,8 @@
 
 (defn svg-to-png [svg quit-ph exit-on-error width height]
   (if-let [driver (if quit-ph (create-driver) (get-free-driver))]
-    (let [png-result (exec-svg-to-png driver svg exit-on-error width height)]
+    (let [svg (rasterizator/clear-svg svg)
+          png-result (exec-svg-to-png driver svg exit-on-error width height)]
       (if quit-ph (quit driver) (return-driver driver))
       png-result)
     {:ok false :result "Driver isn't available\n"}))
