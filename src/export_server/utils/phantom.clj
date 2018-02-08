@@ -7,7 +7,8 @@
             [clj-webdriver.taxi :refer :all :as taxi]
             [clj-webdriver.driver :refer [init-driver]]
             [clojure.java.io :as io :refer [output-stream]]
-            [export-server.utils.rasterizator :as rasterizator]))
+            [export-server.utils.rasterizator :as rasterizator]
+            [taoensso.timbre :as timbre]))
 
 ;====================================================================================
 ; PhantomJS initialization
@@ -191,7 +192,8 @@
       (when (and width height)
         (.setSize (.window (.manage (:webdriver d))) (Dimension. width height)))
 
-      (let [startup (.get (:webdriver d) (str "file://" file))
+      (timbre/info "Open file:" file)
+      (let [startup (.get (:webdriver d) file)
 
             waiting
             (try

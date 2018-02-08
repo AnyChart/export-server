@@ -1,8 +1,10 @@
 (ns export-server.cmd-handlers
   (:require [export-server.utils.rasterizator :as rasterizator]
             [export-server.utils.phantom :as browser]
-            [clojure.java.io :as io])
-  (:import (org.apache.commons.io FilenameUtils)))
+            [clojure.java.io :as io]
+            [clojure.string :as string])
+  (:import (org.apache.commons.io FilenameUtils)
+           (org.apache.commons.lang3 SystemUtils)))
 
 ;=======================================================================================================================
 ; Helpers
@@ -152,7 +154,11 @@
 
 (defn html->export [options]
   (let [file (:html-file options)
-        file (-> file io/file .getAbsolutePath FilenameUtils/normalize)]
+        file (-> file io/file .getAbsolutePath FilenameUtils/normalize (string/replace #"\\" "/"))
+        file (if SystemUtils/IS_OS_WINDOWS
+               (str "/" file)
+               file)
+        file (str "file://" file)]
     (case (:type options)
       "png" (html->png options file)
       "jpg" (html->jpg options file)
