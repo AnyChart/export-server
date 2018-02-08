@@ -223,8 +223,8 @@
         (execute-script d "window.close(\"\")")
         (.window (.switchTo (:webdriver d)) prev-handle)
 
-        (with-open [out (output-stream (clojure.java.io/file "/media/ssd/sibental/export-server-data/html-to-png.png"))]
-          (.write out screenshot))
+        ;(with-open [out (output-stream (clojure.java.io/file "/media/ssd/sibental/export-server-data/html-to-png.png"))]
+        ;  (.write out screenshot))
 
         (if error
           (if exit-on-error
