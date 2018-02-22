@@ -5,11 +5,41 @@
 
 You can read full description [here](//docs.anychart.com/Common_Settings/Server-side_Rendering).
 
+Export server can use PhantomJS, Firefox headless or Chrome/Chromium headless.
+```
+# user -e or --engine flag to specify browser engine
+java -jar anychart-export.jar cmd -e firefox --script "var chart = anychart.line([1,2,5]); chart.container('container'); chart.draw();"
+```
+We recommend use Firefox or PhantomJS as export server engine. 
+For now working with Chrome/Chromium is unstable and has been added for future usage.
+Default engine is PhantomJS.
+
+### PhantomJS install
+* download and install PhantomJS on you PC.
+* make sure PhantomJS binary is in your PATH
+
+
+### Firefox install
+* install Firefox browser, version > 56.0
+* install `geckodriver`
+    * `brew install geckodriver` for Mac users
+    * or download it from [official Moziall Size](https://github.com/mozilla/geckodriver/releases) and add it to PATH
+
+### Chrome/Chromium install
+* install Chrome or Chromium browser, version > 60.0
+* install `chromedriver`
+    * `brew install chromedriver` for Mac users
+    * or download it from the [official site](https://sites.google.com/a/chromium.org/chromedriver/downloads)  and add it to PATH
+
+
+
+### Config file format
 Export server config file uses [TOML](https://github.com/toml-lang/toml) format:
 
 ```
 # can be "server" or "cmd"
 mode = "server"
+engine = "firefox"
 
 [server]
 port = 80

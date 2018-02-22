@@ -47,29 +47,31 @@
 (def available-rasterization-response-types #{"file" "base64"})
 
 (def defaults {
+               :engine                  :phantom
+
                ;; server
                :allow-scripts-executing false
-               :port 2000
-               :host "localhost"
-               :log nil
-               :saving-url-prefix ""
-               :saving-folder (str (jar-location) "/save")
+               :port                    2000
+               :host                    "localhost"
+               :log                     nil
+               :saving-url-prefix       ""
+               :saving-folder           (str (jar-location) "/save")
 
                ;; cmd
-               :output-file "anychart"
-               :output-path ""
-               :container-width  "1024px"
-               :container-height "800px"
-               :container-id "container"
-               :type "png"
-               :data-type "svg"
-               :image-width 1024
-               :image-height 800
+               :output-file             "anychart"
+               :output-path             ""
+               :container-width         "1024px"
+               :container-height        "800px"
+               :container-id            "container"
+               :type                    "png"
+               :data-type               "svg"
+               :image-width             1024
+               :image-height            800
                :force-transparent-white false
-               :jpg-quality 1
-               :pdf-size :a4
-               :pdf-x 0
-               :pdf-y 0
-               :pdf-width nil
-               :pdf-height nil
-               :pdf-landscape false})
+               :jpg-quality             1
+               :pdf-size                :a4
+               :pdf-x                   0
+               :pdf-y                   0
+               :pdf-width               nil
+               :pdf-height              nil
+               :pdf-landscape           false})

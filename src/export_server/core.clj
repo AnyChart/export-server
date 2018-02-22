@@ -13,8 +13,8 @@
             [export-server.state :as state]
             [export-server.web-handlers :as web]
             [export-server.cmd-handlers :as cmd]
-            [export-server.utils.phantom :as browser]
-    ;[export-server.utils.jbrowser :as browser]
+    ;[export-server.browser.core :as browser]
+            [export-server.browser.raw :as browser]
             [export-server.utils.config :as config]
             [export-server.sharing.core :as sharing]
             [export-server.sharing.twitter :as twitter]
@@ -37,7 +37,9 @@
                                        (io/reader))))
                           (.get "version"))))
 
+
 (def server-name (str "AnyChart Export Server " (get-project-version)))
+
 
 (defn init-logger [log-file-name]
   (clojure.java.io/delete-file log-file-name :quiet)
@@ -100,6 +102,10 @@
 (def common-options
   [["-C" "--config PATH" "Path to config"
     :default nil]
+
+   ["-e" "--engine BROWSER" "Headless browser: phantom, chrome or firefox"
+    :parse-fn keyword
+    :validate [(fn [engine] (some #(= engine %) [:phantom :chrome :firefox]))]]
 
    ;Server Args--------------------------------------------------------------------------------------------
    ["-P" "--port PORT" "Port number for the server."
@@ -188,6 +194,7 @@
    ["-v" "--version" "Print version, can be used without action"]
    ["-h" "--help" "Print help"]])
 
+
 (defn usage []
   (->> [server-name
         ""
@@ -230,7 +237,7 @@
 (defn shutdown-server []
   (timbre/info "Shutdown...")
   (state/stop-server!)
-  (browser/stop-phantom))
+  (browser/stop-drivers))
 
 (defn start-server [options summary]
   (if (:help options) (exit 0 (server-usage summary)))
@@ -240,7 +247,7 @@
   (if (sharing/init options)
     (timbre/info "Sharing initialiazed")
     (timbre/warn "Sharing did not initialize. Provide both twitter-* and sharing-* options."))
-  (browser/setup-phantom)
+  (browser/setup-drivers)
   (state/set-server! (run-server app {:port (:port options) :ip (:host options)}))
   (.addShutdownHook (Runtime/getRuntime) (Thread. shutdown-server)))
 

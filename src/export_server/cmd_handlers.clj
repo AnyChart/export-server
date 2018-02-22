@@ -1,6 +1,6 @@
 (ns export-server.cmd-handlers
   (:require [export-server.utils.rasterizator :as rasterizator]
-            [export-server.utils.phantom :as browser]
+            [export-server.browser.raw :as browser]
             [clojure.java.io :as io]
             [clojure.string :as string])
   (:import (org.apache.commons.io FilenameUtils)

@@ -25,6 +25,7 @@
                         {cmd :cmd {{twitter :twitter :as sharing} :sharing images :images :as server} :server :as foptions}
                         config]
   {:mode                    (or mode (:mode foptions))
+   :engine                  (keyword (or (:engine options) (:engine foptions) (:engine config)))
 
    ;; server options
    :port                    (combine-option :port options server config)
