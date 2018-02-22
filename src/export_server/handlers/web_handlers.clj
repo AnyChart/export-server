@@ -1,4 +1,4 @@
-(ns export-server.web-handlers
+(ns export-server.handlers.web-handlers
   (:require [cheshire.core :refer :all]
             [compojure.core :refer :all]
             [dk.ative.docjure.spreadsheet :as spreadheet]

@@ -7,7 +7,7 @@ You can read full description [here](//docs.anychart.com/Common_Settings/Server-
 
 Export server can use PhantomJS, Firefox headless or Chrome/Chromium headless.
 ```
-# user -e or --engine flag to specify browser engine
+# use -e or --engine flag to specify browser engine
 java -jar anychart-export.jar cmd -e firefox --script "var chart = anychart.line([1,2,5]); chart.container('container'); chart.draw();"
 ```
 We recommend use Firefox or PhantomJS as export server engine. 
