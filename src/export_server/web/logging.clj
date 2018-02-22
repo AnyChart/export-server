@@ -1,4 +1,4 @@
-(ns export-server.utils.logging
+(ns export-server.web.logging
   (require [taoensso.timbre :as timbre :refer [info error]]))
 
 (defn wrap-log-error [handler-fn result request type]

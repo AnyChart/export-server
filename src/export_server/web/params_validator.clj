@@ -1,4 +1,4 @@
-(ns export-server.utils.params-validator
+(ns export-server.web.params-validator
   (:require [bouncer.validators :as v]
             [bouncer.core :as bouncer]
             [export-server.data.config :refer :all]))
