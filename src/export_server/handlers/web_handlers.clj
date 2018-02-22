@@ -13,8 +13,7 @@
             [export-server.web.params-validator :as params-validator]
 
             [export-server.utils.rasterizator :as rastr]
-            [export-server.utils.rasterizator :as rast]
-    ;[export-server.browser.core :as browser]
+   ;[export-server.browser.core :as browser]
             [export-server.browser.raw :as browser]
             [export-server.sharing.twitter :as twitter]
             [me.raynes.fs :as fs])
@@ -158,7 +157,7 @@
 
 (defn save-file-and-get-url [data file-name extention]
   (if-let [folder (:saving-folder @state/options)]
-    (let [new-file-name (rast/get-file-name-hash file-name)
+    (let [new-file-name (rastr/get-file-name-hash file-name)
           path (str folder "/" new-file-name extention)]
       (fs/mkdirs folder)
       (io/copy data (io/file path))
@@ -174,7 +173,7 @@
     (if (params-validator/valid-result? validation-result)
       (let [{ok :ok result :result} (to-png params)]
         (if ok
-          (twitter/twitter request (rast/to-base64 result))
+          (twitter/twitter request (rastr/to-base64 result))
           (log/wrap-log-error json-error result request :processing)))
       (log/wrap-log-error json-error (params-validator/get-error-message validation-result) request :bad_params))))
 
@@ -187,8 +186,8 @@
         (if ok
           (if (= response-type "base64")
             (if (params "save")
-              (save-file-and-get-url (rast/to-base64 result) (get-file-name params) ".base64")
-              (json-success (rast/to-base64 result)))
+              (save-file-and-get-url (rastr/to-base64 result) (get-file-name params) ".base64")
+              (json-success (rastr/to-base64 result)))
             (if (params "save")
               (save-file-and-get-url result (get-file-name params) ".png")
               (file-success result (get-file-name params) ".png")))
@@ -205,8 +204,8 @@
         (if ok
           (if (= response-type "base64")
             (if (params "save")
-              (save-file-and-get-url (rast/to-base64 result) (get-file-name params) ".base64")
-              (json-success (rast/to-base64 result)))
+              (save-file-and-get-url (rastr/to-base64 result) (get-file-name params) ".base64")
+              (json-success (rastr/to-base64 result)))
             (if (params "save")
               (save-file-and-get-url result (get-file-name params) ".jpg")
               (file-success result (get-file-name params) ".jpg")))
@@ -223,8 +222,8 @@
         (if ok
           (if (= response-type "base64")
             (if (params "save")
-              (save-file-and-get-url (rast/to-base64 result) (get-file-name params) ".base64")
-              (json-success (rast/to-base64 result)))
+              (save-file-and-get-url (rastr/to-base64 result) (get-file-name params) ".base64")
+              (json-success (rastr/to-base64 result)))
             (if (params "save")
               (save-file-and-get-url result (get-file-name params) ".pdf")
               (file-success result (get-file-name params) ".pdf")))
@@ -241,8 +240,8 @@
         (if ok
           (if (= response-type "base64")
             (if (params "save")
-              (save-file-and-get-url (rast/to-base64 (.getBytes result)) (get-file-name params) ".base64")
-              (json-success (rast/to-base64 (.getBytes result))))
+              (save-file-and-get-url (rastr/to-base64 (.getBytes result)) (get-file-name params) ".base64")
+              (json-success (rastr/to-base64 (.getBytes result))))
             (if (params "save")
               (save-file-and-get-url (.getBytes result) (get-file-name params) ".svg")
               (file-success (.getBytes result) (get-file-name params) ".svg")))
