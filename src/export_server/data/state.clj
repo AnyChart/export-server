@@ -1,6 +1,6 @@
-(ns export-server.state
+(ns export-server.data.state
   (:require [toml.core :as toml]
-            [export-server.utils.config :as default-config]
+            [export-server.data.config :as default-config]
             [clojure.walk :refer [keywordize-keys]]))
 
 (defonce server (atom nil))

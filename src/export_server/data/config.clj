@@ -1,4 +1,4 @@
-(ns export-server.utils.config
+(ns export-server.data.config
   (:require [export-server.utils.util :refer [jar-location]]))
 
 (def available-pdf-sizes {:a0           {:width "841mm" :height "1189mm"}

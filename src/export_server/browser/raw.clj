@@ -2,7 +2,7 @@
   (:require [clojure.java.io :as io]
             [export-server.utils.rasterizator :as rasterizator]
             [taoensso.timbre :as timbre]
-            [export-server.state :as state])
+            [export-server.data.state :as state])
   (:import (org.openqa.selenium.firefox FirefoxBinary FirefoxOptions FirefoxDriver)
            (org.openqa.selenium OutputType Dimension Point By TakesScreenshot)
            (org.openqa.selenium.chrome ChromeOptions ChromeDriver)

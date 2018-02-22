@@ -1,6 +1,6 @@
 (ns export-server.repl
   (:require [export-server.core :as core]
-            [export-server.utils.config :as config]
+            [export-server.data.config :as config]
             [org.httpkit.server]))
 
 (def server-atom (atom nil))
