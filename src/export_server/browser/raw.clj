@@ -8,7 +8,10 @@
            (org.openqa.selenium.chrome ChromeOptions ChromeDriver)
            (java.util ArrayList)
            (org.openqa.selenium.remote DesiredCapabilities)
-           (org.openqa.selenium.phantomjs PhantomJSDriver PhantomJSDriverService)))
+           (org.openqa.selenium.phantomjs PhantomJSDriver PhantomJSDriverService)
+           (javax.imageio ImageIO)
+           (java.io ByteArrayInputStream ByteArrayOutputStream)
+           (java.awt.image BufferedImage)))
 
 
 ;=======================================================================================================================
@@ -93,6 +96,25 @@
   (System/exit status))
 
 
+(defn resize-image [screenshot options]
+  (let [img (ImageIO/read (ByteArrayInputStream. screenshot))
+
+        ; new-img (.getSubimage img 0 0 (:image-width options) (:image-height options))
+        new-img (BufferedImage. (:image-width options) (:image-height options) (.getType img))
+        g (.getGraphics new-img)
+        _ (.drawImage g img 0 0
+                      (min (.getWidth img) (:image-width options))
+                      (min (.getHeight img) (:image-height options))
+                      nil)
+        _  (.dispose g)
+
+        baos (ByteArrayOutputStream.)
+        _ (ImageIO/write new-img "png" baos)
+        bytes (.toByteArray baos)]
+    (.close baos)
+    bytes))
+
+
 ;=======================================================================================================================
 ; Script --> SVG | PNG
 ;=======================================================================================================================
@@ -107,6 +129,10 @@
           new-handle (first (clojure.set/difference (set new-handles) (set prev-handles)))
           prev-handle (first prev-handles)]
       (.window (.switchTo d) new-handle)
+
+      (.setSize (.window (.manage d)) (Dimension. (:image-width options) (+ (:image-height options)
+                                                                            (if (= :firefox (:engine @state/options)) 75 0))))
+
       ;(prn "prev handles: " prev-handles)
       ;(prn "Current: " (.getWindowHandle (:webdriver d)))
       (let [startup
@@ -170,6 +196,7 @@
               (catch Exception e (str "Failed to take SVG Structure\n" (.getMessage e))))
 
             screenshot (.getScreenshotAs d OutputType/BYTES)
+            screenshot (resize-image screenshot options)
 
             error (some #(when (not (nil? %)) %) [startup binary script waiting])]
 
@@ -238,6 +265,7 @@
             (exit d 1 error)
             {:ok false :result error})
           {:ok true :result screenshot})))))
+
 
 (defn svg-to-png [svg quit-ph exit-on-error width height]
   (if-let [driver (if quit-ph (create-driver) (get-free-driver))]
