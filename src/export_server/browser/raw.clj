@@ -3,7 +3,7 @@
             [export-server.utils.rasterizator :as rasterizator]
             [taoensso.timbre :as timbre]
             [export-server.data.state :as state])
-  (:import (org.openqa.selenium.firefox FirefoxBinary FirefoxOptions FirefoxDriver)
+  (:import (org.openqa.selenium.firefox FirefoxBinary FirefoxOptions FirefoxDriver FirefoxProfile)
            (org.openqa.selenium OutputType Dimension Point By TakesScreenshot)
            (org.openqa.selenium.chrome ChromeOptions ChromeDriver)
            (java.util ArrayList)
@@ -53,6 +53,19 @@
     (.addCommandLineOptions binary (into-array ["--headless"]))
     (.setBinary opts binary)
     (FirefoxDriver. opts)))
+
+;(defn create-driver-firefox []
+;  (let [opts (FirefoxOptions.)
+;        binary (FirefoxBinary.)
+;        profile (FirefoxProfile.)]
+;    (.setAssumeUntrustedCertificateIssuer profile false)
+;    (.setCapability opts "security.sandbox.content.level" "0")
+;    (.setCapability opts "accept_untrusted_certs" true)
+;    (.setAcceptInsecureCerts opts true)
+;    (.addCommandLineOptions binary (into-array ["--headless"]))
+;    (.setBinary opts binary)
+;    (.setProfile opts profile)
+;    (FirefoxDriver. opts)))
 
 
 (defn create-driver []
@@ -109,7 +122,7 @@
                       (min (.getWidth img) (:image-width options))
                       (min (.getHeight img) (:image-height options))
                       nil)
-        _  (.dispose g)
+        _ (.dispose g)
 
         baos (ByteArrayOutputStream.)
         _ (ImageIO/write new-img "png" baos)
@@ -125,7 +138,31 @@
 (def replacesvgsize (slurp (io/resource "js/replacesvgsize.min.js")))
 
 
+(defn get-svg [d]
+  ;(prn "SvG:" (.executeScript d "return document.getElementsByTagName(\"svg\")[0].outerHTML;" (into-array [])))
+  ;(prn "SvG:" (.getAttribute (first (.findElements d (By/tagName "svg"))) "innerHTML"))
+  ;(prn "SvG:" (.getAttribute (second (.findElements d (By/tagName "svg"))) "innerHTML"))
+  ;(prn "SvG id:" (.getAttribute (.findElement d (By/id (:container-id options))) "innerHTML"))
+  ;(prn "SvG id:" (.getAttribute (.findElement d (By/id (:container-id options))) "outerHTML"))
+  ;(prn "SvG xpath:" (.findElement d (By/xpath "//*[local-name() = 'svg']")))
+  (or (try
+        (let [inner (.getAttribute (.findElement d (By/cssSelector "#container div")) "innerHTML")
+              svg-end (.lastIndexOf inner "</svg>")
+              svg (subs inner 0 (+ 6 svg-end))]
+          svg)
+        (catch Exception e nil))
+      (.executeScript d "return document.getElementsByTagName(\"svg\")[0].outerHTML;" (into-array [])))
+  ;(prn "SvG xpath:" (.getAttribute (.findElement d (By/cssSelector "#container svg")) "innerHTML") )
+  ;(prn "SvG3:")
+  ;(println "SvG3:" (.getAttribute (first (.findElements d (By/tagName "body"))) "innerHTML"))
+  ;(prn "OUter:" (.executeScript d "return document.getElementsByTagName(\"svg\")[0].innerHTML;" (into-array [])))
+  ;(prn "OUter:" (.executeScript d "return 1 + 3;" (into-array [])))
+  )
+
+
 (defn- exec-script-to-png [d script exit-on-error options type]
+  ;(prn (:image-width options) (:image-height options))
+  ;(prn (:container-width options) (:container-height options))
   (let [prev-handles (.getWindowHandles d)]
     (.executeScript d "window.open(\"\")" (into-array []))
     (let [new-handles (.getWindowHandles d)
@@ -141,7 +178,7 @@
       (let [startup
             (try
               (.executeScript d "document.getElementsByTagName(\"body\")[0].style.margin = 0;
-                                 document.body.innerHTML = '<div id=\"' + arguments[0] + '\" style=\"width:' + arguments[1] + ';height:' + arguments[2] + ';\"></div>'"
+                                 document.body.innerHTML = '<style>.anychart-credits{display:none;}</style><div id=\"' + arguments[0] + '\" style=\"width:' + arguments[1] + ';height:' + arguments[2] + ';\"></div>'"
                               (into-array [(:container-id options) (:container-width options) (:container-height options)]))
               (catch Exception e (str "Failed to execute Startup Script\n" (.getMessage e))))
 
@@ -155,6 +192,12 @@
               (.executeScript d script (into-array []))
               (catch Exception e (str "Failed to execute Script\n" (.getMessage e))))
 
+            ;anychart.onDocumentReady doesn't work in firefox, so we need to retrigger it
+            _ (when (= :firefox (:engine @state/options))
+                (try
+                 (.executeScript d "var evt = document.createEvent('Event');evt.initEvent('load', false, false);window.dispatchEvent(evt);" (into-array []))
+                 (catch Exception _ nil)))
+
             waiting
             (try
               (let [now (System/currentTimeMillis)]
@@ -162,7 +205,7 @@
                   (if (seq (.findElements d (By/tagName "svg")))
                     nil
                     (if (> (System/currentTimeMillis) (+ now 2000))
-                      "SVG waiting timeout"
+                      nil
                       (do
                         (Thread/sleep 10)
                         (recur))))))
@@ -175,30 +218,11 @@
 
             svg
             (try
-              ;(prn "SvG:" (.executeScript d "return document.getElementsByTagName(\"svg\")[0].outerHTML;" (into-array [])))
-              ;(prn "SvG:" (.getAttribute (first (.findElements d (By/tagName "svg"))) "innerHTML"))
-              ;(prn "SvG:" (.getAttribute (second (.findElements d (By/tagName "svg"))) "innerHTML"))
-              ;(prn "SvG id:" (.getAttribute (.findElement d (By/id (:container-id options))) "innerHTML"))
-              ;(prn "SvG id:" (.getAttribute (.findElement d (By/id (:container-id options))) "outerHTML"))
-              ;(prn "SvG xpath:" (.findElement d (By/xpath "//*[local-name() = 'svg']")))
-
-              (or (try
-                    (let [inner (.getAttribute (.findElement d (By/cssSelector "#container div")) "innerHTML")
-                          svg-end (.lastIndexOf inner "</svg>")
-                          svg (subs inner 0 (+ 6 svg-end))]
-                      svg)
-                    (catch Exception e nil))
-                  (.executeScript d "return document.getElementsByTagName(\"svg\")[0].outerHTML;" (into-array []))
-                  )
-              ;(prn "SvG xpath:" (.getAttribute (.findElement d (By/cssSelector "#container svg")) "innerHTML") )
-              ;(prn "SvG3:")
-              ;(println "SvG3:" (.getAttribute (first (.findElements d (By/tagName "body"))) "innerHTML"))
-              ;(prn "OUter:" (.executeScript d "return document.getElementsByTagName(\"svg\")[0].innerHTML;" (into-array [])))
-              ;(prn "OUter:" (.executeScript d "return 1 + 3;" (into-array [])))
-
+              (get-svg d)
               (catch Exception e (str "Failed to take SVG Structure\n" (.getMessage e))))
 
             screenshot (.getScreenshotAs d OutputType/BYTES)
+            ;; we need to resize (on white background) cause FIREFOX crop height and it has white background
             screenshot (resize-image screenshot options)
 
             error (some #(when (not (nil? %)) %) [startup binary script waiting])]

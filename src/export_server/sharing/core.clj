@@ -6,7 +6,7 @@
   (let [{:keys [sharing-port sharing-db sharing-user sharing-password
                 twitter-key twitter-secret twitter-callback]} options]
     (when (and sharing-db sharing-port sharing-user sharing-password
-             twitter-key twitter-secret twitter-callback)
+               twitter-key twitter-secret twitter-callback)
       (storage/init (:sharing-db options)
                     (:sharing-port options)
                     (:sharing-user options)

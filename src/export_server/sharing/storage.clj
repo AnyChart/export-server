@@ -58,8 +58,8 @@
     (let [auths (db/query @state (-> (h/select :sn :oauth-token :oauth-token-secret :image-url :screen-name :name :user-id)
                                      (h/from :auth) (h/where [:= key :session])))
           result (reduce #(assoc %1
-                           (id->sn (:sn %2))
-                           (transform-keys ->kebab-case (dissoc %2 :sn)))
+                            (id->sn (:sn %2))
+                            (transform-keys ->kebab-case (dissoc %2 :sn)))
                          {} auths)]
       ; (prn "Storage Read session: " key result)
       result)))
