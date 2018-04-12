@@ -60,8 +60,8 @@
                ;; cmd
                :output-file             "anychart"
                :output-path             ""
-               :container-width         "1024px"
-               :container-height        "800px"
+               :container-width         1024
+               :container-height        800
                :container-id            "container"
                :type                    "png"
                :data-type               "svg"
@@ -75,3 +75,13 @@
                :pdf-width               nil
                :pdf-height              nil
                :pdf-landscape           false})
+
+
+(defn min-size [image-size container-size]
+  (let [container-size-int (if (number? container-size)
+                             container-size
+                             (try (Integer/parseInt container-size)
+                                 (catch Exception _ nil)))]
+    (if (some? container-size-int)
+      (min image-size container-size-int)
+      container-size)))

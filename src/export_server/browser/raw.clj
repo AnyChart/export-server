@@ -1,6 +1,7 @@
 (ns export-server.browser.raw
   (:require [clojure.java.io :as io]
             [export-server.utils.rasterizator :as rasterizator]
+            [export-server.data.config :as config]
             [taoensso.timbre :as timbre]
             [export-server.data.state :as state])
   (:import (org.openqa.selenium.firefox FirefoxBinary FirefoxOptions FirefoxDriver FirefoxProfile)
@@ -161,8 +162,11 @@
 
 
 (defn- exec-script-to-png [d script exit-on-error options type]
-  ;(prn (:image-width options) (:image-height options))
-  ;(prn (:container-width options) (:container-height options))
+  ;(prn :image-size (:image-width options) (:image-height options))
+  ;(prn :container-size (:container-width options) (:container-height options))
+  ;(prn :result-container-size
+  ;     (str (config/min-size (:image-width options) (:container-width options)))
+  ;     (str (config/min-size (:image-height options) (:container-height options))))
   (let [prev-handles (.getWindowHandles d)]
     (.executeScript d "window.open(\"\")" (into-array []))
     (let [new-handles (.getWindowHandles d)
@@ -179,7 +183,9 @@
             (try
               (.executeScript d "document.getElementsByTagName(\"body\")[0].style.margin = 0;
                                  document.body.innerHTML = '<style>.anychart-credits{display:none;}</style><div id=\"' + arguments[0] + '\" style=\"width:' + arguments[1] + ';height:' + arguments[2] + ';\"></div>'"
-                              (into-array [(:container-id options) (:container-width options) (:container-height options)]))
+                              (into-array [(:container-id options)
+                                           (str (config/min-size (:image-width options) (:container-width options)))
+                                           (str (config/min-size (:image-height options) (:container-height options)))]))
               (catch Exception e (str "Failed to execute Startup Script\n" (.getMessage e))))
 
             binary
@@ -203,8 +209,10 @@
               (let [now (System/currentTimeMillis)]
                 (loop []
                   (if (seq (.findElements d (By/tagName "svg")))
-                    nil
-                    (if (> (System/currentTimeMillis) (+ now 2000))
+                    (do
+                      (Thread/sleep 10)
+                      nil)
+                    (if (> (System/currentTimeMillis) (+ now 5000))
                       nil
                       (do
                         (Thread/sleep 10)
@@ -325,8 +333,10 @@
                 (loop []
                   (if (seq (.findElements d (By/tagName "svg")))
                     nil
-                    (if (> (System/currentTimeMillis) (+ now 2000))
-                      "SVG waiting timeout"
+                    (if (> (System/currentTimeMillis) (+ now 5000))
+                      (do
+                        (Thread/sleep 10)
+                        nil)
                       (do
                         (Thread/sleep 10)
                         (recur))))))
