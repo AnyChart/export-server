@@ -60,8 +60,8 @@
                ;; cmd
                :output-file             "anychart"
                :output-path             ""
-               :container-width         1024
-               :container-height        800
+               :container-width         "100%"
+               :container-height        "100%"
                :container-id            "container"
                :type                    "png"
                :data-type               "svg"
