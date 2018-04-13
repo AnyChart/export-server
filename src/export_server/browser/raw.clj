@@ -231,7 +231,9 @@
 
             screenshot (.getScreenshotAs d OutputType/BYTES)
             ;; we need to resize (on white background) cause FIREFOX crop height and it has white background
-            screenshot (resize-image screenshot options)
+            screenshot (if (= :firefox (:engine @state/options))
+                         (resize-image screenshot options)
+                         screenshot)
 
             error (some #(when (not (nil? %)) %) [startup binary script waiting])]
 
