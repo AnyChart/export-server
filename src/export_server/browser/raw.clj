@@ -75,19 +75,21 @@
     :chrome (create-driver-chrome)
     :firefox (create-driver-firefox)))
 
+
 ;=======================================================================================================================
 ; Drivers pool management
 ;=======================================================================================================================
-
-
 (defonce drivers (atom []))
 (defonce drivers-queue nil)
+
 
 (defn- get-free-driver []
   (.poll drivers-queue))
 
+
 (defn- return-driver [driver]
   (.add drivers-queue driver))
+
 
 (defn setup-drivers []
   (timbre/info "Headless browser:" (name (:engine @state/options)))
@@ -99,11 +101,13 @@
                         (.add queue driver))
                       queue))))
 
+
 (defn stop-drivers []
   (doseq [driver @drivers]
     (try
       (.quit driver)
       (catch Exception e nil))))
+
 
 (defn exit [driver status msg]
   (.quit driver)
@@ -201,8 +205,8 @@
             ;anychart.onDocumentReady doesn't work in firefox, so we need to retrigger it
             _ (when (= :firefox (:engine @state/options))
                 (try
-                 (.executeScript d "var evt = document.createEvent('Event');evt.initEvent('load', false, false);window.dispatchEvent(evt);" (into-array []))
-                 (catch Exception _ nil)))
+                  (.executeScript d "var evt = document.createEvent('Event');evt.initEvent('load', false, false);window.dispatchEvent(evt);" (into-array []))
+                  (catch Exception _ nil)))
 
             waiting
             (try
