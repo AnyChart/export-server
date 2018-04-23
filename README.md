@@ -14,6 +14,12 @@ We recommend use Firefox or PhantomJS as export server engine.
 For now working with Chrome/Chromium is unstable and has been added for future usage.
 Default engine is PhantomJS.
 
+In the case you need to get a screenshot of the page in the Internet or local html file, you can use
+Chrome or Firefox in headless mode. You can read about that
+[here](https://developers.google.com/web/updates/2017/04/headless-chrome), for Chrome and
+[here](https://developer.mozilla.org/en-US/Firefox/Headless_mode), for Firefox.
+Don't forget to use `file:///` prefix for rendering a local html file.
+
 ### PhantomJS install
 * download and install PhantomJS on you PC.
 * make sure PhantomJS binary is in your PATH
