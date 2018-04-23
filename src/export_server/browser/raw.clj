@@ -3,7 +3,8 @@
             [export-server.utils.rasterizator :as rasterizator]
             [export-server.data.config :as config]
             [taoensso.timbre :as timbre]
-            [export-server.data.state :as state])
+            [export-server.data.state :as state]
+            [export-server.utils.util :as util])
   (:import (org.openqa.selenium.firefox FirefoxBinary FirefoxOptions FirefoxDriver FirefoxProfile)
            (org.openqa.selenium OutputType Dimension Point By TakesScreenshot)
            (org.openqa.selenium.chrome ChromeOptions ChromeDriver)
@@ -269,6 +270,35 @@
 ;=======================================================================================================================
 ; SVG --> PNG
 ;=======================================================================================================================
+(defn create-html [svg]
+  (str "<html lang=\"en\">
+        <head>
+        <meta charset=\"UTF-8\">
+        <style>
+          body {
+           margin: 0;
+          }
+        </style>
+        </head>
+        <body>"
+       svg
+       "</body></html>"
+       ;"<script>
+       ;window.addEventListener('load', function() {
+       ; window['__ac_load__'] = true;
+       ;})
+       ;</script>"
+       ))
+
+
+(defn add-data-text-html-base64-prefix [s64]
+  (str "data:text/html;base64," s64))
+
+
+(defn add-data-text-html-prefix [s64]
+  (str "data:text/html," s64))
+
+
 (defn- exec-svg-to-png [d svg exit-on-error width height]
   (let [prev-handles (.getWindowHandles d)]
     (.executeScript d "window.open(\"\")" (into-array []))
@@ -281,12 +311,10 @@
         (.setSize (.window (.manage d)) (Dimension. width (+
                                                             (if (= :firefox (:engine @state/options)) 75 0)
                                                             height))))
-      (let [startup
-            (try
-              (.executeScript d "document.body.style.margin = 0;
-                                 document.body.innerHTML = arguments[0]"
-                              (into-array [svg]))
-              (catch Exception e (str "Failed to execute Startup Script\n" (.getMessage e))))
+      (let [startup (try
+                      (let [url-encoded-data (add-data-text-html-base64-prefix (util/str-to-b64 (create-html svg)))]
+                        (.get d url-encoded-data))
+                      (catch Exception e (str "Failed to execute Startup Script\n" (.getMessage e))))
 
             screenshot (.getScreenshotAs (cast TakesScreenshot d) OutputType/BYTES)
 
@@ -296,7 +324,6 @@
               (catch Exception e (str "Failed to execute Shoutdown Script\n" (.getMessage e))))
 
             error (some #(when (not (nil? %)) %) [startup shoutdown])]
-
 
         (.executeScript d "window.close(\"\")" (into-array []))
         (.window (.switchTo d) prev-handle)

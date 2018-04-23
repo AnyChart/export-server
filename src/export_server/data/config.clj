@@ -81,7 +81,7 @@
   (let [container-size-int (if (number? container-size)
                              container-size
                              (try (Integer/parseInt container-size)
-                                 (catch Exception _ nil)))]
+                                  (catch Exception _ nil)))]
     (if (some? container-size-int)
       (min image-size container-size-int)
       container-size)))
