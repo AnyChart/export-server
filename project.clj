@@ -43,15 +43,15 @@
                  [com.codeborne/phantomjsdriver "1.4.4"]
 
                  ;; https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-api
-                 [org.seleniumhq.selenium/selenium-api "3.9.1"]
+                 [org.seleniumhq.selenium/selenium-api "3.11.0"]
                  ;; https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-server
-                 [org.seleniumhq.selenium/selenium-server "3.9.1"]
+                 [org.seleniumhq.selenium/selenium-server "3.11.0"]
                  ;; https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-remote-driver
-                 [org.seleniumhq.selenium/selenium-remote-driver "3.9.1"]
+                 [org.seleniumhq.selenium/selenium-remote-driver "3.11.0"]
                  ;; https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java
-                 [org.seleniumhq.selenium/selenium-java "3.9.1"]
+                 [org.seleniumhq.selenium/selenium-java "3.11.0"]
                  ;; https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-firefox-driver
-                 [org.seleniumhq.selenium/selenium-firefox-driver "3.9.1"]
+                 [org.seleniumhq.selenium/selenium-firefox-driver "3.11.0"]
 
                  [etaoin "0.2.7"]
                  [tupelo "0.9.72"]
