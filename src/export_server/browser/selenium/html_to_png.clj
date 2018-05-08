@@ -8,11 +8,11 @@
 ; HTML --> PNG
 ;=======================================================================================================================
 (defn exec-html-to-png [d file exit-on-error width height svg-type?]
-  (let [prev-handles (.getWindowHandles d)]
+  (let [prev-handles (.getWindowHandles d)
+        prev-handle (first prev-handles)]
     (.executeScript d "window.open(\"\")" (into-array []))
     (let [new-handles (.getWindowHandles d)
-          new-handle (first (clojure.set/difference (set new-handles) (set prev-handles)))
-          prev-handle (first prev-handles)]
+          new-handle (first (clojure.set/difference (set new-handles) (set prev-handles)))]
       (.window (.switchTo d) new-handle)
       (when (and width height)
         (.setSize (.window (.manage d)) (Dimension. width height)))

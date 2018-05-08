@@ -108,9 +108,8 @@
     (let [new-handles (get-window-handles d)
           new-handle (first (clojure.set/difference (set new-handles) (set prev-handles)))]
       (switch-window d new-handle)
-      (set-window-size d (:image-width options) (+ (:image-height options)
-                                                   (if (= :firefox (:engine @state/options)) 75 0)))
-
+      (set-window-size d (:image-width @state/options) (+ (:image-height @state/options)
+                                                          (if (= :firefox (:engine @state/options)) 75 0)))
       (let [startup (try
                       (let [html (html-templates/create-script-html options script)
                             tmp-file (File/createTempFile "anychart-export-server" "")]

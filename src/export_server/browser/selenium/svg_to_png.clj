@@ -20,11 +20,11 @@
 
 (defn- exec-svg-to-png [d svg exit-on-error width height]
   (prn :svg-to-png)
-  (let [prev-handles (.getWindowHandles d)]
+  (let [prev-handles (.getWindowHandles d)
+        prev-handle (first prev-handles)]
     (.executeScript d "window.open(\"\")" (into-array []))
     (let [new-handles (.getWindowHandles d)
-          new-handle (first (clojure.set/difference (set new-handles) (set prev-handles)))
-          prev-handle (first prev-handles)]
+          new-handle (first (clojure.set/difference (set new-handles) (set prev-handles)))]
       (.window (.switchTo d) new-handle)
       (when (and width height)
         (.setPosition (.window (.manage d)) (Point. width height))

@@ -78,15 +78,14 @@
   ;(prn :result-container-size
   ;     (str (config/min-size (:image-width options) (:container-width options)))
   ;     (str (config/min-size (:image-height options) (:container-height options))))
-  (let [prev-handles (.getWindowHandles d)]
+  (let [prev-handles (.getWindowHandles d)
+        prev-handle (first prev-handles)]
     (.executeScript d "window.open(\"\")" (into-array []))
     (let [new-handles (.getWindowHandles d)
-          new-handle (first (clojure.set/difference (set new-handles) (set prev-handles)))
-          prev-handle (first prev-handles)]
+          new-handle (first (clojure.set/difference (set new-handles) (set prev-handles)))]
       (.window (.switchTo d) new-handle)
-
-      (.setSize (.window (.manage d)) (Dimension. (:image-width options) (+ (:image-height options)
-                                                                            (if (= :firefox (:engine @state/options)) 75 0))))
+      (.setSize (.window (.manage d)) (Dimension. (:image-width @state/options) (+ (:image-height @state/options)
+                                                                                   (if (= :firefox (:engine @state/options)) 75 0))))
 
       ;(prn "prev handles: " prev-handles)
       ;(prn "Current: " (.getWindowHandle (:webdriver d)))
