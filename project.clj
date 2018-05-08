@@ -53,7 +53,7 @@
                  ;; https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-firefox-driver
                  [org.seleniumhq.selenium/selenium-firefox-driver "3.11.0"]
 
-                 [etaoin "0.2.7"]
+                 [etaoin "0.2.8"]
                  [tupelo "0.9.72"]
 
                  ;[selmer "1.0.7"]

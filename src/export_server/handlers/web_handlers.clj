@@ -13,8 +13,7 @@
             [export-server.web.params-validator :as params-validator]
 
             [export-server.utils.rasterizator :as rastr]
-    ;[export-server.browser.core :as browser]
-            [export-server.browser.raw :as browser]
+            [export-server.browser.core :as browser]
             [export-server.sharing.twitter :as twitter]
             [me.raynes.fs :as fs])
   (:import (org.apache.commons.io.output ByteArrayOutputStream)))
