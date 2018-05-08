@@ -122,18 +122,18 @@
                         nil)
                       (catch Exception e (str "Failed to execute Startup Script\n" (.getMessage e))))
 
-            waiting nil
-            ;(try
-            ;  (let [now (System/currentTimeMillis)]
-            ;    (loop []
-            ;      (if (not-empty (js-execute d "return document.getElementsByTagName(\"svg\");"))
-            ;        nil
-            ;        (if (> (System/currentTimeMillis) (+ now 3000))
-            ;          nil
-            ;          (do
-            ;            (Thread/sleep 10)
-            ;            (recur))))))
-            ;  (catch Exception e (str "Failed to wait for SVG\n" (.getMessage e))))
+            waiting
+            (try
+              (let [now (System/currentTimeMillis)]
+                (loop []
+                  (if (not-empty (js-execute d "return document.getElementsByTagName(\"svg\");"))
+                    nil
+                    (if (> (System/currentTimeMillis) (+ now 3000))
+                      nil
+                      (do
+                        (Thread/sleep 10)
+                        (recur))))))
+              (catch Exception e (str "Failed to wait for SVG\n" (.getMessage e))))
 
             svg
             (try
