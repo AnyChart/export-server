@@ -107,9 +107,7 @@
     (js-execute d "window.open(\"\")")
     (let [new-handles (get-window-handles d)
           new-handle (first (clojure.set/difference (set new-handles) (set prev-handles)))]
-
-      (try (switch-window d new-handle)
-           (catch Exception e (prn :ex e)))
+      (switch-window d new-handle)
       (set-window-size d (:image-width options) (+ (:image-height options)
                                                    (if (= :firefox (:engine @state/options)) 75 0)))
 

@@ -37,7 +37,6 @@
                         (go d url-encoded-data))
                       (catch Exception e (str "Failed to execute Startup Script\n" (.getMessage e))))
 
-            _ (timbre/info :screenshot)
             screenshot (screenshot d nil)
 
             shutdown
@@ -60,7 +59,6 @@
 
 
 (defn svg-to-png [svg quit-ph exit-on-error width height]
-  (timbre/info :etaoin (:engine @state/options))
   (if-let [driver (if quit-ph (common/create-driverr) (common/get-free-driver))]
     (let [svg (rasterizator/clear-svg svg)
           png-result (exec-svg-to-png driver svg exit-on-error width height)]
