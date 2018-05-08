@@ -24,11 +24,14 @@
 ;=======================================================================================================================
 (defn get-number-unit [map key] (Integer/parseInt (first (re-find #"([-+]?[0-9]+)" (map key)))))
 
+
 (def allow-script-executing (atom true))
+
 
 (defn get-boolean-unit [map key]
   (let [val (clojure.string/lower-case (map key))]
     (or (= val "true") (= val "1"))))
+
 
 (defn get-pdf-size [params]
   (cond
@@ -37,17 +40,20 @@
     (contains? params "pdfSize") (params "pdfSize")
     :else (:pdf-size config/defaults)))
 
+
 (defn get-pdf-x [params]
   (cond
     (contains? params "pdf-x") (get-number-unit params "pdf-x")
     (contains? params "x") (get-number-unit params "x")
     :else (:pdf-x config/defaults)))
 
+
 (defn get-pdf-y [params]
   (cond
     (contains? params "pdf-x") (get-number-unit params "pdf-y")
     (contains? params "x") (get-number-unit params "y")
     :else (:pdf-y config/defaults)))
+
 
 (defn get-force-transparent-white [params]
   (cond
@@ -62,6 +68,7 @@
     (contains? params "dataType") (params "dataType")
     :else nil))
 
+
 (defn get-response-type [params]
   (cond
     (contains? params "response-type") (params "response-type")
@@ -73,6 +80,7 @@
   {:container-id     (get params "container-id" (:container-id config/defaults))
    :container-width  (get params "container-width" (:container-width config/defaults))
    :container-height (get params "container-height" (:container-height config/defaults))})
+
 
 (defn- to-png [params]
   (let [data (params "data")
@@ -163,6 +171,7 @@
       (json-success {:url (str (:saving-url-prefix @state/options) new-file-name extention)}))
     (json-error "Saving folder isn't specified.")))
 
+
 ;=======================================================================================================================
 ; Handlers
 ;=======================================================================================================================
@@ -175,6 +184,7 @@
           (twitter/twitter request (rastr/to-base64 result))
           (log/wrap-log-error json-error result request :processing)))
       (log/wrap-log-error json-error (params-validator/get-error-message validation-result) request :bad_params))))
+
 
 (defn png [request]
   (let [params (request :form-params)

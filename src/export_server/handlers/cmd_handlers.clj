@@ -6,6 +6,7 @@
   (:import (org.apache.commons.io FilenameUtils)
            (org.apache.commons.lang3 SystemUtils)))
 
+
 ;=======================================================================================================================
 ; Helpers
 ;=======================================================================================================================
@@ -17,6 +18,7 @@
         (not (nil? (:pdf-height options))))
     [(:pdf-width options) (:pdf-height options)]
     (:pdf-size options)))
+
 
 (defn out [result options ext]
   (let [output-file (if (:output-file options) (:output-file options) (str (java.util.UUID/randomUUID)))
