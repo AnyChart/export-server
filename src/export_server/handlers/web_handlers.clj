@@ -22,7 +22,7 @@
 ;=======================================================================================================================
 ; Params to png/jpg/pdf
 ;=======================================================================================================================
-(defn get-number-unit [map key] (Integer/parseInt (first (re-find #"([-+]?[0-9]+)" (map key)))))
+(defn get-number-unit [m key] (Integer/parseInt (first (re-find #"([-+]?[0-9]+)" (m key)))))
 
 
 (def allow-script-executing (atom true))
@@ -77,44 +77,42 @@
 
 
 (defn params-to-options [params]
-  {:container-id     (get params "container-id" (:container-id config/defaults))
-   :container-width  (get params "container-width" (:container-width config/defaults))
-   :container-height (get params "container-height" (:container-height config/defaults))})
+  {:container-id            (get params "container-id" (:container-id config/defaults))
+   :container-width         (get params "container-width" (:container-width config/defaults))
+   :container-height        (get params "container-height" (:container-height config/defaults))
+   :width                   (if (contains? params "width") (get-number-unit params "width") (:image-width config/defaults))
+   :height                  (if (contains? params "height") (get-number-unit params "height") (:image-height config/defaults))
+   :force-transparent-white (get-force-transparent-white params)
+   :landscape               (if (contains? params "landscape") (get-boolean-unit params "landscape") (:pdf-landscape config/defaults))
+   :jpg-quality             (if (contains? params "quality") (read-string (params "quality")) (:jpg-quality config/defaults))})
 
 
 (defn- to-png [params]
   (let [data (params "data")
         data-type (get-data-type params)
-        width (if (contains? params "width") (get-number-unit params "width") (:image-width config/defaults))
-        height (if (contains? params "height") (get-number-unit params "height") (:image-height config/defaults))
-        force-transparent-white (get-force-transparent-white params)]
+        {width :width height :height :as options} (params-to-options params)]
     (cond
       (and (= data-type "script") (not @allow-script-executing)) {:ok     false
                                                                   :result {:message   "Script executing is not allowed"
                                                                            :http-code 403}}
-      ;(= data-type "svg") (rastr/svg-to-png data width height force-transparent-white)
       (= data-type "svg") (browser/svg-to-png data false false width height)
-      (= data-type "script") (browser/script-to-png data false false (params-to-options params) :png)
+      (= data-type "script") (browser/script-to-png data false false options :png)
       :else {:ok false :result "Unknown data type"})))
 
 
 (defn- to-jpg [params]
   (let [data (params "data")
         data-type (get-data-type params)
-        width (if (contains? params "width") (get-number-unit params "width") (:image-width config/defaults))
-        height (if (contains? params "height") (get-number-unit params "height") (:image-height config/defaults))
-        force-transparent-white (get-force-transparent-white params)
-        quality (if (contains? params "quality") (read-string (params "quality")) (:jpg-quality config/defaults))]
+        {width :width height :height :as options} (params-to-options params)]
     (cond
       (and (= data-type "script") (not @allow-script-executing)) {:ok     false
                                                                   :result {:message   "Script executing is not allowed"
                                                                            :http-code 403}}
-      ;(= data-type "svg") (rastr/svg-to-jpg data width height force-transparent-white quality)
       (= data-type "svg") (let [png-result (browser/svg-to-png data false false width height)]
                             (if (png-result :ok)
                               (rastr/png-to-jpg (png-result :result))
                               png-result))
-      (= data-type "script") (let [png-result (browser/script-to-png data false false (params-to-options params) :png)]
+      (= data-type "script") (let [png-result (browser/script-to-png data false false options :png)]
                                (if (png-result :ok)
                                  (rastr/png-to-jpg (png-result :result))
                                  png-result))

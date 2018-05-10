@@ -1,7 +1,8 @@
 (ns export-server.web.params-validator
   (:require [bouncer.validators :as v]
             [bouncer.core :as bouncer]
-            [export-server.data.config :refer :all]))
+            [export-server.data.config :refer :all]
+            [clojure.string :as string]))
 
 
 (def ^{:private true} pixel-re #"(?i)^[0-9]+(px)?$")
@@ -28,9 +29,9 @@
 
 (def ^{:private true} pdf-fields-validations
   {"pdfSize"   [[available-pdf-size? :message (str "pdfSize must be one of the values:"
-                                                   (clojure.string/join ", " (map name (keys available-pdf-sizes))))]]
+                                                   (string/join ", " (map name (keys available-pdf-sizes))))]]
    "pdf-size"  [[available-pdf-size? :message (str "pdfSize must be one of the values:"
-                                                   (clojure.string/join ", " (map name (keys available-pdf-sizes))))]]
+                                                   (string/join ", " (map name (keys available-pdf-sizes))))]]
    "x"         [[v/matches pixel-re :message "X must be a number or pixel string"]]
    "pdf-x"     [[v/matches pixel-re :message "X must be a number or pixel string"]]
    "y"         [[v/matches pixel-re :message "Y must be a number or pixel string"]]
@@ -46,11 +47,11 @@
   (cond
     (not (or (contains? params "dataType")
              (contains? params "data-type")))
-    [[(str "data-type must be one of the values: " (clojure.string/join ", " (map name available-rasterization-data-types)))]]
+    [[(str "data-type must be one of the values: " (string/join ", " (map name available-rasterization-data-types)))]]
 
     (not (or (contains? params "responseType")
              (contains? params "response-type")))
-    [[(str "response-type must be one of the values: " (clojure.string/join ", " (map name available-rasterization-response-types)))]]
+    [[(str "response-type must be one of the values: " (string/join ", " (map name available-rasterization-response-types)))]]
 
     :else (bouncer/validate params image-params-validations)))
 
@@ -59,7 +60,7 @@
   (cond
     (not (or (contains? params "dataType")
              (contains? params "data-type")))
-    [[(str "data-type must be one of the values: " (clojure.string/join ", " (map name available-rasterization-data-types)))]]
+    [[(str "data-type must be one of the values: " (string/join ", " (map name available-rasterization-data-types)))]]
 
     :else (bouncer/validate params image-params-validations)))
 
@@ -68,11 +69,11 @@
   (cond
     (not (or (contains? params "dataType")
              (contains? params "data-type")))
-    [[(str "data-type must be one of the values: " (clojure.string/join ", " (map name available-rasterization-data-types)))]]
+    [[(str "data-type must be one of the values: " (string/join ", " (map name available-rasterization-data-types)))]]
 
     (not (or (contains? params "responseType")
              (contains? params "response-type")))
-    [[(str "response-type must be one of the values: " (clojure.string/join ", " (map name available-rasterization-response-types)))]]
+    [[(str "response-type must be one of the values: " (string/join ", " (map name available-rasterization-response-types)))]]
 
     :else (bouncer/validate params pdf-params-validations)))
 
@@ -81,4 +82,4 @@
 
 (defn valid-result? [result] (nil? (get result 0)))
 
-(defn get-error-message [result] (clojure.string/join "," (get result 0)))
+(defn get-error-message [result] (string/join "," (get result 0)))
