@@ -18,19 +18,18 @@
   (str "data:text/html," s64))
 
 
-(defn- exec-svg-to-png [d svg exit-on-error width height]
-  (prn :svg-to-png)
+(defn- exec-svg-to-png [d svg exit-on-error {image-width :image-width image-height :image-height :as options}]
   (let [prev-handles (.getWindowHandles d)
         prev-handle (first prev-handles)]
     (.executeScript d "window.open(\"\")" (into-array []))
     (let [new-handles (.getWindowHandles d)
           new-handle (first (clojure.set/difference (set new-handles) (set prev-handles)))]
       (.window (.switchTo d) new-handle)
-      (when (and width height)
-        (.setPosition (.window (.manage d)) (Point. width height))
-        (.setSize (.window (.manage d)) (Dimension. width (+
-                                                            (if (= :firefox (:engine @state/options)) 75 0)
-                                                            height))))
+      (when (and image-width image-height)
+        (.setPosition (.window (.manage d)) (Point. image-width image-height))
+        (.setSize (.window (.manage d)) (Dimension. image-width (+
+                                                                  (if (= :firefox (:engine @state/options)) 75 0)
+                                                                  image-height))))
       (let [startup (try
                       (let [url-encoded-data (add-data-text-html-base64-prefix (util/str-to-b64 (html-templates/create-svg-html svg)))]
                         (.get d url-encoded-data))
@@ -55,10 +54,10 @@
           {:ok true :result screenshot})))))
 
 
-(defn svg-to-png [svg quit-ph exit-on-error width height]
+(defn svg-to-png [svg quit-ph exit-on-error options]
   (if-let [driver (if quit-ph (common/create-driver) (common/get-free-driver))]
     (let [svg (rasterizator/clear-svg svg)
-          png-result (exec-svg-to-png driver svg exit-on-error width height)]
+          png-result (exec-svg-to-png driver svg exit-on-error options)]
       (if quit-ph (.quit driver) (common/return-driver driver))
       png-result)
     {:ok false :result "Driver isn't available\n"}))

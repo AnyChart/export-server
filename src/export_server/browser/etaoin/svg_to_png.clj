@@ -21,17 +21,17 @@
   (str "data:text/html," s64))
 
 
-(defn- exec-svg-to-png [d svg exit-on-error width height]
+(defn- exec-svg-to-png [d svg exit-on-error options]
   (let [prev-handles (get-window-handles d)
         prev-handle (first prev-handles)]
     (js-execute d "window.open(\"\")")
     (let [new-handles (get-window-handles d)
           new-handle (first (clojure.set/difference (set new-handles) (set prev-handles)))]
       (switch-window d new-handle)
-      (when (and width height)
-        (set-window-size d width (+
-                                   (if (= :firefox (:engine @state/options)) 75 0)
-                                   height)))
+      (when (and (:image-width options) (:image-height options))
+        (set-window-size d (:image-width options) (+
+                                                    (if (= :firefox (:engine @state/options)) 75 0)
+                                                    (:image-height options))))
       (let [startup (try
                       (let [url-encoded-data (add-data-text-html-base64-prefix (util/str-to-b64 (templates/create-svg-html svg)))]
                         (go d url-encoded-data))
@@ -58,10 +58,10 @@
           {:ok true :result screenshot})))))
 
 
-(defn svg-to-png [svg quit-ph exit-on-error width height]
+(defn svg-to-png [svg quit-ph exit-on-error options]
   (if-let [driver (if quit-ph (common/create-driverr) (common/get-free-driver))]
     (let [svg (rasterizator/clear-svg svg)
-          png-result (exec-svg-to-png driver svg exit-on-error width height)]
+          png-result (exec-svg-to-png driver svg exit-on-error options)]
       (if quit-ph (quit driver) (common/return-driver driver))
       png-result)
     {:ok false :result "Driver isn't available\n"}))

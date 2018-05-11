@@ -33,14 +33,6 @@
     (or (= val "true") (= val "1"))))
 
 
-(defn get-pdf-size [params]
-  (cond
-    (and (contains? params "pdf-width") (contains? params "pdf-height")) [(get-number-unit params "pdf-width") (get-number-unit params "pdf-height")]
-    (contains? params "pdf-size") (params "pdf-size")
-    (contains? params "pdfSize") (params "pdfSize")
-    :else (:pdf-size config/defaults)))
-
-
 (defn get-pdf-x [params]
   (cond
     (contains? params "pdf-x") (get-number-unit params "pdf-x")
@@ -80,22 +72,28 @@
   {:container-id            (get params "container-id" (:container-id config/defaults))
    :container-width         (get params "container-width" (:container-width config/defaults))
    :container-height        (get params "container-height" (:container-height config/defaults))
-   :width                   (if (contains? params "width") (get-number-unit params "width") (:image-width config/defaults))
-   :height                  (if (contains? params "height") (get-number-unit params "height") (:image-height config/defaults))
+   :image-width             (if (contains? params "width") (get-number-unit params "width") (:image-width config/defaults))
+   :image-height            (if (contains? params "height") (get-number-unit params "height") (:image-height config/defaults))
    :force-transparent-white (get-force-transparent-white params)
-   :landscape               (if (contains? params "landscape") (get-boolean-unit params "landscape") (:pdf-landscape config/defaults))
-   :jpg-quality             (if (contains? params "quality") (read-string (params "quality")) (:jpg-quality config/defaults))})
+   :jpg-quality             (if (contains? params "quality") (read-string (params "quality")) (:jpg-quality config/defaults))
+
+   :pdf-landscape           (if (contains? params "landscape") (get-boolean-unit params "landscape") (:pdf-landscape config/defaults))
+   :pdf-width               (if (contains? params "pdf-width") (get-number-unit params "pdf-width") (:pdf-width config/defaults))
+   :pdf-height              (if (contains? params "pdf-height") (get-number-unit params "pdf-height") (:pdf-height config/defaults))
+   :pdf-size                (or (params "pdf-size") (params "pdfSize") (:pdf-size config/defaults))
+   :pdf-x                   (get-pdf-x params)
+   :pdf-y                   (get-pdf-y params)})
 
 
 (defn- to-png [params]
   (let [data (params "data")
         data-type (get-data-type params)
-        {width :width height :height :as options} (params-to-options params)]
+        options (params-to-options params)]
     (cond
       (and (= data-type "script") (not @allow-script-executing)) {:ok     false
                                                                   :result {:message   "Script executing is not allowed"
                                                                            :http-code 403}}
-      (= data-type "svg") (browser/svg-to-png data false false width height)
+      (= data-type "svg") (browser/svg-to-png data false false options)
       (= data-type "script") (browser/script-to-png data false false options :png)
       :else {:ok false :result "Unknown data type"})))
 
@@ -103,12 +101,12 @@
 (defn- to-jpg [params]
   (let [data (params "data")
         data-type (get-data-type params)
-        {width :width height :height :as options} (params-to-options params)]
+        options (params-to-options params)]
     (cond
       (and (= data-type "script") (not @allow-script-executing)) {:ok     false
                                                                   :result {:message   "Script executing is not allowed"
                                                                            :http-code 403}}
-      (= data-type "svg") (let [png-result (browser/svg-to-png data false false width height)]
+      (= data-type "svg") (let [png-result (browser/svg-to-png data false false options)]
                             (if (png-result :ok)
                               (rastr/png-to-jpg (png-result :result))
                               png-result))
@@ -122,38 +120,34 @@
 (defn- to-pdf [params]
   (let [data (params "data")
         data-type (get-data-type params)
-        pdf-size (get-pdf-size params)
-        ;; default clj-pdf sizes for :a4
-        width (if (coll? pdf-size) (first pdf-size) 595)
-        height (if (coll? pdf-size) (second pdf-size) 842)
-        landscape (if (contains? params "landscape") (get-boolean-unit params "landscape") (:pdf-landscape config/defaults))
-        x (get-pdf-x params)
-        y (get-pdf-y params)]
+        options (params-to-options params)
+        options (assoc options :image-width (:pdf-width options) :image-height (:pdf-height options))]
     (cond
       (and (= data-type "script") (not @allow-script-executing)) {:ok     false
                                                                   :result {:message   "Script executing is not allowed"
                                                                            :http-code 403}}
       ;(= data-type "svg") (rastr/svg-to-pdf data pdf-size landscape x y)
-      (= data-type "svg") (let [png-result (browser/svg-to-png data false false width height)]
+      (= data-type "svg") (let [png-result (browser/svg-to-png data false false options)]
                             (if (:ok png-result)
-                              (rastr/svg-to-pdf (:result png-result) pdf-size width height landscape x y)
+                              (rastr/svg-to-pdf (:result png-result) options)
                               png-result))
-      (= data-type "script") (let [png-result (browser/script-to-png data false false (params-to-options params) :png)]
+      (= data-type "script") (let [png-result (browser/script-to-png data false false options :png)]
                                (if (:ok png-result)
-                                 (rastr/svg-to-pdf (:result png-result) pdf-size width height landscape x y)
+                                 (rastr/svg-to-pdf (:result png-result) options)
                                  png-result))
       :else {:ok false :result "Unknown data type"})))
 
 
 (defn- to-svg [params]
   (let [data (params "data")
-        data-type (get-data-type params)]
+        data-type (get-data-type params)
+        options (params-to-options params)]
     (cond
       (and (= data-type "script") (not @allow-script-executing)) {:ok     false
                                                                   :result {:message   "Script executing is not allowed"
                                                                            :http-code 403}}
       (= data-type "svg") {:ok true :result data}
-      (= data-type "script") (browser/script-to-png data false false (params-to-options params) :svg)
+      (= data-type "script") (browser/script-to-png data false false options :svg)
       :else {:ok false :result "Unknown data type"})))
 
 

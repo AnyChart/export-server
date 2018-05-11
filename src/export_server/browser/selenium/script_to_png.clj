@@ -84,8 +84,8 @@
     (let [new-handles (.getWindowHandles d)
           new-handle (first (clojure.set/difference (set new-handles) (set prev-handles)))]
       (.window (.switchTo d) new-handle)
-      (.setSize (.window (.manage d)) (Dimension. (:image-width @state/options) (+ (:image-height @state/options)
-                                                                                   (if (= :firefox (:engine @state/options)) 75 0))))
+      (.setSize (.window (.manage d)) (Dimension. (:image-width options) (+ (:image-height options)
+                                                                            (if (= :firefox (:engine @state/options)) 75 0))))
 
       ;(prn "prev handles: " prev-handles)
       ;(prn "Current: " (.getWindowHandle (:webdriver d)))

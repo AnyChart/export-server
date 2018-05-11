@@ -9,17 +9,17 @@
 ;=======================================================================================================================
 ; HTML --> PNG
 ;=======================================================================================================================
-(defn exec-html-to-png [d file exit-on-error width height svg-type?]
+(defn exec-html-to-png [d file exit-on-error options svg-type?]
   (let [prev-handles (get-window-handles d)
         prev-handle (first prev-handles)]
     (js-execute d "window.open(\"\")")
     (let [new-handles (get-window-handles d)
           new-handle (first (clojure.set/difference (set new-handles) (set prev-handles)))]
       (switch-window d new-handle)
-      (when (and width height)
-        (set-window-size d width (+
-                                   (if (= :firefox (:engine @state/options)) 75 0)
-                                   height)))
+      (when (and (:image-width options) (:image-height options))
+        (set-window-size d (:image-width options) (+
+                                                    (if (= :firefox (:engine @state/options)) 75 0)
+                                                    (:image-height options))))
 
       (timbre/info "Open file:" file)
       (let [startup (go d file)
@@ -58,9 +58,9 @@
           {:ok true :result (if svg-type? svg screenshot)})))))
 
 
-(defn html-to-png [file quit-ph exit-on-error width height & [svg-type?]]
+(defn html-to-png [file quit-ph exit-on-error options & [svg-type?]]
   (if-let [driver (if quit-ph (common/create-driverr) (common/get-free-driver))]
-    (let [png-result (exec-html-to-png driver file exit-on-error width height svg-type?)]
+    (let [png-result (exec-html-to-png driver file exit-on-error options svg-type?)]
       (if quit-ph (quit driver) (common/return-driver driver))
       png-result)
     {:ok false :result "Driver isn't available\n"}))

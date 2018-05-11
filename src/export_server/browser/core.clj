@@ -33,13 +33,13 @@
     (selenium-core/script-to-png script quit-ph exit-on-error options type)))
 
 
-(defn svg-to-png [svg quit-ph exit-on-error width height]
+(defn svg-to-png [svg quit-ph exit-on-error options]
   (if (= :chrome (:engine @state/options))
-    (etaoin-core/svg-to-png svg quit-ph exit-on-error width height)
-    (selenium-core/svg-to-png svg quit-ph exit-on-error width height)))
+    (etaoin-core/svg-to-png svg quit-ph exit-on-error options)
+    (selenium-core/svg-to-png svg quit-ph exit-on-error options)))
 
 
-(defn html-to-png [file quit-ph exit-on-error width height & [svg-type?]]
+(defn html-to-png [file quit-ph exit-on-error options & [svg-type?]]
   (if (= :chrome (:engine @state/options))
-    (etaoin-core/html-to-png file quit-ph exit-on-error width height svg-type?)
-    (selenium-core/html-to-png file quit-ph exit-on-error width height svg-type?)))
+    (etaoin-core/html-to-png file quit-ph exit-on-error options svg-type?)
+    (selenium-core/html-to-png file quit-ph exit-on-error options svg-type?)))

@@ -10,16 +10,6 @@
 ;=======================================================================================================================
 ; Helpers
 ;=======================================================================================================================
-(defn- get-pdf-size [options]
-  (if (and
-        (contains? options :pdf-width)
-        (contains? options :pdf-height)
-        (not (nil? (:pdf-width options)))
-        (not (nil? (:pdf-height options))))
-    [(:pdf-width options) (:pdf-height options)]
-    (:pdf-size options)))
-
-
 (defn out [result options ext]
   (let [output-file (if (:output-file options) (:output-file options) (str (java.util.UUID/randomUUID)))
         output-path (:output-path options)
@@ -47,16 +37,7 @@
 
 (defn script->pdf [options script]
   (let [png (:result (browser/script-to-png script true true options :png))
-        pdf-size (get-pdf-size options)
-        width (if (coll? pdf-size) (first pdf-size) 1024)
-        height (if (coll? pdf-size) (second pdf-size) 800)
-        image (:result (rasterizator/svg-to-pdf png
-                                                pdf-size
-                                                width
-                                                height
-                                                (:pdf-landscape options)
-                                                (:pdf-x options)
-                                                (:pdf-y options)))]
+        image (:result (rasterizator/svg-to-pdf png options))]
     (out image options ".pdf")))
 
 
@@ -82,12 +63,12 @@
 ; SVG handlers
 ;=======================================================================================================================
 (defn svg->png [options svg]
-  (let [image (:result (browser/svg-to-png svg true true (:image-width options) (:image-height options)))]
+  (let [image (:result (browser/svg-to-png svg true true options))]
     (out image options ".png")))
 
 
 (defn svg->jpg [options svg]
-  (let [image (:result (browser/svg-to-png svg true true (:image-width options) (:image-height options)))
+  (let [image (:result (browser/svg-to-png svg true true options))
         image (:result (rasterizator/png-to-jpg image))]
     (out image options ".jpg")))
 
@@ -97,17 +78,8 @@
 
 
 (defn svg->pdf [options svg]
-  (let [png (:result (browser/svg-to-png svg true true (:image-width options) (:image-height options)))
-        pdf-size (get-pdf-size options)
-        width (if (coll? pdf-size) (first pdf-size) 1024)
-        height (if (coll? pdf-size) (second pdf-size) 800)
-        image (:result (rasterizator/svg-to-pdf png
-                                                pdf-size
-                                                width
-                                                height
-                                                (:pdf-landscape options)
-                                                (:pdf-x options)
-                                                (:pdf-y options)))]
+  (let [png (:result (browser/svg-to-png svg true true options))
+        image (:result (rasterizator/svg-to-pdf png options))]
     (out image options ".pdf")))
 
 
@@ -120,37 +92,29 @@
       "svg" (svg->svg options svg)
       "pdf" (svg->pdf options svg))))
 
+
 ;=======================================================================================================================
 ; HTML page handlers
 ;=======================================================================================================================
 (defn html->png [options file]
-  (let [image (:result (browser/html-to-png file true true (:image-width options) (:image-height options)))]
+  (let [image (:result (browser/html-to-png file true true options))]
     (out image options ".png")))
 
 
 (defn html->jpg [options file]
-  (let [image (:result (browser/html-to-png file true true (:image-width options) (:image-height options)))
+  (let [image (:result (browser/html-to-png file true true options))
         image (:result (rasterizator/png-to-jpg image))]
     (out image options ".jpg")))
 
 
 (defn html->pdf [options file]
-  (let [png (:result (browser/html-to-png file true true (:image-width options) (:image-height options)))
-        pdf-size (get-pdf-size options)
-        width (if (coll? pdf-size) (first pdf-size) 1024)
-        height (if (coll? pdf-size) (second pdf-size) 800)
-        image (:result (rasterizator/svg-to-pdf png
-                                                pdf-size
-                                                width
-                                                height
-                                                (:pdf-landscape options)
-                                                (:pdf-x options)
-                                                (:pdf-y options)))]
+  (let [png (:result (browser/html-to-png file true true options))
+        image (:result (rasterizator/svg-to-pdf png options))]
     (out image options ".pdf")))
 
 
 (defn html->svg [options file]
-  (let [svg (:result (browser/html-to-png file true true (:image-width options) (:image-height options) true))]
+  (let [svg (:result (browser/html-to-png file true true options true))]
     (out (.getBytes svg) options ".svg")))
 
 

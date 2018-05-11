@@ -69,11 +69,11 @@
                :image-height            800
                :force-transparent-white false
                :jpg-quality             1
-               :pdf-size                :a4
+               :pdf-size                nil                 ;:a4
                :pdf-x                   0
                :pdf-y                   0
-               :pdf-width               nil
-               :pdf-height              nil
+               :pdf-width               595                 ;nil
+               :pdf-height              842                 ;nil
                :pdf-landscape           false})
 
 

@@ -51,14 +51,18 @@
 ;=======================================================================================================================
 ; SVG --> PDF
 ;=======================================================================================================================
-(defn svg-to-pdf [img pdf-size width height landscape x y]
+(defn svg-to-pdf [img
+                  {size      :pdf-size
+                   width     :pdf-width
+                   height    :pdf-height
+                   landscape :pdf-landscape
+                   x         :pdf-x
+                   y         :pdf-y}]
   (try
-    ;(with-open [out (output-stream (clojure.java.io/file "/media/ssd/sibental/export-server-data/1.png"))]
-    ;  (.write out img))
+    (with-open [out (output-stream (clojure.java.io/file "/media/ssd/sibental/export-server-data/1.png"))]
+      (.write out img))
     (with-open [out (new ByteArrayOutputStream)]
-      (pdf [{:size          (if (coll? pdf-size)
-                              [(* 0.75 (first pdf-size)) (* 0.75 (second pdf-size))]
-                              pdf-size)
+      (pdf [{:size          (or size [(* 0.75 width) (* 0.75 height)])
              :orientation   (if landscape :landscape nil)
              :footer        {:page-numbers false}
              :left-margin   0
@@ -67,8 +71,8 @@
              :bottom-margin 0}
             ;[:svg {:translate [x y]} (clear-svg (trim-svg-string svg))]
             [:image {:translate [x y]
-                     :scale     (when (coll? pdf-size) 75)
-                     :width     width
+                     ;:scale     (when (coll? size) 75)
+                     :width     (* 0.75 width)
                      ;:height    height
                      } img]]
            out)

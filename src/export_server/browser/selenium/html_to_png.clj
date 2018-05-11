@@ -1,21 +1,25 @@
 (ns export-server.browser.selenium.html-to-png
   (:require [taoensso.timbre :as timbre]
-            [export-server.browser.selenium.common :as common])
+            [export-server.browser.selenium.common :as common]
+            [export-server.data.state :as state])
   (:import (org.openqa.selenium Dimension OutputType By)))
 
 
 ;=======================================================================================================================
 ; HTML --> PNG
 ;=======================================================================================================================
-(defn exec-html-to-png [d file exit-on-error width height svg-type?]
+(defn exec-html-to-png [d file exit-on-error options svg-type?]
   (let [prev-handles (.getWindowHandles d)
         prev-handle (first prev-handles)]
     (.executeScript d "window.open(\"\")" (into-array []))
     (let [new-handles (.getWindowHandles d)
           new-handle (first (clojure.set/difference (set new-handles) (set prev-handles)))]
       (.window (.switchTo d) new-handle)
-      (when (and width height)
-        (.setSize (.window (.manage d)) (Dimension. width height)))
+      (when (and (:image-width options) (:image-height options))
+        (.setSize (.window (.manage d)) (Dimension. (:image-width options)
+                                                    (+
+                                                      (if (= :firefox (:engine @state/options)) 75 0)
+                                                      (:image-height options)))))
 
       (timbre/info "Open file:" file)
       (let [startup (.get d file)
@@ -54,9 +58,9 @@
           {:ok true :result (if svg-type? svg screenshot)})))))
 
 
-(defn html-to-png [file quit-ph exit-on-error width height & [svg-type?]]
+(defn html-to-png [file quit-ph exit-on-error options & [svg-type?]]
   (if-let [driver (if quit-ph (common/create-driver) (common/get-free-driver))]
-    (let [png-result (exec-html-to-png driver file exit-on-error width height svg-type?)]
+    (let [png-result (exec-html-to-png driver file exit-on-error options svg-type?)]
       (if quit-ph (.quit driver) (common/return-driver driver))
       png-result)
     {:ok false :result "Driver isn't available\n"}))
