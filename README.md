@@ -10,12 +10,10 @@ Export server can use PhantomJS, Firefox headless or Chrome/Chromium headless.
 # use -e or --engine flag to specify browser engine
 java -jar anychart-export.jar cmd -e firefox --script "var chart = anychart.line([1,2,5]); chart.container('container'); chart.draw();"
 ```
-We recommend use Firefox or PhantomJS as export server engine. 
-For now working with Chrome/Chromium is unstable and has been added for future usage.
-Default engine is PhantomJS.
+Default browser engine is PhantomJS.
 
-In the case you need to get a screenshot of the page in the Internet or local html file, you can use
-Chrome or Firefox in headless mode. You can read about that
+In the case you need to get a screenshot of a page in the Internet or local HTML file, you can just use
+Chrome or Firefox in headless mode without the AnyChart Export Server. You can read about that
 [here](https://developers.google.com/web/updates/2017/04/headless-chrome), for Chrome and
 [here](https://developer.mozilla.org/en-US/Firefox/Headless_mode), for Firefox.
 Don't forget to use `file:///` prefix for rendering a local html file.
@@ -23,7 +21,6 @@ Don't forget to use `file:///` prefix for rendering a local html file.
 ### PhantomJS install
 * download and install PhantomJS on you PC.
 * make sure PhantomJS binary is in your PATH
-
 
 ### Firefox install
 * install Firefox browser, version > 56.0
@@ -36,7 +33,6 @@ Don't forget to use `file:///` prefix for rendering a local html file.
 * install `chromedriver`
     * `brew install chromedriver` for Mac users
     * or download it from the [official site](https://sites.google.com/a/chromium.org/chromedriver/downloads)  and add it to PATH
-
 
 
 ### Config file format
