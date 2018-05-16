@@ -112,7 +112,7 @@
                                                    (if (= :firefox (:engine @state/options)) 75 0)))
       (let [startup (try
                       (let [html (html-templates/create-script-html options script)
-                            tmp-file (File/createTempFile "anychart-export-server" "")]
+                            tmp-file (File/createTempFile "anychart-export-server" ".html")]
                         (spit tmp-file html)
                         (go d (str "file://" (.getAbsolutePath tmp-file)))
                         (.delete tmp-file)
