@@ -1,7 +1,8 @@
 (ns export-server.browser.selenium.html-to-png
   (:require [taoensso.timbre :as timbre]
             [export-server.browser.selenium.common :as common]
-            [export-server.data.state :as state])
+            [export-server.data.state :as state]
+            [export-server.browser.image-resizer :as image-resizer])
   (:import (org.openqa.selenium Dimension OutputType By)))
 
 
@@ -45,6 +46,11 @@
               (catch Exception e (str "Failed to take SVG Structure\n" (.getMessage e))))
 
             screenshot (.getScreenshotAs d OutputType/BYTES)
+            ;; we need to resize (on white background) cause FIREFOX crop height and it has white background
+            _ (prn (:image-width options) (:image-height options))
+            screenshot (if (= :firefox (:engine @state/options))
+                         (image-resizer/resize-image screenshot options)
+                         screenshot)
 
             error (some #(when (not (nil? %)) %) [startup])]
 

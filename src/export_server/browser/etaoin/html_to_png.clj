@@ -3,7 +3,8 @@
             [etaoin.keys :as k]
             [export-server.data.state :as state]
             [taoensso.timbre :as timbre]
-            [export-server.browser.etaoin.common :as common]))
+            [export-server.browser.etaoin.common :as common]
+            [export-server.browser.image-resizer :as image-resizer]))
 
 
 ;=======================================================================================================================
@@ -45,6 +46,10 @@
               (catch Exception e (str "Failed to take SVG Structure\n" (.getMessage e))))
 
             screenshot (screenshot d nil)
+            ;; we need to resize (on white background) cause FIREFOX crop height and it has white background
+            screenshot (if (= :firefox (:engine @state/options))
+                         (image-resizer/resize-image screenshot options)
+                         screenshot)
 
             error (some #(when (not (nil? %)) %) [startup])]
 
