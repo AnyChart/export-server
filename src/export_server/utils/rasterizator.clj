@@ -59,8 +59,6 @@
                    x         :pdf-x
                    y         :pdf-y}]
   (try
-    (with-open [out (output-stream (clojure.java.io/file "/media/ssd/sibental/export-server-data/1.png"))]
-      (.write out img))
     (with-open [out (new ByteArrayOutputStream)]
       (pdf [{:size          (or size [(* 0.75 width) (* 0.75 height)])
              :orientation   (if landscape :landscape nil)
