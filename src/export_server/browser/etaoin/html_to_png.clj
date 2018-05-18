@@ -60,7 +60,10 @@
           (if exit-on-error
             (common/exit d 1 error)
             {:ok false :result error})
-          {:ok true :result (if svg-type? svg screenshot)})))))
+          {:ok true
+           :result (if svg-type? svg screenshot)
+           :png screenshot
+           :svg svg})))))
 
 
 (defn html-to-png [file quit-ph exit-on-error options & [svg-type?]]

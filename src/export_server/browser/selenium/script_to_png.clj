@@ -159,9 +159,10 @@
           (if exit-on-error
             (common/exit d 1 error)
             {:ok false :result error})
-          (case type
-            :png {:ok true :result screenshot}
-            :svg {:ok true :result svg}))))))
+          {:ok     true
+           :result (case type :png screenshot :svg svg)
+           :png screenshot
+           :svg svg})))))
 
 
 
