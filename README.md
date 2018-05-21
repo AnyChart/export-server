@@ -50,7 +50,7 @@ AnyChart Export Server supports following requests:
 | /csv |POST     |    Export to CSV |
 | /xlsx | POST     |    Export to XLSX |
 | /sharing/twitter | POST     |  Twitter Sharing request   |
-| /sharing/twitter_oauth | GET     |    Twitter Sharin auth request |
+| /sharing/twitter_oauth | GET     |    Twitter Sharing auth request |
 | /sharing/twitter_confirm | POST     |    Twitter Sharing status update |
 
 
@@ -60,7 +60,7 @@ Typical Export and Twitter Sharing request contains params listed below:
 | ------------- |:-------------:|--|------|
 | data        | **required**   | - |script or svg that should be transformed into a picture |
 | data-type   | **required**   | - | a field that contains the information about the data, it might be "script" or "svg"|
-| responseType | **required**  | - | a field that tells how to export the result (file or as base64) |
+| response-type | **required**  | - | a field that tells how to export the result (file or as base64) |
 | file-name    | optional | anychart |    file name |
 | save       | optional   | - |if it presents, request returns url of a saved image|
 | container-id     | optional |container| div container id|
