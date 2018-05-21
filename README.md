@@ -37,6 +37,7 @@ Don't forget to use `file:///` prefix for rendering a local html file.
 
 ## Requests
 AnyChart Export Server supports following requests:
+
 | Request       | Type          | Description  |
 | ------------- |:-------------:|------|
 | /status       | GET or POST   | Server status |
@@ -52,17 +53,19 @@ AnyChart Export Server supports following requests:
 | /sharing/twitter_oauth | GET     |    Twitter Sharin auth request |
 | /sharing/twitter_confirm | POST     |    Twitter Sharing status update |
 
+
 Request params:
-| Parameter       | Type         | Default| Description  |
+
+| Parameter      | Type         | Default| Description  |
 | ------------- |:-------------:|--|------|
 | data        | required   | - |script or svg that should be transformed into a picture |
-| data-type   | required   | - |  a field that contains the information about the data, it might be "script" or "svg"|
+| data-type   | required   | - | a field that contains the information about the data, it might be "script" or "svg"|
 | responseType | required  | - | a field that tells how to export the result (file or as base64) |
-| file-name    | optional      | anychart |    file name |
-| save       | optional      | - |if it presents, request returns url of a saved image|
-| container-id     | optional      |container| div container id|
-| container-width  | optional      |100%| div container width|
-| container-height | optional      |100%| div container height|
+| file-name    | optional | anychart |    file name |
+| save       | optional   | - |if it presents, request returns url of a saved image|
+| container-id     | optional |container| div container id|
+| container-width  | optional |100%| div container width|
+| container-height | optional |100%| div container height|
 | width | optional      | 1024|   image width|
 | height | optional      | 800|   image height|
 | quality | optional      |  1|   picture quality|
