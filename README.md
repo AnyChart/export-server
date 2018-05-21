@@ -1,10 +1,10 @@
 [<img src="https://cdn.anychart.com/images/logo-transparent-segoe.png?2" width="234px" alt="AnyChart - Robust JavaScript/HTML5 Chart library for any project">](https://anychart.com)
 # AnyChart Export Server
 
-## Usage 
-
+AnyChart Export Server is a tool that is used to provide chart export to PNG, JPG, PDF, SVG, CSV, Excel, JSON and XML.
 You can read full description [here](//docs.anychart.com/Common_Settings/Server-side_Rendering).
 
+## Setup 
 Export server can use PhantomJS, Firefox headless or Chrome/Chromium headless.
 ```
 # use -e or --engine flag to specify browser engine
@@ -35,8 +35,49 @@ Don't forget to use `file:///` prefix for rendering a local html file.
     * or download it from the [official site](https://sites.google.com/a/chromium.org/chromedriver/downloads)  and add it to PATH
 
 
-### Config file format
-Export server config file uses [TOML](https://github.com/toml-lang/toml) format:
+## Requests
+AnyChart Export Server supports following requests:
+| Request       | Type          | Description  |
+| ------------- |:-------------:|------|
+| /status       | GET or POST   | Server status |
+| /png          | POST      |   Export to PNG |
+| /jpg          | POST       |   Export to JPG |
+| /svg          | POST      |    Export to SVG |
+| /pdf | POST      |    Export to PDF|
+| /xml | POST     |    Export to XML |
+| /json |POST     |    Export to JSON |
+| /csv |POST     |    Export to CSV |
+| /xlsx | POST     |    Export to XLSX |
+| /sharing/twitter | POST     |  Twitter Sharing request   |
+| /sharing/twitter_oauth | GET     |    Twitter Sharin auth request |
+| /sharing/twitter_confirm | POST     |    Twitter Sharing status update |
+
+Request params:
+| Parameter       | Type         | Default| Description  |
+| ------------- |:-------------:|--|------|
+| data        | required   | - |script or svg that should be transformed into a picture |
+| data-type   | required   | - |  a field that contains the information about the data, it might be "script" or "svg"|
+| responseType | required  | - | a field that tells how to export the result (file or as base64) |
+| file-name    | optional      | anychart |    file name |
+| save       | optional      | - |if it presents, request returns url of a saved image|
+| container-id     | optional      |container| div container id|
+| container-width  | optional      |100%| div container width|
+| container-height | optional      |100%| div container height|
+| width | optional      | 1024|   image width|
+| height | optional      | 800|   image height|
+| quality | optional      |  1|   picture quality|
+| force-transparent-white | optional   | false | make the background white or leave it transparent|
+| pdf-size | optional | - | the *.pdf-document sheet size|
+| pdf-x | optional | 0| x of the chart in the *.pdf document|
+| pdf-y | optional | 0| y of the chart in the *.pdf document|
+| pdf-width | optional | 595| pdf width|
+| pdf-height | optional |842| pdf height|
+| landscape | optional | false |the document orientation|
+
+
+
+## Config file format
+AnyChart Export Server provides an ability to pass all parameters within a config file using [TOML](https://github.com/toml-lang/toml) format:
 
 ```
 # can be "server" or "cmd"
