@@ -45,18 +45,22 @@
 (defn- remove-cursor [svg]
   (clojure.string/replace svg #"cursor\s*:\s*[\w-]+\s*;?\s*" ""))
 
-(defn- clear-svg [svg]
+(defn clear-svg [svg]
   (-> svg remove-cursor remove-empty-img remove-opacity replace-rgba))
 
 ;=======================================================================================================================
 ; SVG --> PDF
 ;=======================================================================================================================
-(defn svg-to-pdf [img pdf-size width height landscape x y]
+(defn svg-to-pdf [img
+                  {size      :pdf-size
+                   width     :pdf-width
+                   height    :pdf-height
+                   landscape :pdf-landscape
+                   x         :pdf-x
+                   y         :pdf-y}]
   (try
-    ;(with-open [out (output-stream (clojure.java.io/file "/media/ssd/sibental/export-server-data/1.png"))]
-    ;  (.write out img))
     (with-open [out (new ByteArrayOutputStream)]
-      (pdf [{:size          pdf-size
+      (pdf [{:size          (or size [(* 0.75 width) (* 0.75 height)])
              :orientation   (if landscape :landscape nil)
              :footer        {:page-numbers false}
              :left-margin   0
@@ -65,7 +69,8 @@
              :bottom-margin 0}
             ;[:svg {:translate [x y]} (clear-svg (trim-svg-string svg))]
             [:image {:translate [x y]
-                     :width     width
+                     ;:scale     (when (coll? size) 75)
+                     :width     (* 0.75 width)
                      ;:height    height
                      } img]]
            out)

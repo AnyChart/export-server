@@ -1,4 +1,4 @@
-(ns export-server.utils.config
+(ns export-server.data.config
   (:require [export-server.utils.util :refer [jar-location]]))
 
 (def available-pdf-sizes {:a0           {:width "841mm" :height "1189mm"}
@@ -47,29 +47,41 @@
 (def available-rasterization-response-types #{"file" "base64"})
 
 (def defaults {
+               :engine                  :phantom
+
                ;; server
                :allow-scripts-executing false
-               :port 2000
-               :host "localhost"
-               :log nil
-               :saving-url-prefix ""
-               :saving-folder (str (jar-location) "/save")
+               :port                    2000
+               :host                    "localhost"
+               :log                     nil
+               :saving-url-prefix       ""
+               :saving-folder           (str (jar-location) "/save")
 
                ;; cmd
-               :output-file "anychart"
-               :output-path ""
-               :container-width  "1024px"
-               :container-height "800px"
-               :container-id "container"
-               :type "png"
-               :data-type "svg"
-               :image-width 1024
-               :image-height 800
+               :output-file             "anychart"
+               :output-path             ""
+               :container-width         "100%"
+               :container-height        "100%"
+               :container-id            "container"
+               :type                    "png"
+               :data-type               "svg"
+               :image-width             1024
+               :image-height            800
                :force-transparent-white false
-               :jpg-quality 1
-               :pdf-size :a4
-               :pdf-x 0
-               :pdf-y 0
-               :pdf-width nil
-               :pdf-height nil
-               :pdf-landscape false})
+               :jpg-quality             1
+               :pdf-size                nil                 ;:a4
+               :pdf-x                   0
+               :pdf-y                   0
+               :pdf-width               595                 ;nil
+               :pdf-height              842                 ;nil
+               :pdf-landscape           false})
+
+
+(defn min-size [image-size container-size]
+  (let [container-size-int (if (number? container-size)
+                             container-size
+                             (try (Integer/parseInt container-size)
+                                  (catch Exception _ nil)))]
+    (if (some? container-size-int)
+      (min image-size container-size-int)
+      container-size)))

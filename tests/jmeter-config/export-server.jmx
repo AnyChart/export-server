@@ -1,0 +1,1943 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="2.9" jmeter="3.0 r1743807">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="Test Plan" enabled="true">
+      <stringProp name="TestPlan.comments"></stringProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
+      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+        <collectionProp name="Arguments.arguments"/>
+      </elementProp>
+      <stringProp name="TestPlan.user_define_classpath"></stringProp>
+    </TestPlan>
+    <hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">10</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">0</stringProp>
+        <longProp name="ThreadGroup.start_time">1465965244000</longProp>
+        <longProp name="ThreadGroup.end_time">1465965244000</longProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="HTTP Request" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="data" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">&lt;svg+xmlns=&quot;http://www.w3.org/2000/svg&quot;+border=&quot;0&quot;+data-ac-wrapper-id=&quot;2&quot;+width=&quot;1634&quot;+height=&quot;485&quot;+style=&quot;display:+block;&quot;+class=&quot;anychart-ui-support&quot;&gt;&lt;defs&gt;&lt;clipPath+clip-rule=&quot;nonzero&quot;+id=&quot;#ac_clip_1&quot;&gt;&lt;path+data-ac-wrapper-id=&quot;37&quot;+d=&quot;M+114+41+L+1579+41+1579+834+114+834+114+41+Z&quot;+fill=&quot;none&quot;+stroke=&quot;black&quot;/&gt;&lt;/clipPath&gt;&lt;/defs&gt;&lt;g+data-ac-wrapper-id=&quot;3&quot;&gt;&lt;g+data-ac-wrapper-id=&quot;6&quot;&gt;&lt;path+data-ac-wrapper-id=&quot;7&quot;+d=&quot;M+0.5+0.5+L+1598.5+0.5+1598.5+885.5+0.5+885.5+0.5+0.5+Z&quot;+fill=&quot;#ffffff&quot;+stroke=&quot;none&quot;/&gt;&lt;g+data-ac-wrapper-id=&quot;32&quot;+clip-path=&quot;url(##ac_clip_1)&quot;+clipPathUnits=&quot;userSpaceOnUse&quot;&gt;&lt;path+data-ac-wrapper-id=&quot;33&quot;+d=&quot;M+114.5+85.5+L+1334.5+85.5+1334.5+195.5+114.5+195.5+Z&quot;+fill=&quot;#64b5f6&quot;+fill-opacity=&quot;0.85&quot;+stroke=&quot;#64b5f6&quot;+stroke-width=&quot;1.5&quot;/&gt;&lt;path+data-ac-wrapper-id=&quot;34&quot;+d=&quot;M+114.5+283.5+L+601.5+283.5+601.5+393.5+114.5+393.5+Z&quot;+fill=&quot;#64b5f6&quot;+fill-opacity=&quot;0.85&quot;+stroke=&quot;#64b5f6&quot;+stroke-width=&quot;1.5&quot;/&gt;&lt;path+data-ac-wrapper-id=&quot;35&quot;+d=&quot;M+114.5+482.5+L+601.5+482.5+601.5+592.5+114.5+592.5+Z&quot;+fill=&quot;#64b5f6&quot;+fill-opacity=&quot;0.85&quot;+stroke=&quot;#64b5f6&quot;+stroke-width=&quot;1.5&quot;/&gt;&lt;path+data-ac-wrapper-id=&quot;36&quot;+d=&quot;M+114.5+680.5+L+357.5+680.5+357.5+790.5+114.5+790.5+Z&quot;+fill=&quot;#64b5f6&quot;+fill-opacity=&quot;0.85&quot;+stroke=&quot;#64b5f6&quot;+stroke-width=&quot;1.5&quot;/&gt;&lt;/g&gt;&lt;path+data-ac-wrapper-id=&quot;10&quot;+d=&quot;M+113.5+41.5+L+113.5+834.5&quot;+fill=&quot;none&quot;+stroke=&quot;#CECECE&quot;/&gt;&lt;path+data-ac-wrapper-id=&quot;11&quot;+d=&quot;M+113+41.5+L+107+41.5+M+113+239.5+L+107+239.5+M+113+437.5+L+107+437.5+M+113+636.5+L+107+636.5+M+113+834.5+L+107+834.5&quot;+fill=&quot;none&quot;+stroke=&quot;#CECECE&quot;/&gt;&lt;g+data-ac-wrapper-id=&quot;12&quot;&gt;&lt;g+data-ac-wrapper-id=&quot;13&quot;&gt;&lt;text+data-ac-wrapper-id=&quot;14&quot;+font-style=&quot;normal&quot;+style=&quot;font-variant:+normal;+opacity:+1;&quot;+font-family=&quot;Verdana,+Helvetica,+Arial,+sans-serif&quot;+font-size=&quot;12&quot;+font-weight=&quot;normal&quot;+fill=&quot;#7c868e&quot;+letter-spacing=&quot;normal&quot;+text-decoration=&quot;none&quot;+direction=&quot;ltr&quot;+text-anchor=&quot;start&quot;+x=&quot;14&quot;+y=&quot;143.5&quot;&gt;&lt;tspan+dy=&quot;0&quot;&gt;Chocolate+paste&lt;/tspan&gt;&lt;/text&gt;&lt;/g&gt;&lt;g+data-ac-wrapper-id=&quot;15&quot;&gt;&lt;text+data-ac-wrapper-id=&quot;16&quot;+font-style=&quot;normal&quot;+style=&quot;font-variant:+normal;+opacity:+1;&quot;+font-family=&quot;Verdana,+Helvetica,+Arial,+sans-serif&quot;+font-size=&quot;12&quot;+font-weight=&quot;normal&quot;+fill=&quot;#7c868e&quot;+letter-spacing=&quot;normal&quot;+text-decoration=&quot;none&quot;+direction=&quot;ltr&quot;+text-anchor=&quot;start&quot;+x=&quot;35&quot;+y=&quot;342.5&quot;&gt;&lt;tspan+dy=&quot;0&quot;&gt;White+honey&lt;/tspan&gt;&lt;/text&gt;&lt;/g&gt;&lt;g+data-ac-wrapper-id=&quot;17&quot;&gt;&lt;text+data-ac-wrapper-id=&quot;18&quot;+font-style=&quot;normal&quot;+style=&quot;font-variant:+normal;+opacity:+1;&quot;+font-family=&quot;Verdana,+Helvetica,+Arial,+sans-serif&quot;+font-size=&quot;12&quot;+font-weight=&quot;normal&quot;+fill=&quot;#7c868e&quot;+letter-spacing=&quot;normal&quot;+text-decoration=&quot;none&quot;+direction=&quot;ltr&quot;+text-anchor=&quot;start&quot;+x=&quot;21&quot;+y=&quot;540.5&quot;&gt;&lt;tspan+dy=&quot;0&quot;&gt;Strawberry+jam&lt;/tspan&gt;&lt;/text&gt;&lt;/g&gt;&lt;g+data-ac-wrapper-id=&quot;19&quot;&gt;&lt;text+data-ac-wrapper-id=&quot;20&quot;+font-style=&quot;normal&quot;+style=&quot;font-variant:+normal;+opacity:+1;&quot;+font-family=&quot;Verdana,+Helvetica,+Arial,+sans-serif&quot;+font-size=&quot;12&quot;+font-weight=&quot;normal&quot;+fill=&quot;#7c868e&quot;+letter-spacing=&quot;normal&quot;+text-decoration=&quot;none&quot;+direction=&quot;ltr&quot;+text-anchor=&quot;start&quot;+x=&quot;14&quot;+y=&quot;739.5&quot;&gt;&lt;tspan+dy=&quot;0&quot;&gt;Condensed+milk&lt;/tspan&gt;&lt;/text&gt;&lt;/g&gt;&lt;/g&gt;&lt;path+data-ac-wrapper-id=&quot;21&quot;+d=&quot;M+113.5+834.5+L+1578.5+834.5&quot;+fill=&quot;none&quot;+stroke=&quot;#CECECE&quot;/&gt;&lt;path+data-ac-wrapper-id=&quot;22&quot;+d=&quot;M+113.5+835+L+113.5+841+M+602.5+835+L+602.5+841+M+1090.5+835+L+1090.5+841+M+1578.5+835+L+1578.5+841&quot;+fill=&quot;none&quot;+stroke=&quot;#CECECE&quot;/&gt;&lt;g+data-ac-wrapper-id=&quot;23&quot;&gt;&lt;g+data-ac-wrapper-id=&quot;24&quot;&gt;&lt;text+data-ac-wrapper-id=&quot;25&quot;+font-style=&quot;normal&quot;+style=&quot;font-variant:+normal;+opacity:+1;&quot;+font-family=&quot;Verdana,+Helvetica,+Arial,+sans-serif&quot;+font-size=&quot;12&quot;+font-weight=&quot;normal&quot;+fill=&quot;#7c868e&quot;+letter-spacing=&quot;normal&quot;+text-decoration=&quot;none&quot;+direction=&quot;ltr&quot;+text-anchor=&quot;start&quot;+x=&quot;109&quot;+y=&quot;857&quot;&gt;&lt;tspan+dy=&quot;0&quot;&gt;0&lt;/tspan&gt;&lt;/text&gt;&lt;/g&gt;&lt;g+data-ac-wrapper-id=&quot;26&quot;&gt;&lt;text+data-ac-wrapper-id=&quot;27&quot;+font-style=&quot;normal&quot;+style=&quot;font-variant:+normal;+opacity:+1;&quot;+font-family=&quot;Verdana,+Helvetica,+Arial,+sans-serif&quot;+font-size=&quot;12&quot;+font-weight=&quot;normal&quot;+fill=&quot;#7c868e&quot;+letter-spacing=&quot;normal&quot;+text-decoration=&quot;none&quot;+direction=&quot;ltr&quot;+text-anchor=&quot;start&quot;+x=&quot;598&quot;+y=&quot;857&quot;&gt;&lt;tspan+dy=&quot;0&quot;&gt;2&lt;/tspan&gt;&lt;/text&gt;&lt;/g&gt;&lt;g+data-ac-wrapper-id=&quot;28&quot;&gt;&lt;text+data-ac-wrapper-id=&quot;29&quot;+font-style=&quot;normal&quot;+style=&quot;font-variant:+normal;+opacity:+1;&quot;+font-family=&quot;Verdana,+Helvetica,+Arial,+sans-serif&quot;+font-size=&quot;12&quot;+font-weight=&quot;normal&quot;+fill=&quot;#7c868e&quot;+letter-spacing=&quot;normal&quot;+text-decoration=&quot;none&quot;+direction=&quot;ltr&quot;+text-anchor=&quot;start&quot;+x=&quot;1086&quot;+y=&quot;857&quot;&gt;&lt;tspan+dy=&quot;0&quot;&gt;4&lt;/tspan&gt;&lt;/text&gt;&lt;/g&gt;&lt;g+data-ac-wrapper-id=&quot;30&quot;&gt;&lt;text+data-ac-wrapper-id=&quot;31&quot;+font-style=&quot;normal&quot;+style=&quot;font-variant:+normal;+opacity:+1;&quot;+font-family=&quot;Verdana,+Helvetica,+Arial,+sans-serif&quot;+font-size=&quot;12&quot;+font-weight=&quot;normal&quot;+fill=&quot;#7c868e&quot;+letter-spacing=&quot;normal&quot;+text-decoration=&quot;none&quot;+direction=&quot;ltr&quot;+text-anchor=&quot;start&quot;+x=&quot;1575&quot;+y=&quot;857&quot;&gt;&lt;tspan+dy=&quot;0&quot;&gt;6&lt;/tspan&gt;&lt;/text&gt;&lt;/g&gt;&lt;/g&gt;&lt;g+data-ac-wrapper-id=&quot;8&quot;+transform=&quot;matrix(1,0,0,1,562,10)&quot;&gt;&lt;text+data-ac-wrapper-id=&quot;9&quot;+font-style=&quot;normal&quot;+style=&quot;font-variant:+normal;+opacity:+1;&quot;+font-family=&quot;Verdana,+Helvetica,+Arial,+sans-serif&quot;+font-size=&quot;16&quot;+font-weight=&quot;normal&quot;+fill=&quot;#7c868e&quot;+letter-spacing=&quot;normal&quot;+text-decoration=&quot;none&quot;+direction=&quot;ltr&quot;+text-anchor=&quot;middle&quot;+x=&quot;232.5&quot;+y=&quot;16&quot;&gt;&lt;tspan+dy=&quot;0&quot;&gt;The+kind+of+pancakes+preferred+at+the+Sochi+2014+Olympic+Games&lt;/tspan&gt;&lt;/text&gt;&lt;/g&gt;&lt;/g&gt;&lt;/g&gt;&lt;/svg&gt;</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">data</stringProp>
+              </elementProp>
+              <elementProp name="dataType" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">svg</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">dataType</stringProp>
+              </elementProp>
+              <elementProp name="responseType" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">file</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">responseType</stringProp>
+              </elementProp>
+              <elementProp name="file-name" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">anychart</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">file-name</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">2000</stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding">utf8</stringProp>
+          <stringProp name="HTTPSampler.path">/png</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.implementation">HttpClient4</stringProp>
+          <boolProp name="HTTPSampler.monitor">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+        <ResultCollector guiclass="StatGraphVisualizer" testclass="ResultCollector" testname="Aggregate Graph" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+        <ResultCollector guiclass="GraphVisualizer" testclass="ResultCollector" testname="Graph Results" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">0</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <longProp name="ThreadGroup.start_time">1465967646000</longProp>
+        <longProp name="ThreadGroup.end_time">1465967646000</longProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="HTTP Request" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="data" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">anychart.onDocumentReady(function() {     chart = anychart.pie([         [&apos;Department Stores&apos;, 6371664],         [&apos;Discount Stores&apos;, 7216301],         [&apos;Men\&apos;s/Women\&apos;s Stores&apos;, 1486621],         [&apos;Juvenile Specialty Stores&apos;, 786622],         [&apos;All other outlets&apos;, 900000]     ]);     chart.container(&apos;container&apos;);      chart.title(&apos;ACME Corp. apparel sales through different retail channels&apos;);      chart.legend(true);     chart.legend().title(&apos;Retail channels&apos;);     chart.legend().title().padding([0,0,10,0]);      chart.legend().position(&apos;bottom&apos;);     chart.legend().itemsLayout(&apos;horizontal&apos;);     chart.legend().align(&apos;center&apos;);      chart.draw(); });</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">data</stringProp>
+              </elementProp>
+              <elementProp name="dataType" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">script</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">dataType</stringProp>
+              </elementProp>
+              <elementProp name="responseType" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">file</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">responseType</stringProp>
+              </elementProp>
+              <elementProp name="file-name" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">anychart</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">file-name</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">2000</stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding">utf8</stringProp>
+          <stringProp name="HTTPSampler.path">/pdf</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.implementation">HttpClient4</stringProp>
+          <boolProp name="HTTPSampler.monitor">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+        <ResultCollector guiclass="GraphVisualizer" testclass="ResultCollector" testname="Graph Results" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">0</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <longProp name="ThreadGroup.start_time">1465967646000</longProp>
+        <longProp name="ThreadGroup.end_time">1465967646000</longProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="HTTP Request" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="data" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.value">anychart.onDocumentReady(function () { var dataSet = anychart.data.set([         {name: &apos;Capacità di pianificazione ed organizzazione&apos;, applicant1: 5},         {name: &apos;Flessibilità/Adattabilità al cambiamento&apos;, applicant1: 5},         {name: &apos;Orientamento verso I risultati&apos;, applicant1: 7},         {name: &apos;Partecipazione impegno e senso del dovere&apos;, applicant1: 7},         {name: &apos;Efficacia comunicativa (adeguatezza e precisione)&apos;, applicant1: 10, company_high: 6, company_low: 8},         {name: &apos;Sviluppo delle opportunità di business&apos;, applicant1: 8},         {name: &apos;Single line&apos;, applicant1: 6, company_high: 4, company_low: 8},         {name: &apos;Apprendimento e innovazione&apos;, applicant1: 7},         {name: &apos;Single line&apos;, applicant1: 7},         {name: &apos;Multi-line string&apos;, applicant1: 6},         {name: &apos;Single line&apos;, applicant1: 5},         {name: &apos;Multi-line string&apos;, applicant1: 5, company_high: 7.5, company_low: 10},         {name: &apos;Single line&apos;, applicant1: 7, company_high: 7, company_low: 8},         {name: &apos;Multi-line string&apos;, applicant1: 6},         {name: &apos;Single line&apos;, applicant1: 5},         {name: &apos;Multi-line string&apos;, applicant1: 5},         {name: &apos;Single line&apos;, applicant1: 5},         {name: &apos;Multi-line string&apos;, applicant1: 5},         {name: &apos;Single line&apos;, applicant1: 6},         {name: &apos;Multi-line string&apos;, applicant1: 7}     ]);      chart = anychart.polar();      chart.startAngle(-27);     chart.innerRadius(&apos;10%&apos;);     chart.background(&apos;#FEFEFE&apos;);      chart.yScale().minimum(2).maximum(10);     chart.xScale(&apos;ordinal&apos;);     chart.xScale().names(&apos;name&apos;);     chart.sortPointsByX(true);      chart.interactivity().hoverMode(&apos;single&apos;);     chart.tooltip().displayMode(&apos;union&apos;);     chart.tooltip().titleFormat(&quot;{%name}&quot;);      chart.yAxis(false);     chart.xGrid().palette([&apos;#fefefe&apos;, &apos;#fefefe&apos;]);     chart.xAxis().labels()           			 .padding(7)                  .fontSize(10)                  .hAlign(&apos;center&apos;)                  .wordWrap(&apos;normal&apos;)                  .textOverflow(&apos;^_^&apos;);     chart.xAxis().fill(&apos;rgb(237,236,239)&apos;)                  .stroke(&apos;none&apos;);     chart.xAxis().ticks()                  .length(&apos;100%&apos;)                  .stroke(&apos;#FEFEFE&apos;);      var legend = chart.legend();     legend.enabled(true);     legend.positionMode(&apos;outside&apos;);     legend.itemsLayout(&apos;vertical&apos;);     legend.position(&apos;bottom&apos;);     legend.align(&apos;left&apos;);     legend.margin().top(-30);     legend.itemsSpacing(5);       var polygonSeries = chart.polygon(dataSet.mapAs(undefined, {x: &apos;x&apos;, value: &apos;applicant1&apos;}));     polygonSeries.name(&apos;Applicant1&apos;);     polygonSeries.color(&apos;#CD4A2D&apos;);     polygonSeries.fill(&apos;rgba(180, 180, 180, 0.3)&apos;);     polygonSeries.zIndex(31);     polygonSeries.labels().enabled(true).fontColor(&apos;#CD4A2D&apos;).fontWeight(&apos;bold&apos;).fontSize(11);     polygonSeries.legendItem().iconFill(&apos;#CD4A2D&apos;).iconType(&apos;line&apos;).iconStroke(&apos;6 #CD4A2D&apos;);       var companySeries = chart.rangeColumn(dataSet.mapAs(undefined, { x: &apos;x&apos;, high: &apos;company_high&apos;, low: &apos;company_low&apos; }));     companySeries.pointWidth(&apos;85%&apos;);     companySeries.name(&apos;Company&apos;);     companySeries.color(&apos;#E2DFE0&apos;);      chart.container(&apos;container&apos;);      chart.listen(&apos;chartDraw&apos;, function () {     var stage = chart.container().getStage();       stage.suspend();       var count = chart.xAxis().labels().getLabelsCount();       for (var i = 0; i &lt; count; i++) {         var color = i % 2 ? &apos;#CD4A2D&apos; : &apos;#4C4C4C&apos;;         var label = chart.xAxis().labels().getLabel(i);         if (label) {           label.fontColor(color);           label.draw();         }       }       stage.resume();     });       chart.draw();       });     </stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">data</stringProp>
+              </elementProp>
+              <elementProp name="dataType" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">script</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">dataType</stringProp>
+              </elementProp>
+              <elementProp name="responseType" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">file</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">responseType</stringProp>
+              </elementProp>
+              <elementProp name="file-name" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">anychart</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">file-name</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">2000</stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding">utf8</stringProp>
+          <stringProp name="HTTPSampler.path">/png</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.implementation">HttpClient4</stringProp>
+          <boolProp name="HTTPSampler.monitor">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+        <ResultCollector guiclass="GraphVisualizer" testclass="ResultCollector" testname="Graph Results" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">0</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <longProp name="ThreadGroup.start_time">1465967646000</longProp>
+        <longProp name="ThreadGroup.end_time">1465967646000</longProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="HTTP Request" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="data" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.value">anychart.exports.server(&quot;http://export.anychart.pub&quot;); anychart.onDocumentReady(function () {     anychart.licenseKey(&quot;niit-tech.com-e4b354f7-8280b26e&quot;);     mainPriColor = &apos;#da291c&apos;;     secondPriColor = &apos;rgba(180, 180, 180, 0.3)&apos;;     secondSecColor = &apos;#E2DFE0&apos;;     applicant = &apos;Applicant&apos;;     fontFamily = &apos;Arial&apos;;     fontSize = 10;     company = &apos;NA&apos;;     var spiderData = [{         &quot;topicName&quot;: &quot;Planning and Organization Planning and Organization Planning and Organization Planning and Organization Planning and Organization Planning and Organization Planning and Organization&quot;,         &quot;applicantScore&quot;: &quot;4&quot;,         &quot;companyHigh&quot;: &quot;2&quot;,         &quot;companyLow&quot;: &quot;2&quot;     },         {&quot;topicName&quot;: &quot;Action and performance at work&quot;, &quot;applicantScore&quot;: &quot;5&quot;, &quot;companyHigh&quot;: &quot;2&quot;, &quot;companyLow&quot;: &quot;2&quot;},         {&quot;topicName&quot;: &quot;Responsibility&quot;, &quot;applicantScore&quot;: &quot;2&quot;, &quot;companyHigh&quot;: &quot;2&quot;, &quot;companyLow&quot;: &quot;2&quot;},         {&quot;topicName&quot;: &quot;Problem solving&quot;, &quot;applicantScore&quot;: &quot;3&quot;, &quot;companyHigh&quot;: &quot;2&quot;, &quot;companyLow&quot;: &quot;2&quot;},         {&quot;topicName&quot;: &quot;Team Work&quot;, &quot;applicantScore&quot;: &quot;3&quot;, &quot;companyHigh&quot;: &quot;4&quot;, &quot;companyLow&quot;: &quot;6&quot;},         {&quot;topicName&quot;: &quot;Dynamism&quot;, &quot;applicantScore&quot;: &quot;1&quot;, &quot;companyHigh&quot;: &quot;2&quot;, &quot;companyLow&quot;: &quot;2&quot;},         {&quot;topicName&quot;: &quot;Communication&quot;, &quot;applicantScore&quot;: &quot;1&quot;, &quot;companyHigh&quot;: &quot;2&quot;, &quot;companyLow&quot;: &quot;2&quot;},         {&quot;topicName&quot;: &quot;People Management&quot;, &quot;applicantScore&quot;: &quot;1&quot;, &quot;companyHigh&quot;: &quot;2&quot;, &quot;companyLow&quot;: &quot;2&quot;},         {&quot;topicName&quot;: &quot;Customer-oriented&quot;, &quot;applicantScore&quot;: &quot;1&quot;, &quot;companyHigh&quot;: &quot;2&quot;, &quot;companyLow&quot;: &quot;2&quot;},         {&quot;topicName&quot;: &quot;Resilience&quot;, &quot;applicantScore&quot;: &quot;3&quot;, &quot;companyHigh&quot;: &quot;2&quot;, &quot;companyLow&quot;: &quot;2&quot;},         {&quot;topicName&quot;: &quot;Learning and innovation&quot;, &quot;applicantScore&quot;: &quot;2&quot;, &quot;companyHigh&quot;: &quot;2&quot;, &quot;companyLow&quot;: &quot;2&quot;}];     var dataSet = anychart.data.set(spiderData);     var chart = anychart.polar();     chart.startAngle(-27);     chart.innerRadius(&apos;10%&apos;);     chart.background(&apos;#FEFEFE&apos;);      chart.yScale().minimum(0).maximum(10);     chart.yScale().ticks().interval(2);     chart.xScale(&apos;ordinal&apos;);     chart.xScale().names(&apos;topicName&apos;);     chart.sortPointsByX(true);      chart.interactivity().hoverMode(&apos;single&apos;);     chart.tooltip().displayMode(&apos;union&apos;);     chart.tooltip().titleFormat(&quot;{%name}&quot;);      chart.yAxis(false);     chart.grid().oddFill(&apos;#fefefe&apos;).evenFill(&apos;#fefefe&apos;);     chart.xAxis().overlapMode(&apos;autoWidth&apos;);     chart.xAxis().labels().padding({top: 20, bottom: 20, left: 20, right: 20}).fontFamily(fontFamily)         .fontSize(fontSize)         .autoRotate(true)         .hAlign(&apos;center&apos;)         .textWrap(&apos;byWord&apos;);     chart.xAxis().fill(secondPriColor).stroke(&apos;none&apos;);     chart.xAxis().ticks().length(&apos;100%&apos;).stroke(&apos;#FEFEFE&apos;);      var legend = chart.legend();     legend.enabled(true);     legend.positionMode(&apos;outside&apos;);     legend.itemsLayout(&apos;vertical&apos;);     legend.position(&apos;bottom&apos;);     legend.align(&apos;left&apos;);     legend.fontFamily(fontFamily);     legend.fontSize(fontSize);     legend.margin().top(-30);     legend.itemsSpacing(5);      var polygonSeries = chart.polygon(dataSet.mapAs(undefined, {x: &apos;x&apos;, value: &apos;applicantScore&apos;}));     polygonSeries.name(applicant);     polygonSeries.color(mainPriColor);     polygonSeries.fill(secondPriColor);     polygonSeries.zIndex(31);     polygonSeries.labels().enabled(true).fontFamily(fontFamily).fontColor(mainPriColor).fontWeight(&apos;bold&apos;).fontSize(fontSize * 1.5);     polygonSeries.legendItem().iconFill(mainPriColor).iconType(&apos;line&apos;).iconStroke(&apos;6 &apos; + mainPriColor);      var companySeries = chart.rangeColumn(dataSet.mapAs(undefined, {x: &apos;x&apos;, high: &apos;companyHigh&apos;, low: &apos;companyLow&apos;}));     companySeries.pointWidth(&apos;85%&apos;);     companySeries.name(company);     companySeries.color(secondSecColor);      if (company === &apos;NA&apos;) {         companySeries.legendItem(false);     }      chart.container(&apos;container&apos;);      chart.listen(&apos;chartDraw&apos;, function () {         var count = chart.xAxis().labels().getLabelsCount();         var evenColor = mainPriColor;          var oddColor = &apos;#4C4C4C&apos;;          if (count % 2 != 0) {             evenColor = oddColor;         }         for (var i = 0; i &lt; count; i++) {             var color = i % 2 ? evenColor : oddColor;             var label = chart.xAxis().labels().getLabel(i);             if (label) {                 label.fontColor(color);                 label.draw();             }         }     });      chart.draw();  });</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">data</stringProp>
+              </elementProp>
+              <elementProp name="dataType" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">script</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">dataType</stringProp>
+              </elementProp>
+              <elementProp name="responseType" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">file</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">responseType</stringProp>
+              </elementProp>
+              <elementProp name="file-name" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">anychart</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">file-name</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">export.anychart.com</stringProp>
+          <stringProp name="HTTPSampler.port">80</stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding">utf8</stringProp>
+          <stringProp name="HTTPSampler.path">/pdf</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.implementation">HttpClient4</stringProp>
+          <boolProp name="HTTPSampler.monitor">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+        <ResultCollector guiclass="GraphVisualizer" testclass="ResultCollector" testname="Graph Results" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">0</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <longProp name="ThreadGroup.start_time">1465967646000</longProp>
+        <longProp name="ThreadGroup.end_time">1465967646000</longProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="HTTP Request" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="data" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">anychart.onDocumentReady(function() {     chart = anychart.pie([         [&apos;Department Stores&apos;, 6371664],         [&apos;Discount Stores&apos;, 7216301],         [&apos;Men\&apos;s/Women\&apos;s Stores&apos;, 1486621],         [&apos;Juvenile Specialty Stores&apos;, 786622],         [&apos;All other outlets&apos;, 900000]     ]);     chart.container(&apos;container&apos;);      chart.title(&apos;ACME Corp. apparel sales through different retail channels&apos;);      chart.legend(true);     chart.legend().title(&apos;Retail channels&apos;);     chart.legend().title().padding([0,0,10,0]);      chart.legend().position(&apos;bottom&apos;);     chart.legend().itemsLayout(&apos;horizontal&apos;);     chart.legend().align(&apos;center&apos;);      chart.draw(); });</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">data</stringProp>
+              </elementProp>
+              <elementProp name="dataType" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">script</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">dataType</stringProp>
+              </elementProp>
+              <elementProp name="responseType" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">file</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">responseType</stringProp>
+              </elementProp>
+              <elementProp name="file-name" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">anychart</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">file-name</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">2000</stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding">utf8</stringProp>
+          <stringProp name="HTTPSampler.path">/png</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.implementation">HttpClient4</stringProp>
+          <boolProp name="HTTPSampler.monitor">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+        <ResultCollector guiclass="GraphVisualizer" testclass="ResultCollector" testname="Graph Results" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">0</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <longProp name="ThreadGroup.start_time">1465967646000</longProp>
+        <longProp name="ThreadGroup.end_time">1465967646000</longProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="HTTP Request" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="data" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.value">&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; class=&quot;anychart-ui-support&quot; role=&quot;presentation&quot; style=&quot;display: block;&quot; width=&quot;100%&quot; height=&quot;100%&quot; border=&quot;0&quot; data-ac-wrapper-id=&quot;5&quot;&gt; &lt;defs&gt; &lt;clipPath id=&quot;#ac_clip_1&quot; clip-rule=&quot;nonzero&quot;&gt; &lt;path fill=&quot;none&quot; stroke=&quot;black&quot; d=&quot;M 69 70 L 580 70 L 580 455 L 69 455 L 69 70 Z&quot; data-ac-wrapper-id=&quot;76&quot;/&gt; &lt;/clipPath&gt; &lt;clipPath id=&quot;#ac_clip_3&quot; clip-rule=&quot;nonzero&quot;&gt; &lt;path fill=&quot;none&quot; stroke=&quot;black&quot; d=&quot;M 69 70 L 580 70 L 580 455 L 69 455 L 69 70 Z&quot; data-ac-wrapper-id=&quot;80&quot;/&gt; &lt;/clipPath&gt; &lt;clipPath id=&quot;#ac_clip_5&quot; clip-rule=&quot;nonzero&quot;&gt; &lt;path fill=&quot;none&quot; stroke=&quot;black&quot; d=&quot;M 69 70 L 580 70 L 580 455 L 69 455 L 69 70 Z&quot; data-ac-wrapper-id=&quot;84&quot;/&gt; &lt;/clipPath&gt; &lt;clipPath id=&quot;#ac_clip_7&quot; clip-rule=&quot;nonzero&quot;&gt; &lt;path fill=&quot;none&quot; stroke=&quot;black&quot; d=&quot;M 68 70 L 580 70 L 580 456 L 68 456 L 68 70 Z&quot; data-ac-wrapper-id=&quot;89&quot;/&gt; &lt;/clipPath&gt; &lt;/defs&gt; &lt;g data-ac-wrapper-id=&quot;6&quot;&gt; &lt;g role=&quot;article&quot; aria-label=&quot;line chart  entitled Customer satisfaction according to collected comments, with 3 stepLine series, . Y-scale minimum value is 0 , maximum value is 240. X-scale with 12 categories: Jan., Feb., Mar., Apr., May, June, July, Aug., Sep., Oct., Nov., Dec., . &quot; data-ac-wrapper-id=&quot;15&quot;&gt; &lt;g data-ac-wrapper-id=&quot;16&quot;&gt; &lt;path fill=&quot;#ffffff&quot; stroke=&quot;none&quot; d=&quot;M 0 0 L 600 0 L 600 0 L 600 500 L 600 500 L 0 500 L 0 500 L 0 0 L 0 0 Z&quot; data-ac-wrapper-id=&quot;17&quot;/&gt; &lt;/g&gt; &lt;g transform=&quot;matrix(1 0 0 1 162.295 34.45)&quot; data-ac-wrapper-id=&quot;20&quot;&gt; &lt;g data-ac-wrapper-id=&quot;21&quot;&gt; &lt;g data-ac-wrapper-id=&quot;106&quot;&gt; &lt;text aria-hidden=&quot;true&quot; letter-spacing=&quot;normal&quot; font-family=&quot;Verdana,Helvetica,Arial,sans-serif&quot; font-size=&quot;13px&quot; font-style=&quot;normal&quot; font-variant=&quot;normal&quot; font-weight=&quot;normal&quot; text-decoration=&quot;none&quot; style=&quot;cursor: pointer; opacity: 1; -ms-user-select: none;&quot; direction=&quot;ltr&quot; fill=&quot;#7c868e&quot; text-anchor=&quot;start&quot; x=&quot;20&quot; y=&quot;13.07&quot; data-ac-wrapper-id=&quot;107&quot;&gt; &lt;tspan dy=&quot;0&quot;&gt;Grateful&lt;/tspan&gt; &lt;/text&gt; &lt;path style=&quot;cursor: pointer;&quot; fill=&quot;#64b5f6&quot; stroke=&quot;#64b5f6&quot; stroke-width=&quot;1.5&quot; d=&quot;M 0 0 L 15 0 L 15 15 L 0 15 Z&quot; data-ac-wrapper-id=&quot;108&quot;/&gt; &lt;path style=&quot;cursor: pointer;&quot; fill=&quot;#ffffff&quot; fill-opacity=&quot;1e-005&quot; stroke=&quot;none&quot; d=&quot;M 0 0 L 72.67 0 L 72.67 15.8 L 0 15.8 L 0 0 Z&quot; data-ac-wrapper-id=&quot;109&quot;/&gt; &lt;/g&gt; &lt;g transform=&quot;matrix(1 0 0 1 87.67 0)&quot; data-ac-wrapper-id=&quot;110&quot;&gt; &lt;text aria-hidden=&quot;true&quot; letter-spacing=&quot;normal&quot; font-family=&quot;Verdana,Helvetica,Arial,sans-serif&quot; font-size=&quot;13px&quot; font-style=&quot;normal&quot; font-variant=&quot;normal&quot; font-weight=&quot;normal&quot; text-decoration=&quot;none&quot; style=&quot;cursor: pointer; opacity: 1; -ms-user-select: none;&quot; direction=&quot;ltr&quot; fill=&quot;#7c868e&quot; text-anchor=&quot;start&quot; x=&quot;20&quot; y=&quot;13.07&quot; data-ac-wrapper-id=&quot;111&quot;&gt; &lt;tspan dy=&quot;0&quot;&gt;Neutral&lt;/tspan&gt; &lt;/text&gt; &lt;path style=&quot;cursor: pointer;&quot; fill=&quot;#1976d2&quot; stroke=&quot;#1976d2&quot; stroke-width=&quot;1.5&quot; d=&quot;M 0 0 L 15 0 L 15 15 L 0 15 Z&quot; data-ac-wrapper-id=&quot;112&quot;/&gt; &lt;path style=&quot;cursor: pointer;&quot; fill=&quot;#ffffff&quot; fill-opacity=&quot;1e-005&quot; stroke=&quot;none&quot; d=&quot;M 0 0 L 67.74 0 L 67.74 15.8 L 0 15.8 L 0 0 Z&quot; data-ac-wrapper-id=&quot;113&quot;/&gt; &lt;/g&gt; &lt;g transform=&quot;matrix(1 0 0 1 170.41 0)&quot; data-ac-wrapper-id=&quot;114&quot;&gt; &lt;text aria-hidden=&quot;true&quot; letter-spacing=&quot;normal&quot; font-family=&quot;Verdana,Helvetica,Arial,sans-serif&quot; font-size=&quot;13px&quot; font-style=&quot;normal&quot; font-variant=&quot;normal&quot; font-weight=&quot;normal&quot; text-decoration=&quot;none&quot; style=&quot;cursor: pointer; opacity: 1; -ms-user-select: none;&quot; direction=&quot;ltr&quot; fill=&quot;#7c868e&quot; text-anchor=&quot;start&quot; x=&quot;20&quot; y=&quot;13.07&quot; data-ac-wrapper-id=&quot;115&quot;&gt; &lt;tspan dy=&quot;0&quot;&gt;Disgruntled&lt;/tspan&gt; &lt;/text&gt; &lt;path style=&quot;cursor: pointer;&quot; fill=&quot;#ef6c00&quot; stroke=&quot;#ef6c00&quot; stroke-width=&quot;1.5&quot; d=&quot;M 0 0 L 15 0 L 15 15 L 0 15 Z&quot; data-ac-wrapper-id=&quot;116&quot;/&gt; &lt;path style=&quot;cursor: pointer;&quot; fill=&quot;#ffffff&quot; fill-opacity=&quot;1e-005&quot; stroke=&quot;none&quot; d=&quot;M 0 0 L 95 0 L 95 15.8 L 0 15.8 L 0 0 Z&quot; data-ac-wrapper-id=&quot;117&quot;/&gt; &lt;/g&gt; &lt;/g&gt; &lt;/g&gt; &lt;g clip-path=&quot;url(&amp;quot;##ac_clip_1&amp;quot;)&quot; data-ac-wrapper-id=&quot;74&quot; clipPathUnits=&quot;userSpaceOnUse&quot;&gt; &lt;path fill=&quot;none&quot; stroke=&quot;#64b5f6&quot; stroke-width=&quot;1.5&quot; d=&quot;M 89.3333 373.975 L 110.667 373.975 L 110.667 309.642 L 132 309.642 L 153.333 309.642 L 153.333 401.317 L 174.667 401.317 L 196 401.317 L 196 380.408 L 217.333 380.408 L 238.667 380.408 L 238.667 354.675 L 260 354.675 L 281.333 354.675 L 281.333 362.717 L 302.667 362.717 L 324 362.717 L 324 365.933 L 345.333 365.933 L 366.667 365.933 L 366.667 332.158 L 388 332.158 L 409.333 332.158 L 409.333 296.775 L 430.667 296.775 L 452 296.775 L 452 285.517 L 473.333 285.517 L 494.667 285.517 L 494.667 314.467 L 516 314.467 L 537.333 314.467 L 537.333 365.933 L 558.667 365.933&quot; data-ac-wrapper-id=&quot;75&quot;/&gt; &lt;/g&gt; &lt;g clip-path=&quot;url(&amp;quot;##ac_clip_3&amp;quot;)&quot; data-ac-wrapper-id=&quot;78&quot; clipPathUnits=&quot;userSpaceOnUse&quot;&gt; &lt;path fill=&quot;none&quot; stroke=&quot;#1976d2&quot; stroke-width=&quot;1.5&quot; d=&quot;M 89.3333 254.958 L 110.667 254.958 L 110.667 243.7 L 132 243.7 L 153.333 243.7 L 153.333 229.225 L 174.667 229.225 L 196 229.225 L 196 201.883 L 217.333 201.883 L 238.667 201.883 L 238.667 242.092 L 260 242.092 L 281.333 242.092 L 281.333 226.008 L 302.667 226.008 L 324 226.008 L 324 172.933 L 345.333 172.933 L 366.667 172.933 L 366.667 143.983 L 388 143.983 L 409.333 143.983 L 409.333 271.042 L 430.667 271.042 L 452 271.042 L 452 240.483 L 473.333 240.483 L 494.667 240.483 L 494.667 279.083 L 516 279.083 L 537.333 279.083 L 537.333 309.642 L 558.667 309.642&quot; data-ac-wrapper-id=&quot;79&quot;/&gt; &lt;/g&gt; &lt;g clip-path=&quot;url(&amp;quot;##ac_clip_1&amp;quot;)&quot; data-ac-wrapper-id=&quot;77&quot; clipPathUnits=&quot;userSpaceOnUse&quot;/&gt; &lt;g clip-path=&quot;url(&amp;quot;##ac_clip_5&amp;quot;)&quot; data-ac-wrapper-id=&quot;82&quot; clipPathUnits=&quot;userSpaceOnUse&quot;&gt; &lt;path fill=&quot;none&quot; stroke=&quot;#ef6c00&quot; stroke-width=&quot;1.5&quot; d=&quot;M 89.3333 436.7 L 110.667 436.7 L 110.667 441.525 L 132 441.525 L 153.333 441.525 L 153.333 435.092 L 174.667 435.092 L 196 435.092 L 196 422.225 L 217.333 422.225 L 238.667 422.225 L 238.667 425.442 L 260 425.442 L 281.333 425.442 L 281.333 419.008 L 302.667 419.008 L 324 419.008 L 324 449.567 L 345.333 449.567 L 366.667 449.567 L 366.667 401.317 L 388 401.317 L 409.333 401.317 L 409.333 417.4 L 430.667 417.4 L 452 417.4 L 452 439.917 L 473.333 439.917 L 494.667 439.917 L 494.667 446.35 L 516 446.35 L 537.333 446.35 L 537.333 425.442 L 558.667 425.442&quot; data-ac-wrapper-id=&quot;83&quot;/&gt; &lt;/g&gt; &lt;g clip-path=&quot;url(&amp;quot;##ac_clip_3&amp;quot;)&quot; data-ac-wrapper-id=&quot;81&quot; clipPathUnits=&quot;userSpaceOnUse&quot;/&gt; &lt;g clip-path=&quot;url(&amp;quot;##ac_clip_5&amp;quot;)&quot; data-ac-wrapper-id=&quot;85&quot; clipPathUnits=&quot;userSpaceOnUse&quot;/&gt; &lt;path fill=&quot;none&quot; stroke=&quot;#cecece&quot; d=&quot;M 68.5 455.5 L 579.5 455.5&quot; data-ac-wrapper-id=&quot;34&quot;/&gt; &lt;path fill=&quot;none&quot; stroke=&quot;#cecece&quot; d=&quot;M 68.5 456 L 68.5 462 M 111.5 456 L 111.5 462 M 153.5 456 L 153.5 462 M 196.5 456 L 196.5 462 M 239.5 456 L 239.5 462 M 281.5 456 L 281.5 462 M 324.5 456 L 324.5 462 M 367.5 456 L 367.5 462 M 409.5 456 L 409.5 462 M 452.5 456 L 452.5 462 M 495.5 456 L 495.5 462 M 537.5 456 L 537.5 462 M 579.5 456 L 579.5 462&quot; data-ac-wrapper-id=&quot;35&quot;/&gt; &lt;g data-ac-wrapper-id=&quot;36&quot;&gt; &lt;g data-ac-wrapper-id=&quot;37&quot;&gt; &lt;text aria-hidden=&quot;true&quot; letter-spacing=&quot;normal&quot; font-family=&quot;Verdana,Helvetica,Arial,sans-serif&quot; font-size=&quot;12px&quot; font-style=&quot;normal&quot; font-variant=&quot;normal&quot; font-weight=&quot;normal&quot; text-decoration=&quot;none&quot; style=&quot;opacity: 1; -ms-user-select: none;&quot; direction=&quot;ltr&quot; fill=&quot;#7c868e&quot; text-anchor=&quot;start&quot; x=&quot;76.185&quot; y=&quot;478.06&quot; data-ac-wrapper-id=&quot;38&quot;&gt; &lt;tspan dy=&quot;0&quot;&gt;Jan.&lt;/tspan&gt; &lt;/text&gt; &lt;/g&gt; &lt;g data-ac-wrapper-id=&quot;39&quot;&gt; &lt;text aria-hidden=&quot;true&quot; letter-spacing=&quot;normal&quot; font-family=&quot;Verdana,Helvetica,Arial,sans-serif&quot; font-size=&quot;12px&quot; font-style=&quot;normal&quot; font-variant=&quot;normal&quot; font-weight=&quot;normal&quot; text-decoration=&quot;none&quot; style=&quot;opacity: 1; -ms-user-select: none;&quot; direction=&quot;ltr&quot; fill=&quot;#7c868e&quot; text-anchor=&quot;start&quot; x=&quot;118.55&quot; y=&quot;478.06&quot; data-ac-wrapper-id=&quot;40&quot;&gt; &lt;tspan dy=&quot;0&quot;&gt;Feb.&lt;/tspan&gt; &lt;/text&gt; &lt;/g&gt; &lt;g data-ac-wrapper-id=&quot;41&quot;&gt; &lt;text aria-hidden=&quot;true&quot; letter-spacing=&quot;normal&quot; font-family=&quot;Verdana,Helvetica,Arial,sans-serif&quot; font-size=&quot;12px&quot; font-style=&quot;normal&quot; font-variant=&quot;normal&quot; font-weight=&quot;normal&quot; text-decoration=&quot;none&quot; style=&quot;opacity: 1; -ms-user-select: none;&quot; direction=&quot;ltr&quot; fill=&quot;#7c868e&quot; text-anchor=&quot;start&quot; x=&quot;161.095&quot; y=&quot;478.06&quot; data-ac-wrapper-id=&quot;42&quot;&gt; &lt;tspan dy=&quot;0&quot;&gt;Mar.&lt;/tspan&gt; &lt;/text&gt; &lt;/g&gt; &lt;g data-ac-wrapper-id=&quot;43&quot;&gt; &lt;text aria-hidden=&quot;true&quot; letter-spacing=&quot;normal&quot; font-family=&quot;Verdana,Helvetica,Arial,sans-serif&quot; font-size=&quot;12px&quot; font-style=&quot;normal&quot; font-variant=&quot;normal&quot; font-weight=&quot;normal&quot; text-decoration=&quot;none&quot; style=&quot;opacity: 1; -ms-user-select: none;&quot; direction=&quot;ltr&quot; fill=&quot;#7c868e&quot; text-anchor=&quot;start&quot; x=&quot;203.915&quot; y=&quot;478.06&quot; data-ac-wrapper-id=&quot;44&quot;&gt; &lt;tspan dy=&quot;0&quot;&gt;Apr.&lt;/tspan&gt; &lt;/text&gt; &lt;/g&gt; &lt;g data-ac-wrapper-id=&quot;45&quot;&gt; &lt;text aria-hidden=&quot;true&quot; letter-spacing=&quot;normal&quot; font-family=&quot;Verdana,Helvetica,Arial,sans-serif&quot; font-size=&quot;12px&quot; font-style=&quot;normal&quot; font-variant=&quot;normal&quot; font-weight=&quot;normal&quot; text-decoration=&quot;none&quot; style=&quot;opacity: 1; -ms-user-select: none;&quot; direction=&quot;ltr&quot; fill=&quot;#7c868e&quot; text-anchor=&quot;start&quot; x=&quot;247.29&quot; y=&quot;478.06&quot; data-ac-wrapper-id=&quot;46&quot;&gt; &lt;tspan dy=&quot;0&quot;&gt;May&lt;/tspan&gt; &lt;/text&gt; &lt;/g&gt; &lt;g data-ac-wrapper-id=&quot;47&quot;&gt; &lt;text aria-hidden=&quot;true&quot; letter-spacing=&quot;normal&quot; font-family=&quot;Verdana,Helvetica,Arial,sans-serif&quot; font-size=&quot;12px&quot; font-style=&quot;normal&quot; font-variant=&quot;normal&quot; font-weight=&quot;normal&quot; text-decoration=&quot;none&quot; style=&quot;opacity: 1; -ms-user-select: none;&quot; direction=&quot;ltr&quot; fill=&quot;#7c868e&quot; text-anchor=&quot;start&quot; x=&quot;288.605&quot; y=&quot;478.06&quot; data-ac-wrapper-id=&quot;48&quot;&gt; &lt;tspan dy=&quot;0&quot;&gt;June&lt;/tspan&gt; &lt;/text&gt; &lt;/g&gt; &lt;g data-ac-wrapper-id=&quot;49&quot;&gt; &lt;text aria-hidden=&quot;true&quot; letter-spacing=&quot;normal&quot; font-family=&quot;Verdana,Helvetica,Arial,sans-serif&quot; font-size=&quot;12px&quot; font-style=&quot;normal&quot; font-variant=&quot;normal&quot; font-weight=&quot;normal&quot; text-decoration=&quot;none&quot; style=&quot;opacity: 1; -ms-user-select: none;&quot; direction=&quot;ltr&quot; fill=&quot;#7c868e&quot; text-anchor=&quot;start&quot; x=&quot;332.78&quot; y=&quot;478.06&quot; data-ac-wrapper-id=&quot;50&quot;&gt; &lt;tspan dy=&quot;0&quot;&gt;July&lt;/tspan&gt; &lt;/text&gt; &lt;/g&gt; &lt;g data-ac-wrapper-id=&quot;51&quot;&gt; &lt;text aria-hidden=&quot;true&quot; letter-spacing=&quot;normal&quot; font-family=&quot;Verdana,Helvetica,Arial,sans-serif&quot; font-size=&quot;12px&quot; font-style=&quot;normal&quot; font-variant=&quot;normal&quot; font-weight=&quot;normal&quot; text-decoration=&quot;none&quot; style=&quot;opacity: 1; -ms-user-select: none;&quot; direction=&quot;ltr&quot; fill=&quot;#7c868e&quot; text-anchor=&quot;start&quot; x=&quot;373.68&quot; y=&quot;478.06&quot; data-ac-wrapper-id=&quot;52&quot;&gt; &lt;tspan dy=&quot;0&quot;&gt;Aug.&lt;/tspan&gt; &lt;/text&gt; &lt;/g&gt; &lt;g data-ac-wrapper-id=&quot;53&quot;&gt; &lt;text aria-hidden=&quot;true&quot; letter-spacing=&quot;normal&quot; font-family=&quot;Verdana,Helvetica,Arial,sans-serif&quot; font-size=&quot;12px&quot; font-style=&quot;normal&quot; font-variant=&quot;normal&quot; font-weight=&quot;normal&quot; text-decoration=&quot;none&quot; style=&quot;opacity: 1; -ms-user-select: none;&quot; direction=&quot;ltr&quot; fill=&quot;#7c868e&quot; text-anchor=&quot;start&quot; x=&quot;416.9&quot; y=&quot;478.06&quot; data-ac-wrapper-id=&quot;54&quot;&gt; &lt;tspan dy=&quot;0&quot;&gt;Sep.&lt;/tspan&gt; &lt;/text&gt; &lt;/g&gt; &lt;g data-ac-wrapper-id=&quot;55&quot;&gt; &lt;text aria-hidden=&quot;true&quot; letter-spacing=&quot;normal&quot; font-family=&quot;Verdana,Helvetica,Arial,sans-serif&quot; font-size=&quot;12px&quot; font-style=&quot;normal&quot; font-variant=&quot;normal&quot; font-weight=&quot;normal&quot; text-decoration=&quot;none&quot; style=&quot;opacity: 1; -ms-user-select: none;&quot; direction=&quot;ltr&quot; fill=&quot;#7c868e&quot; text-anchor=&quot;start&quot; x=&quot;460.1&quot; y=&quot;478.06&quot; data-ac-wrapper-id=&quot;56&quot;&gt; &lt;tspan dy=&quot;0&quot;&gt;Oct.&lt;/tspan&gt; &lt;/text&gt; &lt;/g&gt; &lt;g data-ac-wrapper-id=&quot;57&quot;&gt; &lt;text aria-hidden=&quot;true&quot; letter-spacing=&quot;normal&quot; font-family=&quot;Verdana,Helvetica,Arial,sans-serif&quot; font-size=&quot;12px&quot; font-style=&quot;normal&quot; font-variant=&quot;normal&quot; font-weight=&quot;normal&quot; text-decoration=&quot;none&quot; style=&quot;opacity: 1; -ms-user-select: none;&quot; direction=&quot;ltr&quot; fill=&quot;#7c868e&quot; text-anchor=&quot;start&quot; x=&quot;501.635&quot; y=&quot;478.06&quot; data-ac-wrapper-id=&quot;58&quot;&gt; &lt;tspan dy=&quot;0&quot;&gt;Nov.&lt;/tspan&gt; &lt;/text&gt; &lt;/g&gt; &lt;g data-ac-wrapper-id=&quot;59&quot;&gt; &lt;text aria-hidden=&quot;true&quot; letter-spacing=&quot;normal&quot; font-family=&quot;Verdana,Helvetica,Arial,sans-serif&quot; font-size=&quot;12px&quot; font-style=&quot;normal&quot; font-variant=&quot;normal&quot; font-weight=&quot;normal&quot; text-decoration=&quot;none&quot; style=&quot;opacity: 1; -ms-user-select: none;&quot; direction=&quot;ltr&quot; fill=&quot;#7c868e&quot; text-anchor=&quot;start&quot; x=&quot;544.99&quot; y=&quot;478.06&quot; data-ac-wrapper-id=&quot;60&quot;&gt; &lt;tspan dy=&quot;0&quot;&gt;Dec.&lt;/tspan&gt; &lt;/text&gt; &lt;/g&gt; &lt;/g&gt; &lt;path fill=&quot;none&quot; stroke=&quot;#cecece&quot; d=&quot;M 68.5 70.5 L 68.5 455.5&quot; data-ac-wrapper-id=&quot;61&quot;/&gt; &lt;g transform=&quot;matrix(6.12323e-017 -1 1 6.12323e-017 10 364.12)&quot; data-ac-wrapper-id=&quot;62&quot;&gt; &lt;text aria-hidden=&quot;true&quot; letter-spacing=&quot;normal&quot; font-family=&quot;Verdana,Helvetica,Arial,sans-serif&quot; font-size=&quot;13px&quot; font-style=&quot;normal&quot; font-variant=&quot;normal&quot; font-weight=&quot;normal&quot; text-decoration=&quot;none&quot; style=&quot;opacity: 1; -ms-user-select: none;&quot; direction=&quot;ltr&quot; fill=&quot;#545f69&quot; text-anchor=&quot;middle&quot; x=&quot;101.12&quot; y=&quot;13.07&quot; data-ac-wrapper-id=&quot;63&quot;&gt; &lt;tspan dy=&quot;0&quot;&gt;Amount of comments collected&lt;/tspan&gt; &lt;/text&gt; &lt;/g&gt; &lt;path fill=&quot;none&quot; stroke=&quot;#cecece&quot; d=&quot;M 68 455.5 L 62 455.5 M 68 326.5 L 62 326.5 M 68 198.5 L 62 198.5 M 68 70.5 L 62 70.5&quot; data-ac-wrapper-id=&quot;64&quot;/&gt; &lt;g data-ac-wrapper-id=&quot;65&quot;&gt; &lt;g data-ac-wrapper-id=&quot;66&quot;&gt; &lt;text aria-hidden=&quot;true&quot; letter-spacing=&quot;normal&quot; font-family=&quot;Verdana,Helvetica,Arial,sans-serif&quot; font-size=&quot;12px&quot; font-style=&quot;normal&quot; font-variant=&quot;normal&quot; font-weight=&quot;normal&quot; text-decoration=&quot;none&quot; style=&quot;opacity: 1; -ms-user-select: none;&quot; direction=&quot;ltr&quot; fill=&quot;#7c868e&quot; text-anchor=&quot;start&quot; x=&quot;50.37&quot; y=&quot;460.27&quot; data-ac-wrapper-id=&quot;67&quot;&gt; &lt;tspan dy=&quot;0&quot;&gt;0&lt;/tspan&gt; &lt;/text&gt; &lt;/g&gt; &lt;g data-ac-wrapper-id=&quot;68&quot;&gt; &lt;text aria-hidden=&quot;true&quot; letter-spacing=&quot;normal&quot; font-family=&quot;Verdana,Helvetica,Arial,sans-serif&quot; font-size=&quot;12px&quot; font-style=&quot;normal&quot; font-variant=&quot;normal&quot; font-weight=&quot;normal&quot; text-decoration=&quot;none&quot; style=&quot;opacity: 1; -ms-user-select: none;&quot; direction=&quot;ltr&quot; fill=&quot;#7c868e&quot; text-anchor=&quot;start&quot; x=&quot;42.74&quot; y=&quot;331.27&quot; data-ac-wrapper-id=&quot;69&quot;&gt; &lt;tspan dy=&quot;0&quot;&gt;80&lt;/tspan&gt; &lt;/text&gt; &lt;/g&gt; &lt;g data-ac-wrapper-id=&quot;70&quot;&gt; &lt;text aria-hidden=&quot;true&quot; letter-spacing=&quot;normal&quot; font-family=&quot;Verdana,Helvetica,Arial,sans-serif&quot; font-size=&quot;12px&quot; font-style=&quot;normal&quot; font-variant=&quot;normal&quot; font-weight=&quot;normal&quot; text-decoration=&quot;none&quot; style=&quot;opacity: 1; -ms-user-select: none;&quot; direction=&quot;ltr&quot; fill=&quot;#7c868e&quot; text-anchor=&quot;start&quot; x=&quot;35.11&quot; y=&quot;203.27&quot; data-ac-wrapper-id=&quot;71&quot;&gt; &lt;tspan dy=&quot;0&quot;&gt;160&lt;/tspan&gt; &lt;/text&gt; &lt;/g&gt; &lt;g data-ac-wrapper-id=&quot;72&quot;&gt; &lt;text aria-hidden=&quot;true&quot; letter-spacing=&quot;normal&quot; font-family=&quot;Verdana,Helvetica,Arial,sans-serif&quot; font-size=&quot;12px&quot; font-style=&quot;normal&quot; font-variant=&quot;normal&quot; font-weight=&quot;normal&quot; text-decoration=&quot;none&quot; style=&quot;opacity: 1; -ms-user-select: none;&quot; direction=&quot;ltr&quot; fill=&quot;#7c868e&quot; text-anchor=&quot;start&quot; x=&quot;35.11&quot; y=&quot;74.27&quot; data-ac-wrapper-id=&quot;73&quot;&gt; &lt;tspan dy=&quot;0&quot;&gt;240&lt;/tspan&gt; &lt;/text&gt; &lt;/g&gt; &lt;/g&gt; &lt;path fill=&quot;none&quot; pointer-events=&quot;none&quot; stroke=&quot;#969ea5&quot; d=&quot;M 0 0&quot; data-ac-wrapper-id=&quot;86&quot;/&gt; &lt;path fill=&quot;none&quot; pointer-events=&quot;none&quot; stroke=&quot;none&quot; d=&quot;M 0 0&quot; data-ac-wrapper-id=&quot;87&quot;/&gt; &lt;g transform=&quot;matrix(1 0 0 1 72.96 10)&quot; data-ac-wrapper-id=&quot;18&quot;&gt; &lt;text aria-hidden=&quot;true&quot; letter-spacing=&quot;normal&quot; font-family=&quot;Verdana,Helvetica,Arial,sans-serif&quot; font-size=&quot;16px&quot; font-style=&quot;normal&quot; font-variant=&quot;normal&quot; font-weight=&quot;normal&quot; text-decoration=&quot;none&quot; style=&quot;opacity: 1; -ms-user-select: none;&quot; direction=&quot;ltr&quot; fill=&quot;#7c868e&quot; text-anchor=&quot;middle&quot; x=&quot;222.04&quot; y=&quot;16.09&quot; data-ac-wrapper-id=&quot;19&quot;&gt; &lt;tspan dy=&quot;0&quot;&gt;Customer satisfaction according to collected comments&lt;/tspan&gt; &lt;/text&gt; &lt;/g&gt; &lt;g clip-path=&quot;url(&amp;quot;##ac_clip_7&amp;quot;)&quot; data-ac-wrapper-id=&quot;88&quot; clipPathUnits=&quot;userSpaceOnUse&quot;/&gt; &lt;/g&gt; &lt;/g&gt; &lt;/svg&gt;</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">data</stringProp>
+              </elementProp>
+              <elementProp name="dataType" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">svg</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">dataType</stringProp>
+              </elementProp>
+              <elementProp name="responseType" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">file</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">responseType</stringProp>
+              </elementProp>
+              <elementProp name="file-name" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">anychart</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">file-name</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">2000</stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding">utf8</stringProp>
+          <stringProp name="HTTPSampler.path">/png</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.implementation">HttpClient4</stringProp>
+          <boolProp name="HTTPSampler.monitor">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+        <ResultCollector guiclass="GraphVisualizer" testclass="ResultCollector" testname="Graph Results" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">0</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <longProp name="ThreadGroup.start_time">1465970694000</longProp>
+        <longProp name="ThreadGroup.end_time">1465970694000</longProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="HTTP Request" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="data" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">anychart.onDocumentReady(function() {     chart = anychart.pie([         [&apos;Department Stores&apos;, 6371664],         [&apos;Discount Stores&apos;, 7216301],         [&apos;Men\&apos;s/Women\&apos;s Stores&apos;, 1486621],         [&apos;Juvenile Specialty Stores&apos;, 786622],         [&apos;All other outlets&apos;, 900000]     ]);     chart.container(&apos;container&apos;);      chart.title(&apos;ACME Corp. apparel sales through different retail channels&apos;);      chart.legend(true);     chart.legend().title(&apos;Retail channels&apos;);     chart.legend().title().padding([0,0,10,0]);      chart.legend().position(&apos;bottom&apos;);     chart.legend().itemsLayout(&apos;horizontal&apos;);     chart.legend().align(&apos;center&apos;);      chart.draw(); });</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">data</stringProp>
+              </elementProp>
+              <elementProp name="dataType" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">script</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">dataType</stringProp>
+              </elementProp>
+              <elementProp name="responseType" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">file</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">responseType</stringProp>
+              </elementProp>
+              <elementProp name="file-name" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">anychart</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">file-name</stringProp>
+              </elementProp>
+              <elementProp name="save" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value"></stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">save</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">export.anychart.stg</stringProp>
+          <stringProp name="HTTPSampler.port">80</stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding">utf8</stringProp>
+          <stringProp name="HTTPSampler.path">/png</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.implementation">HttpClient4</stringProp>
+          <boolProp name="HTTPSampler.monitor">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+        <ResultCollector guiclass="StatGraphVisualizer" testclass="ResultCollector" testname="Aggregate Graph" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">0</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <longProp name="ThreadGroup.start_time">1465965244000</longProp>
+        <longProp name="ThreadGroup.end_time">1465965244000</longProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="HTTP Request" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="data" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">&lt;svg+xmlns=&quot;http://www.w3.org/2000/svg&quot;+border=&quot;0&quot;+data-ac-wrapper-id=&quot;2&quot;+width=&quot;1634&quot;+height=&quot;485&quot;+style=&quot;display:+block;&quot;+class=&quot;anychart-ui-support&quot;&gt;&lt;defs&gt;&lt;clipPath+clip-rule=&quot;nonzero&quot;+id=&quot;#ac_clip_1&quot;&gt;&lt;path+data-ac-wrapper-id=&quot;37&quot;+d=&quot;M+114+41+L+1579+41+1579+834+114+834+114+41+Z&quot;+fill=&quot;none&quot;+stroke=&quot;black&quot;/&gt;&lt;/clipPath&gt;&lt;/defs&gt;&lt;g+data-ac-wrapper-id=&quot;3&quot;&gt;&lt;g+data-ac-wrapper-id=&quot;6&quot;&gt;&lt;path+data-ac-wrapper-id=&quot;7&quot;+d=&quot;M+0.5+0.5+L+1598.5+0.5+1598.5+885.5+0.5+885.5+0.5+0.5+Z&quot;+fill=&quot;#ffffff&quot;+stroke=&quot;none&quot;/&gt;&lt;g+data-ac-wrapper-id=&quot;32&quot;+clip-path=&quot;url(##ac_clip_1)&quot;+clipPathUnits=&quot;userSpaceOnUse&quot;&gt;&lt;path+data-ac-wrapper-id=&quot;33&quot;+d=&quot;M+114.5+85.5+L+1334.5+85.5+1334.5+195.5+114.5+195.5+Z&quot;+fill=&quot;#64b5f6&quot;+fill-opacity=&quot;0.85&quot;+stroke=&quot;#64b5f6&quot;+stroke-width=&quot;1.5&quot;/&gt;&lt;path+data-ac-wrapper-id=&quot;34&quot;+d=&quot;M+114.5+283.5+L+601.5+283.5+601.5+393.5+114.5+393.5+Z&quot;+fill=&quot;#64b5f6&quot;+fill-opacity=&quot;0.85&quot;+stroke=&quot;#64b5f6&quot;+stroke-width=&quot;1.5&quot;/&gt;&lt;path+data-ac-wrapper-id=&quot;35&quot;+d=&quot;M+114.5+482.5+L+601.5+482.5+601.5+592.5+114.5+592.5+Z&quot;+fill=&quot;#64b5f6&quot;+fill-opacity=&quot;0.85&quot;+stroke=&quot;#64b5f6&quot;+stroke-width=&quot;1.5&quot;/&gt;&lt;path+data-ac-wrapper-id=&quot;36&quot;+d=&quot;M+114.5+680.5+L+357.5+680.5+357.5+790.5+114.5+790.5+Z&quot;+fill=&quot;#64b5f6&quot;+fill-opacity=&quot;0.85&quot;+stroke=&quot;#64b5f6&quot;+stroke-width=&quot;1.5&quot;/&gt;&lt;/g&gt;&lt;path+data-ac-wrapper-id=&quot;10&quot;+d=&quot;M+113.5+41.5+L+113.5+834.5&quot;+fill=&quot;none&quot;+stroke=&quot;#CECECE&quot;/&gt;&lt;path+data-ac-wrapper-id=&quot;11&quot;+d=&quot;M+113+41.5+L+107+41.5+M+113+239.5+L+107+239.5+M+113+437.5+L+107+437.5+M+113+636.5+L+107+636.5+M+113+834.5+L+107+834.5&quot;+fill=&quot;none&quot;+stroke=&quot;#CECECE&quot;/&gt;&lt;g+data-ac-wrapper-id=&quot;12&quot;&gt;&lt;g+data-ac-wrapper-id=&quot;13&quot;&gt;&lt;text+data-ac-wrapper-id=&quot;14&quot;+font-style=&quot;normal&quot;+style=&quot;font-variant:+normal;+opacity:+1;&quot;+font-family=&quot;Verdana,+Helvetica,+Arial,+sans-serif&quot;+font-size=&quot;12&quot;+font-weight=&quot;normal&quot;+fill=&quot;#7c868e&quot;+letter-spacing=&quot;normal&quot;+text-decoration=&quot;none&quot;+direction=&quot;ltr&quot;+text-anchor=&quot;start&quot;+x=&quot;14&quot;+y=&quot;143.5&quot;&gt;&lt;tspan+dy=&quot;0&quot;&gt;Chocolate+paste&lt;/tspan&gt;&lt;/text&gt;&lt;/g&gt;&lt;g+data-ac-wrapper-id=&quot;15&quot;&gt;&lt;text+data-ac-wrapper-id=&quot;16&quot;+font-style=&quot;normal&quot;+style=&quot;font-variant:+normal;+opacity:+1;&quot;+font-family=&quot;Verdana,+Helvetica,+Arial,+sans-serif&quot;+font-size=&quot;12&quot;+font-weight=&quot;normal&quot;+fill=&quot;#7c868e&quot;+letter-spacing=&quot;normal&quot;+text-decoration=&quot;none&quot;+direction=&quot;ltr&quot;+text-anchor=&quot;start&quot;+x=&quot;35&quot;+y=&quot;342.5&quot;&gt;&lt;tspan+dy=&quot;0&quot;&gt;White+honey&lt;/tspan&gt;&lt;/text&gt;&lt;/g&gt;&lt;g+data-ac-wrapper-id=&quot;17&quot;&gt;&lt;text+data-ac-wrapper-id=&quot;18&quot;+font-style=&quot;normal&quot;+style=&quot;font-variant:+normal;+opacity:+1;&quot;+font-family=&quot;Verdana,+Helvetica,+Arial,+sans-serif&quot;+font-size=&quot;12&quot;+font-weight=&quot;normal&quot;+fill=&quot;#7c868e&quot;+letter-spacing=&quot;normal&quot;+text-decoration=&quot;none&quot;+direction=&quot;ltr&quot;+text-anchor=&quot;start&quot;+x=&quot;21&quot;+y=&quot;540.5&quot;&gt;&lt;tspan+dy=&quot;0&quot;&gt;Strawberry+jam&lt;/tspan&gt;&lt;/text&gt;&lt;/g&gt;&lt;g+data-ac-wrapper-id=&quot;19&quot;&gt;&lt;text+data-ac-wrapper-id=&quot;20&quot;+font-style=&quot;normal&quot;+style=&quot;font-variant:+normal;+opacity:+1;&quot;+font-family=&quot;Verdana,+Helvetica,+Arial,+sans-serif&quot;+font-size=&quot;12&quot;+font-weight=&quot;normal&quot;+fill=&quot;#7c868e&quot;+letter-spacing=&quot;normal&quot;+text-decoration=&quot;none&quot;+direction=&quot;ltr&quot;+text-anchor=&quot;start&quot;+x=&quot;14&quot;+y=&quot;739.5&quot;&gt;&lt;tspan+dy=&quot;0&quot;&gt;Condensed+milk&lt;/tspan&gt;&lt;/text&gt;&lt;/g&gt;&lt;/g&gt;&lt;path+data-ac-wrapper-id=&quot;21&quot;+d=&quot;M+113.5+834.5+L+1578.5+834.5&quot;+fill=&quot;none&quot;+stroke=&quot;#CECECE&quot;/&gt;&lt;path+data-ac-wrapper-id=&quot;22&quot;+d=&quot;M+113.5+835+L+113.5+841+M+602.5+835+L+602.5+841+M+1090.5+835+L+1090.5+841+M+1578.5+835+L+1578.5+841&quot;+fill=&quot;none&quot;+stroke=&quot;#CECECE&quot;/&gt;&lt;g+data-ac-wrapper-id=&quot;23&quot;&gt;&lt;g+data-ac-wrapper-id=&quot;24&quot;&gt;&lt;text+data-ac-wrapper-id=&quot;25&quot;+font-style=&quot;normal&quot;+style=&quot;font-variant:+normal;+opacity:+1;&quot;+font-family=&quot;Verdana,+Helvetica,+Arial,+sans-serif&quot;+font-size=&quot;12&quot;+font-weight=&quot;normal&quot;+fill=&quot;#7c868e&quot;+letter-spacing=&quot;normal&quot;+text-decoration=&quot;none&quot;+direction=&quot;ltr&quot;+text-anchor=&quot;start&quot;+x=&quot;109&quot;+y=&quot;857&quot;&gt;&lt;tspan+dy=&quot;0&quot;&gt;0&lt;/tspan&gt;&lt;/text&gt;&lt;/g&gt;&lt;g+data-ac-wrapper-id=&quot;26&quot;&gt;&lt;text+data-ac-wrapper-id=&quot;27&quot;+font-style=&quot;normal&quot;+style=&quot;font-variant:+normal;+opacity:+1;&quot;+font-family=&quot;Verdana,+Helvetica,+Arial,+sans-serif&quot;+font-size=&quot;12&quot;+font-weight=&quot;normal&quot;+fill=&quot;#7c868e&quot;+letter-spacing=&quot;normal&quot;+text-decoration=&quot;none&quot;+direction=&quot;ltr&quot;+text-anchor=&quot;start&quot;+x=&quot;598&quot;+y=&quot;857&quot;&gt;&lt;tspan+dy=&quot;0&quot;&gt;2&lt;/tspan&gt;&lt;/text&gt;&lt;/g&gt;&lt;g+data-ac-wrapper-id=&quot;28&quot;&gt;&lt;text+data-ac-wrapper-id=&quot;29&quot;+font-style=&quot;normal&quot;+style=&quot;font-variant:+normal;+opacity:+1;&quot;+font-family=&quot;Verdana,+Helvetica,+Arial,+sans-serif&quot;+font-size=&quot;12&quot;+font-weight=&quot;normal&quot;+fill=&quot;#7c868e&quot;+letter-spacing=&quot;normal&quot;+text-decoration=&quot;none&quot;+direction=&quot;ltr&quot;+text-anchor=&quot;start&quot;+x=&quot;1086&quot;+y=&quot;857&quot;&gt;&lt;tspan+dy=&quot;0&quot;&gt;4&lt;/tspan&gt;&lt;/text&gt;&lt;/g&gt;&lt;g+data-ac-wrapper-id=&quot;30&quot;&gt;&lt;text+data-ac-wrapper-id=&quot;31&quot;+font-style=&quot;normal&quot;+style=&quot;font-variant:+normal;+opacity:+1;&quot;+font-family=&quot;Verdana,+Helvetica,+Arial,+sans-serif&quot;+font-size=&quot;12&quot;+font-weight=&quot;normal&quot;+fill=&quot;#7c868e&quot;+letter-spacing=&quot;normal&quot;+text-decoration=&quot;none&quot;+direction=&quot;ltr&quot;+text-anchor=&quot;start&quot;+x=&quot;1575&quot;+y=&quot;857&quot;&gt;&lt;tspan+dy=&quot;0&quot;&gt;6&lt;/tspan&gt;&lt;/text&gt;&lt;/g&gt;&lt;/g&gt;&lt;g+data-ac-wrapper-id=&quot;8&quot;+transform=&quot;matrix(1,0,0,1,562,10)&quot;&gt;&lt;text+data-ac-wrapper-id=&quot;9&quot;+font-style=&quot;normal&quot;+style=&quot;font-variant:+normal;+opacity:+1;&quot;+font-family=&quot;Verdana,+Helvetica,+Arial,+sans-serif&quot;+font-size=&quot;16&quot;+font-weight=&quot;normal&quot;+fill=&quot;#7c868e&quot;+letter-spacing=&quot;normal&quot;+text-decoration=&quot;none&quot;+direction=&quot;ltr&quot;+text-anchor=&quot;middle&quot;+x=&quot;232.5&quot;+y=&quot;16&quot;&gt;&lt;tspan+dy=&quot;0&quot;&gt;The+kind+of+pancakes+preferred+at+the+Sochi+2014+Olympic+Games&lt;/tspan&gt;&lt;/text&gt;&lt;/g&gt;&lt;/g&gt;&lt;/g&gt;&lt;/svg&gt;</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">data</stringProp>
+              </elementProp>
+              <elementProp name="dataType" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">svg</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">dataType</stringProp>
+              </elementProp>
+              <elementProp name="responseType" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">file</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">responseType</stringProp>
+              </elementProp>
+              <elementProp name="file-name" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">test</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">file-name</stringProp>
+              </elementProp>
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value"></stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name"></stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">export.anychart.pub</stringProp>
+          <stringProp name="HTTPSampler.port">80</stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding">utf8</stringProp>
+          <stringProp name="HTTPSampler.path">/png</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.implementation">HttpClient4</stringProp>
+          <boolProp name="HTTPSampler.monitor">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+        <ResultCollector guiclass="StatGraphVisualizer" testclass="ResultCollector" testname="Aggregate Graph" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+        <ResultCollector guiclass="GraphVisualizer" testclass="ResultCollector" testname="Graph Results" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">0</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">0</stringProp>
+        <longProp name="ThreadGroup.start_time">1465970694000</longProp>
+        <longProp name="ThreadGroup.end_time">1465970694000</longProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="HTTP Request" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="data" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">anychart.onDocumentReady(function() {     chart = anychart.pie([         [&apos;Department Stores&apos;, 6371664],         [&apos;Discount Stores&apos;, 7216301],         [&apos;Men\&apos;s/Women\&apos;s Stores&apos;, 1486621],         [&apos;Juvenile Specialty Stores&apos;, 786622],         [&apos;All other outlets&apos;, 900000]     ]);     chart.container(&apos;container&apos;);      chart.title(&apos;ACME Corp. apparel sales through different retail channels&apos;);      chart.legend(true);     chart.legend().title(&apos;Retail channels&apos;);     chart.legend().title().padding([0,0,10,0]);      chart.legend().position(&apos;bottom&apos;);     chart.legend().itemsLayout(&apos;horizontal&apos;);     chart.legend().align(&apos;center&apos;);      chart.draw(); });</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">data</stringProp>
+              </elementProp>
+              <elementProp name="dataType" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">script</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">dataType</stringProp>
+              </elementProp>
+              <elementProp name="responseType" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">file</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">responseType</stringProp>
+              </elementProp>
+              <elementProp name="file-name" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">anychart</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">file-name</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">export.anychart.com</stringProp>
+          <stringProp name="HTTPSampler.port">80</stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding">utf8</stringProp>
+          <stringProp name="HTTPSampler.path">/png</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.implementation">HttpClient4</stringProp>
+          <boolProp name="HTTPSampler.monitor">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+        <ResultCollector guiclass="StatGraphVisualizer" testclass="ResultCollector" testname="Aggregate Graph" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+        <ResultCollector guiclass="GraphVisualizer" testclass="ResultCollector" testname="Graph Results" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+        <ResultCollector guiclass="TableVisualizer" testclass="ResultCollector" testname="View Results in Table" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">0</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <longProp name="ThreadGroup.start_time">1465965244000</longProp>
+        <longProp name="ThreadGroup.end_time">1465965244000</longProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="HTTP Request" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="data" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">&lt;svg+xmlns=&quot;http://www.w3.org/2000/svg&quot;+border=&quot;0&quot;+data-ac-wrapper-id=&quot;2&quot;+width=&quot;1634&quot;+height=&quot;485&quot;+style=&quot;display:+block;&quot;+class=&quot;anychart-ui-support&quot;&gt;&lt;defs&gt;&lt;clipPath+clip-rule=&quot;nonzero&quot;+id=&quot;#ac_clip_1&quot;&gt;&lt;path+data-ac-wrapper-id=&quot;37&quot;+d=&quot;M+114+41+L+1579+41+1579+834+114+834+114+41+Z&quot;+fill=&quot;none&quot;+stroke=&quot;black&quot;/&gt;&lt;/clipPath&gt;&lt;/defs&gt;&lt;g+data-ac-wrapper-id=&quot;3&quot;&gt;&lt;g+data-ac-wrapper-id=&quot;6&quot;&gt;&lt;path+data-ac-wrapper-id=&quot;7&quot;+d=&quot;M+0.5+0.5+L+1598.5+0.5+1598.5+885.5+0.5+885.5+0.5+0.5+Z&quot;+fill=&quot;#ffffff&quot;+stroke=&quot;none&quot;/&gt;&lt;g+data-ac-wrapper-id=&quot;32&quot;+clip-path=&quot;url(##ac_clip_1)&quot;+clipPathUnits=&quot;userSpaceOnUse&quot;&gt;&lt;path+data-ac-wrapper-id=&quot;33&quot;+d=&quot;M+114.5+85.5+L+1334.5+85.5+1334.5+195.5+114.5+195.5+Z&quot;+fill=&quot;#64b5f6&quot;+fill-opacity=&quot;0.85&quot;+stroke=&quot;#64b5f6&quot;+stroke-width=&quot;1.5&quot;/&gt;&lt;path+data-ac-wrapper-id=&quot;34&quot;+d=&quot;M+114.5+283.5+L+601.5+283.5+601.5+393.5+114.5+393.5+Z&quot;+fill=&quot;#64b5f6&quot;+fill-opacity=&quot;0.85&quot;+stroke=&quot;#64b5f6&quot;+stroke-width=&quot;1.5&quot;/&gt;&lt;path+data-ac-wrapper-id=&quot;35&quot;+d=&quot;M+114.5+482.5+L+601.5+482.5+601.5+592.5+114.5+592.5+Z&quot;+fill=&quot;#64b5f6&quot;+fill-opacity=&quot;0.85&quot;+stroke=&quot;#64b5f6&quot;+stroke-width=&quot;1.5&quot;/&gt;&lt;path+data-ac-wrapper-id=&quot;36&quot;+d=&quot;M+114.5+680.5+L+357.5+680.5+357.5+790.5+114.5+790.5+Z&quot;+fill=&quot;#64b5f6&quot;+fill-opacity=&quot;0.85&quot;+stroke=&quot;#64b5f6&quot;+stroke-width=&quot;1.5&quot;/&gt;&lt;/g&gt;&lt;path+data-ac-wrapper-id=&quot;10&quot;+d=&quot;M+113.5+41.5+L+113.5+834.5&quot;+fill=&quot;none&quot;+stroke=&quot;#CECECE&quot;/&gt;&lt;path+data-ac-wrapper-id=&quot;11&quot;+d=&quot;M+113+41.5+L+107+41.5+M+113+239.5+L+107+239.5+M+113+437.5+L+107+437.5+M+113+636.5+L+107+636.5+M+113+834.5+L+107+834.5&quot;+fill=&quot;none&quot;+stroke=&quot;#CECECE&quot;/&gt;&lt;g+data-ac-wrapper-id=&quot;12&quot;&gt;&lt;g+data-ac-wrapper-id=&quot;13&quot;&gt;&lt;text+data-ac-wrapper-id=&quot;14&quot;+font-style=&quot;normal&quot;+style=&quot;font-variant:+normal;+opacity:+1;&quot;+font-family=&quot;Verdana,+Helvetica,+Arial,+sans-serif&quot;+font-size=&quot;12&quot;+font-weight=&quot;normal&quot;+fill=&quot;#7c868e&quot;+letter-spacing=&quot;normal&quot;+text-decoration=&quot;none&quot;+direction=&quot;ltr&quot;+text-anchor=&quot;start&quot;+x=&quot;14&quot;+y=&quot;143.5&quot;&gt;&lt;tspan+dy=&quot;0&quot;&gt;Chocolate+paste&lt;/tspan&gt;&lt;/text&gt;&lt;/g&gt;&lt;g+data-ac-wrapper-id=&quot;15&quot;&gt;&lt;text+data-ac-wrapper-id=&quot;16&quot;+font-style=&quot;normal&quot;+style=&quot;font-variant:+normal;+opacity:+1;&quot;+font-family=&quot;Verdana,+Helvetica,+Arial,+sans-serif&quot;+font-size=&quot;12&quot;+font-weight=&quot;normal&quot;+fill=&quot;#7c868e&quot;+letter-spacing=&quot;normal&quot;+text-decoration=&quot;none&quot;+direction=&quot;ltr&quot;+text-anchor=&quot;start&quot;+x=&quot;35&quot;+y=&quot;342.5&quot;&gt;&lt;tspan+dy=&quot;0&quot;&gt;White+honey&lt;/tspan&gt;&lt;/text&gt;&lt;/g&gt;&lt;g+data-ac-wrapper-id=&quot;17&quot;&gt;&lt;text+data-ac-wrapper-id=&quot;18&quot;+font-style=&quot;normal&quot;+style=&quot;font-variant:+normal;+opacity:+1;&quot;+font-family=&quot;Verdana,+Helvetica,+Arial,+sans-serif&quot;+font-size=&quot;12&quot;+font-weight=&quot;normal&quot;+fill=&quot;#7c868e&quot;+letter-spacing=&quot;normal&quot;+text-decoration=&quot;none&quot;+direction=&quot;ltr&quot;+text-anchor=&quot;start&quot;+x=&quot;21&quot;+y=&quot;540.5&quot;&gt;&lt;tspan+dy=&quot;0&quot;&gt;Strawberry+jam&lt;/tspan&gt;&lt;/text&gt;&lt;/g&gt;&lt;g+data-ac-wrapper-id=&quot;19&quot;&gt;&lt;text+data-ac-wrapper-id=&quot;20&quot;+font-style=&quot;normal&quot;+style=&quot;font-variant:+normal;+opacity:+1;&quot;+font-family=&quot;Verdana,+Helvetica,+Arial,+sans-serif&quot;+font-size=&quot;12&quot;+font-weight=&quot;normal&quot;+fill=&quot;#7c868e&quot;+letter-spacing=&quot;normal&quot;+text-decoration=&quot;none&quot;+direction=&quot;ltr&quot;+text-anchor=&quot;start&quot;+x=&quot;14&quot;+y=&quot;739.5&quot;&gt;&lt;tspan+dy=&quot;0&quot;&gt;Condensed+milk&lt;/tspan&gt;&lt;/text&gt;&lt;/g&gt;&lt;/g&gt;&lt;path+data-ac-wrapper-id=&quot;21&quot;+d=&quot;M+113.5+834.5+L+1578.5+834.5&quot;+fill=&quot;none&quot;+stroke=&quot;#CECECE&quot;/&gt;&lt;path+data-ac-wrapper-id=&quot;22&quot;+d=&quot;M+113.5+835+L+113.5+841+M+602.5+835+L+602.5+841+M+1090.5+835+L+1090.5+841+M+1578.5+835+L+1578.5+841&quot;+fill=&quot;none&quot;+stroke=&quot;#CECECE&quot;/&gt;&lt;g+data-ac-wrapper-id=&quot;23&quot;&gt;&lt;g+data-ac-wrapper-id=&quot;24&quot;&gt;&lt;text+data-ac-wrapper-id=&quot;25&quot;+font-style=&quot;normal&quot;+style=&quot;font-variant:+normal;+opacity:+1;&quot;+font-family=&quot;Verdana,+Helvetica,+Arial,+sans-serif&quot;+font-size=&quot;12&quot;+font-weight=&quot;normal&quot;+fill=&quot;#7c868e&quot;+letter-spacing=&quot;normal&quot;+text-decoration=&quot;none&quot;+direction=&quot;ltr&quot;+text-anchor=&quot;start&quot;+x=&quot;109&quot;+y=&quot;857&quot;&gt;&lt;tspan+dy=&quot;0&quot;&gt;0&lt;/tspan&gt;&lt;/text&gt;&lt;/g&gt;&lt;g+data-ac-wrapper-id=&quot;26&quot;&gt;&lt;text+data-ac-wrapper-id=&quot;27&quot;+font-style=&quot;normal&quot;+style=&quot;font-variant:+normal;+opacity:+1;&quot;+font-family=&quot;Verdana,+Helvetica,+Arial,+sans-serif&quot;+font-size=&quot;12&quot;+font-weight=&quot;normal&quot;+fill=&quot;#7c868e&quot;+letter-spacing=&quot;normal&quot;+text-decoration=&quot;none&quot;+direction=&quot;ltr&quot;+text-anchor=&quot;start&quot;+x=&quot;598&quot;+y=&quot;857&quot;&gt;&lt;tspan+dy=&quot;0&quot;&gt;2&lt;/tspan&gt;&lt;/text&gt;&lt;/g&gt;&lt;g+data-ac-wrapper-id=&quot;28&quot;&gt;&lt;text+data-ac-wrapper-id=&quot;29&quot;+font-style=&quot;normal&quot;+style=&quot;font-variant:+normal;+opacity:+1;&quot;+font-family=&quot;Verdana,+Helvetica,+Arial,+sans-serif&quot;+font-size=&quot;12&quot;+font-weight=&quot;normal&quot;+fill=&quot;#7c868e&quot;+letter-spacing=&quot;normal&quot;+text-decoration=&quot;none&quot;+direction=&quot;ltr&quot;+text-anchor=&quot;start&quot;+x=&quot;1086&quot;+y=&quot;857&quot;&gt;&lt;tspan+dy=&quot;0&quot;&gt;4&lt;/tspan&gt;&lt;/text&gt;&lt;/g&gt;&lt;g+data-ac-wrapper-id=&quot;30&quot;&gt;&lt;text+data-ac-wrapper-id=&quot;31&quot;+font-style=&quot;normal&quot;+style=&quot;font-variant:+normal;+opacity:+1;&quot;+font-family=&quot;Verdana,+Helvetica,+Arial,+sans-serif&quot;+font-size=&quot;12&quot;+font-weight=&quot;normal&quot;+fill=&quot;#7c868e&quot;+letter-spacing=&quot;normal&quot;+text-decoration=&quot;none&quot;+direction=&quot;ltr&quot;+text-anchor=&quot;start&quot;+x=&quot;1575&quot;+y=&quot;857&quot;&gt;&lt;tspan+dy=&quot;0&quot;&gt;6&lt;/tspan&gt;&lt;/text&gt;&lt;/g&gt;&lt;/g&gt;&lt;g+data-ac-wrapper-id=&quot;8&quot;+transform=&quot;matrix(1,0,0,1,562,10)&quot;&gt;&lt;text+data-ac-wrapper-id=&quot;9&quot;+font-style=&quot;normal&quot;+style=&quot;font-variant:+normal;+opacity:+1;&quot;+font-family=&quot;Verdana,+Helvetica,+Arial,+sans-serif&quot;+font-size=&quot;16&quot;+font-weight=&quot;normal&quot;+fill=&quot;#7c868e&quot;+letter-spacing=&quot;normal&quot;+text-decoration=&quot;none&quot;+direction=&quot;ltr&quot;+text-anchor=&quot;middle&quot;+x=&quot;232.5&quot;+y=&quot;16&quot;&gt;&lt;tspan+dy=&quot;0&quot;&gt;The+kind+of+pancakes+preferred+at+the+Sochi+2014+Olympic+Games&lt;/tspan&gt;&lt;/text&gt;&lt;/g&gt;&lt;/g&gt;&lt;/g&gt;&lt;/svg&gt;</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">data</stringProp>
+              </elementProp>
+              <elementProp name="dataType" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">svg</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">dataType</stringProp>
+              </elementProp>
+              <elementProp name="responseType" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">file</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">responseType</stringProp>
+              </elementProp>
+              <elementProp name="file-name" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">test</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">file-name</stringProp>
+              </elementProp>
+              <elementProp name="save" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value"></stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">save</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">export.anychart.com</stringProp>
+          <stringProp name="HTTPSampler.port">80</stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding">utf8</stringProp>
+          <stringProp name="HTTPSampler.path">/png</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.implementation">HttpClient4</stringProp>
+          <boolProp name="HTTPSampler.monitor">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+        <ResultCollector guiclass="StatGraphVisualizer" testclass="ResultCollector" testname="Aggregate Graph" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+        <ResultCollector guiclass="GraphVisualizer" testclass="ResultCollector" testname="Graph Results" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">0</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <longProp name="ThreadGroup.start_time">1465967646000</longProp>
+        <longProp name="ThreadGroup.end_time">1465967646000</longProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+        <stringProp name="TestPlan.comments">Error</stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="HTTP Request" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="data" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.value">&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;   &lt;g&gt;     &lt;text&gt;       &lt;tspan&gt;&quot;&amp;#x0627;&amp;#x0644;&amp;#x0639;&amp;#x064E;&amp;#x0631;&amp;#x064E;&amp;#x0650;&amp;#x064E;&amp;#x0651;&amp;#x0629;&quot;&lt;/tspan&gt;     &lt;/text&gt;   &lt;/g&gt; &lt;/svg&gt;</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">data</stringProp>
+              </elementProp>
+              <elementProp name="dataType" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">svg</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">dataType</stringProp>
+              </elementProp>
+              <elementProp name="responseType" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">file</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">responseType</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">2000</stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding">utf8</stringProp>
+          <stringProp name="HTTPSampler.path">/sharing/twitter</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.implementation">HttpClient4</stringProp>
+          <boolProp name="HTTPSampler.monitor">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+        <ResultCollector guiclass="GraphVisualizer" testclass="ResultCollector" testname="Graph Results" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">0</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <longProp name="ThreadGroup.start_time">1465967646000</longProp>
+        <longProp name="ThreadGroup.end_time">1465967646000</longProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="HTTP Request" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="data" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.value">&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; border=&quot;0&quot; data-ac-wrapper-id=&quot;2&quot; width=&quot;1414&quot; height=&quot;827&quot; style=&quot;display: block;&quot; class=&quot;anychart-ui-support&quot;&gt;&lt;defs&gt;&lt;clipPath clip-rule=&quot;nonzero&quot; id=&quot;#ac_clip_1&quot;&gt;&lt;path data-ac-wrapper-id=&quot;37&quot; d=&quot;M 114 41 L 1359 41 1359 775 114 775 114 41 Z&quot; fill=&quot;none&quot; stroke=&quot;black&quot;/&gt;&lt;/clipPath&gt;&lt;/defs&gt;&lt;g data-ac-wrapper-id=&quot;3&quot;&gt;&lt;g data-ac-wrapper-id=&quot;6&quot;&gt;&lt;path data-ac-wrapper-id=&quot;7&quot; d=&quot;M 0.5 0.5 L 1378.5 0.5 1378.5 826.5 0.5 826.5 0.5 0.5 Z&quot; fill=&quot;#ffffff&quot; stroke=&quot;none&quot;/&gt;&lt;g data-ac-wrapper-id=&quot;32&quot; clip-path=&quot;url(##ac_clip_1)&quot; clipPathUnits=&quot;userSpaceOnUse&quot;&gt;&lt;path data-ac-wrapper-id=&quot;33&quot; d=&quot;M 114.5 81.5 L 1151.5 81.5 1151.5 183.5 114.5 183.5 Z&quot; fill=&quot;#64b5f6&quot; fill-opacity=&quot;0.85&quot; stroke=&quot;#64b5f6&quot; stroke-width=&quot;1.5&quot;/&gt;&lt;path data-ac-wrapper-id=&quot;34&quot; d=&quot;M 114.5 265.5 L 528.5 265.5 528.5 367.5 114.5 367.5 Z&quot; fill=&quot;#64b5f6&quot; fill-opacity=&quot;0.85&quot; stroke=&quot;#64b5f6&quot; stroke-width=&quot;1.5&quot;/&gt;&lt;path data-ac-wrapper-id=&quot;35&quot; d=&quot;M 114.5 449.5 L 528.5 449.5 528.5 551.5 114.5 551.5 Z&quot; fill=&quot;#64b5f6&quot; fill-opacity=&quot;0.85&quot; stroke=&quot;#64b5f6&quot; stroke-width=&quot;1.5&quot;/&gt;&lt;path data-ac-wrapper-id=&quot;36&quot; d=&quot;M 114.5 633.5 L 320.5 633.5 320.5 735.5 114.5 735.5 Z&quot; fill=&quot;#64b5f6&quot; fill-opacity=&quot;0.85&quot; stroke=&quot;#64b5f6&quot; stroke-width=&quot;1.5&quot;/&gt;&lt;/g&gt;&lt;path data-ac-wrapper-id=&quot;10&quot; d=&quot;M 113.5 41.5 L 113.5 775.5&quot; fill=&quot;none&quot; stroke=&quot;#CECECE&quot;/&gt;&lt;path data-ac-wrapper-id=&quot;11&quot; d=&quot;M 113 41.5 L 107 41.5 M 113 224.5 L 107 224.5 M 113 408.5 L 107 408.5 M 113 591.5 L 107 591.5 M 113 775.5 L 107 775.5&quot; fill=&quot;none&quot; stroke=&quot;#CECECE&quot;/&gt;&lt;g data-ac-wrapper-id=&quot;12&quot;&gt;&lt;g data-ac-wrapper-id=&quot;13&quot;&gt;&lt;text data-ac-wrapper-id=&quot;14&quot; style=&quot;-moz-user-select: none; font-variant: normal; opacity: 1;&quot; font-style=&quot;normal&quot; font-family=&quot;Verdana, Helvetica, Arial, sans-serif&quot; font-size=&quot;12&quot; font-weight=&quot;normal&quot; fill=&quot;#7c868e&quot; letter-spacing=&quot;normal&quot; text-decoration=&quot;none&quot; direction=&quot;ltr&quot; text-anchor=&quot;start&quot; x=&quot;14&quot; y=&quot;136.5&quot;&gt;&lt;tspan dy=&quot;0&quot;&gt;Chocolate paste&lt;/tspan&gt;&lt;/text&gt;&lt;/g&gt;&lt;g data-ac-wrapper-id=&quot;15&quot;&gt;&lt;text data-ac-wrapper-id=&quot;16&quot; style=&quot;-moz-user-select: none; font-variant: normal; opacity: 1;&quot; font-style=&quot;normal&quot; font-family=&quot;Verdana, Helvetica, Arial, sans-serif&quot; font-size=&quot;12&quot; font-weight=&quot;normal&quot; fill=&quot;#7c868e&quot; letter-spacing=&quot;normal&quot; text-decoration=&quot;none&quot; direction=&quot;ltr&quot; text-anchor=&quot;start&quot; x=&quot;35&quot; y=&quot;320.5&quot;&gt;&lt;tspan dy=&quot;0&quot;&gt;White honey&lt;/tspan&gt;&lt;/text&gt;&lt;/g&gt;&lt;g data-ac-wrapper-id=&quot;17&quot;&gt;&lt;text data-ac-wrapper-id=&quot;18&quot; style=&quot;-moz-user-select: none; font-variant: normal; opacity: 1;&quot; font-style=&quot;normal&quot; font-family=&quot;Verdana, Helvetica, Arial, sans-serif&quot; font-size=&quot;12&quot; font-weight=&quot;normal&quot; fill=&quot;#7c868e&quot; letter-spacing=&quot;normal&quot; text-decoration=&quot;none&quot; direction=&quot;ltr&quot; text-anchor=&quot;start&quot; x=&quot;21&quot; y=&quot;503.5&quot;&gt;&lt;tspan dy=&quot;0&quot;&gt;Strawberry jam&lt;/tspan&gt;&lt;/text&gt;&lt;/g&gt;&lt;g data-ac-wrapper-id=&quot;19&quot;&gt;&lt;text data-ac-wrapper-id=&quot;20&quot; style=&quot;-moz-user-select: none; font-variant: normal; opacity: 1;&quot; font-style=&quot;normal&quot; font-family=&quot;Verdana, Helvetica, Arial, sans-serif&quot; font-size=&quot;12&quot; font-weight=&quot;normal&quot; fill=&quot;#7c868e&quot; letter-spacing=&quot;normal&quot; text-decoration=&quot;none&quot; direction=&quot;ltr&quot; text-anchor=&quot;start&quot; x=&quot;14&quot; y=&quot;687.5&quot;&gt;&lt;tspan dy=&quot;0&quot;&gt;Condensed milk&lt;/tspan&gt;&lt;/text&gt;&lt;/g&gt;&lt;/g&gt;&lt;path data-ac-wrapper-id=&quot;21&quot; d=&quot;M 113.5 775.5 L 1358.5 775.5&quot; fill=&quot;none&quot; stroke=&quot;#CECECE&quot;/&gt;&lt;path data-ac-wrapper-id=&quot;22&quot; d=&quot;M 113.5 776 L 113.5 782 M 528.5 776 L 528.5 782 M 944.5 776 L 944.5 782 M 1358.5 776 L 1358.5 782&quot; fill=&quot;none&quot; stroke=&quot;#CECECE&quot;/&gt;&lt;g data-ac-wrapper-id=&quot;23&quot;&gt;&lt;g data-ac-wrapper-id=&quot;24&quot;&gt;&lt;text data-ac-wrapper-id=&quot;25&quot; style=&quot;-moz-user-select: none; font-variant: normal; opacity: 1;&quot; font-style=&quot;normal&quot; font-family=&quot;Verdana, Helvetica, Arial, sans-serif&quot; font-size=&quot;12&quot; font-weight=&quot;normal&quot; fill=&quot;#7c868e&quot; letter-spacing=&quot;normal&quot; text-decoration=&quot;none&quot; direction=&quot;ltr&quot; text-anchor=&quot;start&quot; x=&quot;109&quot; y=&quot;798&quot;&gt;&lt;tspan dy=&quot;0&quot;&gt;0&lt;/tspan&gt;&lt;/text&gt;&lt;/g&gt;&lt;g data-ac-wrapper-id=&quot;26&quot;&gt;&lt;text data-ac-wrapper-id=&quot;27&quot; style=&quot;-moz-user-select: none; font-variant: normal; opacity: 1;&quot; font-style=&quot;normal&quot; font-family=&quot;Verdana, Helvetica, Arial, sans-serif&quot; font-size=&quot;12&quot; font-weight=&quot;normal&quot; fill=&quot;#7c868e&quot; letter-spacing=&quot;normal&quot; text-decoration=&quot;none&quot; direction=&quot;ltr&quot; text-anchor=&quot;start&quot; x=&quot;524&quot; y=&quot;798&quot;&gt;&lt;tspan dy=&quot;0&quot;&gt;2&lt;/tspan&gt;&lt;/text&gt;&lt;/g&gt;&lt;g data-ac-wrapper-id=&quot;28&quot;&gt;&lt;text data-ac-wrapper-id=&quot;29&quot; style=&quot;-moz-user-select: none; font-variant: normal; opacity: 1;&quot; font-style=&quot;normal&quot; font-family=&quot;Verdana, Helvetica, Arial, sans-serif&quot; font-size=&quot;12&quot; font-weight=&quot;normal&quot; fill=&quot;#7c868e&quot; letter-spacing=&quot;normal&quot; text-decoration=&quot;none&quot; direction=&quot;ltr&quot; text-anchor=&quot;start&quot; x=&quot;940&quot; y=&quot;798&quot;&gt;&lt;tspan dy=&quot;0&quot;&gt;4&lt;/tspan&gt;&lt;/text&gt;&lt;/g&gt;&lt;g data-ac-wrapper-id=&quot;30&quot;&gt;&lt;text data-ac-wrapper-id=&quot;31&quot; style=&quot;-moz-user-select: none; font-variant: normal; opacity: 1;&quot; font-style=&quot;normal&quot; font-family=&quot;Verdana, Helvetica, Arial, sans-serif&quot; font-size=&quot;12&quot; font-weight=&quot;normal&quot; fill=&quot;#7c868e&quot; letter-spacing=&quot;normal&quot; text-decoration=&quot;none&quot; direction=&quot;ltr&quot; text-anchor=&quot;start&quot; x=&quot;1355&quot; y=&quot;798&quot;&gt;&lt;tspan dy=&quot;0&quot;&gt;6&lt;/tspan&gt;&lt;/text&gt;&lt;/g&gt;&lt;/g&gt;&lt;g data-ac-wrapper-id=&quot;8&quot; transform=&quot;matrix(1,0,0,1,452,10)&quot;&gt;&lt;text data-ac-wrapper-id=&quot;9&quot; style=&quot;-moz-user-select: none; font-variant: normal; opacity: 1;&quot; font-style=&quot;normal&quot; font-family=&quot;Verdana, Helvetica, Arial, sans-serif&quot; font-size=&quot;16&quot; font-weight=&quot;normal&quot; fill=&quot;#7c868e&quot; letter-spacing=&quot;normal&quot; text-decoration=&quot;none&quot; direction=&quot;ltr&quot; text-anchor=&quot;middle&quot; x=&quot;232.5&quot; y=&quot;16&quot;&gt;&lt;tspan dy=&quot;0&quot;&gt;The kind of pancakes preferred at the Sochi 2014 Olympic Games&lt;/tspan&gt;&lt;/text&gt;&lt;/g&gt;&lt;/g&gt;&lt;/g&gt;&lt;/svg&gt; </stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">data</stringProp>
+              </elementProp>
+              <elementProp name="dataType" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">svg</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">dataType</stringProp>
+              </elementProp>
+              <elementProp name="responseType" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">base64</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">responseType</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">2000</stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding">utf8</stringProp>
+          <stringProp name="HTTPSampler.path">/sharing/twitter</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.implementation">HttpClient4</stringProp>
+          <boolProp name="HTTPSampler.monitor">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+        <ResultCollector guiclass="GraphVisualizer" testclass="ResultCollector" testname="Graph Results" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+        <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="HTTP Cookie Manager" enabled="true">
+          <collectionProp name="CookieManager.cookies"/>
+          <boolProp name="CookieManager.clearEachIteration">false</boolProp>
+          <stringProp name="CookieManager.policy">standard</stringProp>
+          <stringProp name="CookieManager.implementation">org.apache.jmeter.protocol.http.control.HC4CookieHandler</stringProp>
+        </CookieManager>
+        <hashTree/>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">0</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <longProp name="ThreadGroup.start_time">1465967646000</longProp>
+        <longProp name="ThreadGroup.end_time">1465967646000</longProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="HTTP Request" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="data" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.value">var data = [ [&apos;2010&apos;, 29, 27, 40, 4], [&apos;2011&apos;, 22, 36, 40, 2], [&apos;2012&apos;, 28, 36, 34, 2], [&apos;2013&apos;, 22, 31, 43, 5], [&apos;2014&apos;, 25, 42, 33, 1], [&apos;2015&apos;, 17, 38, 43, 3], [&apos;2016&apos;, 19, 32, 46, 2] ]; var dataMappingList = anychart.data.mapAsTable(data); var chart = anychart.line.apply(null, dataMappingList); if(true) { for (var i=0;i&lt;4;i++) {chart.getSeries(i).name(i);} } chart.container(&apos;container&apos;).draw();</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">data</stringProp>
+              </elementProp>
+              <elementProp name="dataType" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">script</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">dataType</stringProp>
+              </elementProp>
+              <elementProp name="responseType" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">file</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">responseType</stringProp>
+              </elementProp>
+              <elementProp name="file-name" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">anychart</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">file-name</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">2000</stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding">utf8</stringProp>
+          <stringProp name="HTTPSampler.path">/png</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.implementation">HttpClient4</stringProp>
+          <boolProp name="HTTPSampler.monitor">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+        <ResultCollector guiclass="GraphVisualizer" testclass="ResultCollector" testname="Graph Results" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+      </hashTree>
+    </hashTree>
+  </hashTree>
+</jmeterTestPlan>

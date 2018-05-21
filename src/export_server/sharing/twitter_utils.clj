@@ -32,10 +32,10 @@
                      :secret access-token-secret}))
 
 (defn confirm-dialog [image profile-image-url screen-name name]
-  (response (render-file "templates/tw_dialog.selmer" {:image image
+  (response (render-file "templates/tw_dialog.selmer" {:image             image
                                                        :profile-image-url profile-image-url
-                                                       :screen-name screen-name
-                                                       :name name})))
+                                                       :screen-name       screen-name
+                                                       :name              name})))
 
 (defn success-dialog [message]
   (response (render-file "templates/tw_success.selmer" {:message message})))

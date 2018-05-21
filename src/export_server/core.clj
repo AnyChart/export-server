@@ -10,12 +10,10 @@
             [ring.middleware.params :refer [wrap-params]]
             [ring.middleware.keyword-params :refer [wrap-keyword-params]]
             [ring.middleware.session :refer [wrap-session]]
-            [export-server.state :as state]
-            [export-server.web-handlers :as web]
-            [export-server.cmd-handlers :as cmd]
-            [export-server.utils.phantom :as browser]
-            ;[export-server.utils.jbrowser :as browser]
-            [export-server.utils.config :as config]
+            [export-server.data.state :as state]
+            [export-server.handlers.web-handlers :as web]
+            [export-server.handlers.cmd-handlers :as cmd]
+            [export-server.browser.core :as browser]
             [export-server.sharing.core :as sharing]
             [export-server.sharing.twitter :as twitter]
             [export-server.sharing.storage :as storage :refer [create-storage init]]
@@ -31,13 +29,15 @@
 (defn get-project-version
   ([] (get-project-version "export-server" "export-server"))
   ([groupid artifact] (-> (doto (Properties.)
-         (.load (-> "META-INF/maven/%s/%s/pom.properties"
-                    (format groupid artifact)
-                    (io/resource)
-                    (io/reader))))
-       (.get "version"))))
+                            (.load (-> "META-INF/maven/%s/%s/pom.properties"
+                                       (format groupid artifact)
+                                       (io/resource)
+                                       (io/reader))))
+                          (.get "version"))))
+
 
 (def server-name (str "AnyChart Export Server " (get-project-version)))
+
 
 (defn init-logger [log-file-name]
   (clojure.java.io/delete-file log-file-name :quiet)
@@ -101,6 +101,10 @@
   [["-C" "--config PATH" "Path to config"
     :default nil]
 
+   ["-e" "--engine BROWSER" "Headless browser: phantom, chrome or firefox"
+    :parse-fn keyword
+    :validate [(fn [engine] (some #(= engine %) [:phantom :chrome :firefox]))]]
+
    ;Server Args--------------------------------------------------------------------------------------------
    ["-P" "--port PORT" "Port number for the server."
     :parse-fn #(Integer/parseInt %)
@@ -129,9 +133,17 @@
    [nil "--twitter-callback" "Twitter application callback URL"]
 
    ;Command Line Common Args--------------------------------------------------------------------------------------------
-   ["-s" "--script SCRIPT" "JavaScript String to Execute." ]
+   ["-s" "--script SCRIPT" "JavaScript String to Execute."]
 
    ["-i" "--input-file INPUT_FILE" "JavaScript file to Execute"]
+
+   [nil "--svg SVG" "SVG string to Execute"]
+
+   [nil "--svg-file SVG_FILE" "SVG file to Execute"]
+
+   ;[nil "--page HTML_PAGE" "HTML page string to Execute"]
+
+   [nil "--html-file HTML_FILE" "HTML page file to Execute"]
 
    ["-o" "--output-file OUTPUT_FILE" "Output File name, file extentions is optional."]
 
@@ -180,6 +192,7 @@
    ["-v" "--version" "Print version, can be used without action"]
    ["-h" "--help" "Print help"]])
 
+
 (defn usage []
   (->> [server-name
         ""
@@ -222,7 +235,7 @@
 (defn shutdown-server []
   (timbre/info "Shutdown...")
   (state/stop-server!)
-  (browser/stop-phantom))
+  (browser/stop-drivers))
 
 (defn start-server [options summary]
   (if (:help options) (exit 0 (server-usage summary)))
@@ -232,7 +245,7 @@
   (if (sharing/init options)
     (timbre/info "Sharing initialiazed")
     (timbre/warn "Sharing did not initialize. Provide both twitter-* and sharing-* options."))
-  (browser/setup-phantom)
+  (browser/setup-drivers)
   (state/set-server! (run-server app {:port (:port options) :ip (:host options)}))
   (.addShutdownHook (Runtime/getRuntime) (Thread. shutdown-server)))
 
@@ -241,17 +254,41 @@
 ; Cmd Actions
 ;====================================================================================
 (defn cmd-export [options summary]
-  (if (:help options) (exit 0 (cmd-usage summary)))
+  (if (:help options)
+    (exit 0 (cmd-usage summary)))
   (let [script (:script options)
-        file (:input-file options)]
+        file (:input-file options)
+        svg (:svg options)
+        svg-file (:svg-file options)
+        html-file (:html-file options)]
     (cond
-      (and (nil? script) (nil? file)) (exit 1 (error-msg ["script or file should be specified in 'cmd' mode."]))
-      (and file (not (.exists (io/file file)))) (exit 1 (error-msg ["Input File not exists."]))
-      :else (case (:type options)
-              "png" (cmd/png options)
-              "jpg" (cmd/jpg options)
-              "svg" (cmd/svg options)
-              "pdf" (cmd/pdf options)))))
+      (and (nil? script)
+           (nil? file)
+           (nil? svg)
+           (nil? svg-file)
+           (nil? html-file))
+      (exit 1 (error-msg ["script, file or HTML page should be specified in 'cmd' mode."]))
+
+      (and file
+           (not (.exists (io/file file))))
+      (exit 1 (error-msg ["Input File not exists."]))
+
+      (and svg-file
+           (not (.exists (io/file svg-file))))
+      (exit 1 (error-msg ["Svg file not exists."]))
+
+      (and html-file
+           (not (.exists (io/file html-file))))
+      (exit 1 (error-msg ["HTML page file not exists."]))
+
+      (or script file)
+      (cmd/script->export options)
+
+      (or svg svg-file)
+      (cmd/svg->export options)
+
+      html-file
+      (cmd/html->export options))))
 
 
 ;====================================================================================

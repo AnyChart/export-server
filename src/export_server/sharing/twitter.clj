@@ -7,7 +7,7 @@
             [oauth.one :as one :refer []]
             [cheshire.core :refer :all]
             [taoensso.timbre :as timbre]
-            [export-server.utils.responce :as resp :refer [json-error json-success]]
+            [export-server.web.responce :as resp :refer [json-error json-success]]
             [export-server.sharing.storage :as storage]
             [export-server.sharing.twitter-utils :as twutils :refer [statuses-update-request
                                                                      media-upload-request

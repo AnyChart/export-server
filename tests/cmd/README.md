@@ -1,0 +1,1 @@
+cmd mode tests

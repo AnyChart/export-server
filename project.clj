@@ -1,5 +1,5 @@
-(defproject export-server "1.5.3"
-  :description "AnyChart export server, AnyChart Bundle version 8.0.1"
+(defproject export-server "1.5.5"
+  :description "AnyChart export server, AnyChart Bundle version 8.1.0"
   :url "https://github.com/AnyChart/export-server"
   :license {:name "Eclipse Public License"
             :url  "http://www.eclipse.org/legal/epl-v10.html"}
@@ -26,7 +26,7 @@
 
                  ;phantomJS
                  [org.apache.httpcomponents/httpclient "4.5.2"]
-                 [clj-webdriver "0.7.2"]
+                 ;[clj-webdriver "0.7.2"]
                  ;; https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java
                  ;[org.seleniumhq.selenium/selenium-java "3.3.1"
                  ; :exclusions [org.seleniumhq.selenium/selenium-support]]
@@ -35,9 +35,26 @@
                  ;              org.seleniumhq.selenium/selenium-server
                  ;              org.seleniumhq.selenium/selenium-remote-driver]]
                  ;;; https://mvnrepository.com/artifact/com.google.guava/guava
-                 ;[com.google.guava/guava "21.0"]
+
+                 [com.google.guava/guava "23.0"]
                  ;[com.codeborne/phantomjsdriver "1.4.2"]
-                 [com.github.detro.ghostdriver/phantomjsdriver "1.1.0"]
+                 ;[com.github.detro.ghostdriver/phantomjsdriver "1.1.0"]
+                 ;; https://mvnrepository.com/artifact/com.codeborne/phantomjsdriver
+                 [com.codeborne/phantomjsdriver "1.4.4"]
+
+                 ;; https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-api
+                 [org.seleniumhq.selenium/selenium-api "3.11.0"]
+                 ;; https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-server
+                 [org.seleniumhq.selenium/selenium-server "3.11.0"]
+                 ;; https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-remote-driver
+                 [org.seleniumhq.selenium/selenium-remote-driver "3.11.0"]
+                 ;; https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java
+                 [org.seleniumhq.selenium/selenium-java "3.11.0"]
+                 ;; https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-firefox-driver
+                 [org.seleniumhq.selenium/selenium-firefox-driver "3.11.0"]
+
+                 [etaoin "0.2.8"]
+                 [tupelo "0.9.72"]
 
                  ;[selmer "1.0.7"]
                  ;jbrowser deps, need to comment clj-wedriver and phantomjsdriver
@@ -51,6 +68,7 @@
                  ;command line args
                  [org.clojure/tools.cli "0.3.5"]
                  [toml "0.1.2"]
+                 [org.apache.commons/commons-lang3 "3.7"]
 
                  ;rasterization
                  [clj-pdf "2.2.30"]
