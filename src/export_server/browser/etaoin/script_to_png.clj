@@ -28,13 +28,13 @@
 ;      (.executeScript d "return document.getElementsByTagName(\"svg\")[0].outerHTML;" (into-array []))))
 
 
-(defn exec-script-to-png-old-version [d script exit-on-error options type]
-  (let [prev-handles (get-window-handles d)
-        prev-handle (first prev-handles)]
-    (js-execute d "window.open(\"\")")
-    (let [new-handles (get-window-handles d)
+(defn exec-script-to-png-old-version [d script options type]
+  (try
+    (let [prev-handles (get-window-handles d)
+          prev-handle (first prev-handles)
+          _ (js-execute d "window.open(\"\")")
+          new-handles (get-window-handles d)
           new-handle (first (clojure.set/difference (set new-handles) (set prev-handles)))]
-
       (switch-window d new-handle)
       (set-window-size d (:image-width options) (+ (:image-height options)
                                                    (if (= :firefox (:engine @state/options)) 75 0)))
@@ -85,28 +85,30 @@
                          (image-resizer/resize-image screenshot options)
                          screenshot)
 
-            error (some #(when (not (nil? %)) %) [startup binary script waiting])]
+            error (first (filter some? [startup binary script waiting]))]
         (println :errs [startup binary script waiting])
 
         (js-execute d "window.close(\"\")")
         (switch-window d prev-handle)
 
         (if error
-          (if exit-on-error
-            (common/exit d 1 error)
-            {:ok false :result error})
+          {:ok false :result error}
           {:ok     true
            :result (case type :png screenshot :svg svg)
-           :png screenshot
-           :svg svg})))))
+           :png    screenshot
+           :svg    svg})))
+    (catch Exception e
+      (timbre/error "Exec script to png error: " e)
+      {:ok false :result (str "Exec script to png error: " e)})))
 
 
 
-(defn exec-script-to-png [d script exit-on-error options type]
-  (let [prev-handles (get-window-handles d)
-        prev-handle (first prev-handles)]
-    (js-execute d "window.open(\"\")")
-    (let [new-handles (get-window-handles d)
+(defn exec-script-to-png [d script options type]
+  (try
+    (let [prev-handles (get-window-handles d)
+          prev-handle (first prev-handles)
+          _ (js-execute d "window.open(\"\")")
+          new-handles (get-window-handles d)
           new-handle (first (clojure.set/difference (set new-handles) (set prev-handles)))]
       (switch-window d new-handle)
       (set-window-size d (:image-width options) (+ (:image-height options)
@@ -150,18 +152,21 @@
         (switch-window d prev-handle)
 
         (if error
-          (if exit-on-error
-            (common/exit d 1 error)
-            {:ok false :result error})
-          (case type
-            :png {:ok true :result screenshot}
-            :svg {:ok true :result svg}))))))
-
+          {:ok false :result error}
+          {:ok     true
+           :result (case type :png screenshot :svg svg)
+           :png    screenshot
+           :svg    svg})))
+    (catch Exception e
+      (timbre/error "Exec script to png error: " e)
+      {:ok false :result (str "Exec script to png error: " e)})))
 
 
 (defn script-to-png [script quit-ph exit-on-error options type]
   (if-let [driver (if quit-ph (common/create-driverr) (common/get-free-driver))]
-    (let [svg (exec-script-to-png driver script exit-on-error options type)]
+    (let [result (exec-script-to-png driver script options type)]
+      (when (and (false? (:ok result)) exit-on-error)
+        (common/exit driver 1 (:result result)))
       (if quit-ph (quit driver) (common/return-driver driver))
-      svg)
+      result)
     {:ok false :result "Driver isn't available\n"}))

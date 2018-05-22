@@ -5,12 +5,17 @@
             [export-server.browser.selenium.html-to-png :as html-to-png-ns]))
 
 
-(def setup-drivers common/setup-drivers)
+(defn setup-drivers []
+  (common/setup-drivers))
 
-(def stop-drivers common/stop-drivers)
+(defn stop-drivers []
+  (common/stop-drivers))
 
-(def script-to-png script-to-png-ns/script-to-png)
+(defn script-to-png [script quit-ph exit-on-error options type]
+  (script-to-png-ns/script-to-png script quit-ph exit-on-error options type))
 
-(def svg-to-png svg-to-png-ns/svg-to-png)
+(defn svg-to-png [svg quit-ph exit-on-error options]
+  (svg-to-png-ns/svg-to-png svg quit-ph exit-on-error options))
 
-(def html-to-png html-to-png-ns/html-to-png)
+(defn html-to-png [file quit-ph exit-on-error options & [svg-type?]]
+  (html-to-png-ns/html-to-png file quit-ph exit-on-error options svg-type?))

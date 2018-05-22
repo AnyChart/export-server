@@ -13,40 +13,49 @@
             [tikkba.transcoder :as transcoder]
             [digest :as d]
             [clj-pdf.core :refer :all]
-            [clojure.java.io :as io :refer [output-stream]]))
+            [clojure.java.io :as io :refer [output-stream]]
+            [clojure.string :as string]))
+
 
 ;=======================================================================================================================
 ; SVG string helpers
 ;=======================================================================================================================
 ;; remove empty images - cause of error during pdf processing
 (defn- remove-empty-img [svg]
-  (clojure.string/replace svg #"<image[^>]*xlink:href=\"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7\"[^\<]*" ""))
+  (string/replace svg #"<image[^>]*xlink:href=\"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7\"[^\<]*" ""))
+
 
 ;; remove paths with 0.00001 (1e-005 for IE) opacity - cause of some other labels invisibility
 (defn- remove-opacity [svg]
   (-> svg
-      (clojure.string/replace #"<path[^>]*fill-opacity=\"0\.0+1\"[^<]*" "")
-      (clojure.string/replace #"<path[^>]*fill-opacity=\"1e-005\"[^<]*" "")))
+      (string/replace #"<path[^>]*fill-opacity=\"0\.0+1\"[^<]*" "")
+      (string/replace #"<path[^>]*fill-opacity=\"1e-005\"[^<]*" "")))
+
 
 ;; fill="rgba(0,232,121,0.05)" --> fill="rgba(0,232,121)" fill-opacity="0.05"
 ;; stroke="rgba(0,232,121,0.05)" --> stroke="rgba(0,232,121)" stroke-opacity="0.05"
 (defn replace-rgba [svg]
   (-> svg
-      (clojure.string/replace #"fill=\"rgba\(([^,\)]*),([^,\)]*),([^,\)]*),([^,\)]*)\)\""
-                              "fill=\"rgb($1,$2,$3)\" fill-opacity=\"$4\"")
-      (clojure.string/replace #"stroke=\"rgba\(([^,\)]*),([^,\)]*),([^,\)]*),([^,\)]*)\)\""
-                              "stroke=\"rgb($1,$2,$3)\" stroke-opacity=\"$4\"")))
+      (string/replace #"fill=\"rgba\(([^,\)]*),([^,\)]*),([^,\)]*),([^,\)]*)\)\""
+                      "fill=\"rgb($1,$2,$3)\" fill-opacity=\"$4\"")
+      (string/replace #"stroke=\"rgba\(([^,\)]*),([^,\)]*),([^,\)]*),([^,\)]*)\)\""
+                      "stroke=\"rgb($1,$2,$3)\" stroke-opacity=\"$4\"")))
+
 
 (defn- trim-svg-string [str]
-  (let [left-trim-str (clojure.string/replace str #"^\"" "")
-        right-trim-str (clojure.string/replace left-trim-str #"\"$" "")]
+  (let [left-trim-str (string/replace str #"^\"" "")
+        right-trim-str (string/replace left-trim-str #"\"$" "")]
     right-trim-str))
 
+
 (defn- remove-cursor [svg]
-  (clojure.string/replace svg #"cursor\s*:\s*[\w-]+\s*;?\s*" ""))
+  (string/replace svg #"cursor\s*:\s*[\w-]+\s*;?\s*" ""))
+
 
 (defn clear-svg [svg]
-  (-> svg remove-cursor remove-empty-img remove-opacity replace-rgba))
+  (when (string? svg)
+    (-> svg remove-cursor remove-empty-img remove-opacity replace-rgba)))
+
 
 ;=======================================================================================================================
 ; SVG --> PDF
@@ -77,6 +86,7 @@
       {:ok true :result (.toByteArray out)})
     (catch Exception e {:ok false :result (.getMessage e)})))
 
+
 ;=======================================================================================================================
 ; PNG --> JPG
 ;=======================================================================================================================
@@ -90,6 +100,7 @@
     (.drawImage (.createGraphics newBufferedImage) bufferedImage 0 0 Color/WHITE nil)
     (ImageIO/write newBufferedImage "JPG" baos)
     {:ok true :result (.toByteArray baos)}))
+
 
 ;=======================================================================================================================
 ; SVG --> JPG
@@ -110,6 +121,7 @@
         {:ok true :result (.toByteArray out)}))
     (catch Exception e {:ok false :result (.getMessage e)})))
 
+
 ;=======================================================================================================================
 ; SVG --> PNG
 ;=======================================================================================================================
@@ -128,10 +140,12 @@
         {:ok true :result (.toByteArray out)}))
     (catch Exception e {:ok false :result (.getMessage e)})))
 
+
 ;=======================================================================================================================
 ; Base64 encode
 ;=======================================================================================================================
 (defn to-base64 [byte-array] (String. (b64/encode byte-array) "UTF-8"))
+
 
 ;=======================================================================================================================
 ; File's name for local saving

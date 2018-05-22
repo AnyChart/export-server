@@ -3,7 +3,8 @@
             [export-server.browser.selenium.common :as common]
             [export-server.utils.rasterizator :as rasterizator]
             [export-server.browser.templates :as html-templates]
-            [export-server.data.state :as state])
+            [export-server.data.state :as state]
+            [taoensso.timbre :as timbre])
   (:import (org.openqa.selenium Point Dimension OutputType TakesScreenshot)))
 
 
@@ -18,11 +19,12 @@
   (str "data:text/html," s64))
 
 
-(defn- exec-svg-to-png [d svg exit-on-error {image-width :image-width image-height :image-height :as options}]
-  (let [prev-handles (.getWindowHandles d)
-        prev-handle (first prev-handles)]
-    (.executeScript d "window.open(\"\")" (into-array []))
-    (let [new-handles (.getWindowHandles d)
+(defn- exec-svg-to-png [d svg {image-width :image-width image-height :image-height :as options}]
+  (try
+    (let [prev-handles (.getWindowHandles d)
+          prev-handle (first prev-handles)
+          _ (.executeScript d "window.open(\"\")" (into-array []))
+          new-handles (.getWindowHandles d)
           new-handle (first (clojure.set/difference (set new-handles) (set prev-handles)))]
       (.window (.switchTo d) new-handle)
       (when (and image-width image-height)
@@ -30,34 +32,40 @@
         (.setSize (.window (.manage d)) (Dimension. image-width (+
                                                                   (if (= :firefox (:engine @state/options)) 75 0)
                                                                   image-height))))
-      (let [startup (try
-                      (let [url-encoded-data (add-data-text-html-base64-prefix (util/str-to-b64 (html-templates/create-svg-html svg)))]
-                        (.get d url-encoded-data))
-                      (catch Exception e (str "Failed to execute Startup Script\n" (.getMessage e))))
+      (let [startup-error (try
+                            (let [url-encoded-data (add-data-text-html-base64-prefix (util/str-to-b64 (html-templates/create-svg-html svg)))]
+                              (.get d url-encoded-data))
+                            (catch Exception e (str "Failed to execute Startup Script\n" (.getMessage e))))
 
-            screenshot (.getScreenshotAs (cast TakesScreenshot d) OutputType/BYTES)
+            [screenshot screenshot-error] (when-not startup-error
+                                            (try
+                                              [(.getScreenshotAs (cast TakesScreenshot d) OutputType/BYTES) nil]
+                                              (catch Exception e
+                                                [nil (str "Failed to make screenshot\n" (.getMessage e))])))
 
-            shoutdown
-            (try
-              (.executeScript d "while (document.body.hasChildNodes()){document.body.removeChild(document.body.lastChild);}", (into-array []))
-              (catch Exception e (str "Failed to execute Shoutdown Script\n" (.getMessage e))))
-
-            error (some #(when (not (nil? %)) %) [startup shoutdown])]
+            error (first (filter some? [startup-error screenshot-error]))]
 
         (.executeScript d "window.close(\"\")" (into-array []))
         (.window (.switchTo d) prev-handle)
-
         (if error
-          (if exit-on-error
-            (common/exit d 1 error)
-            {:ok false :result error})
-          {:ok true :result screenshot})))))
+          {:ok false :result error}
+          {:ok true :result screenshot})))
+
+    (catch Exception e
+      (timbre/error "Exec svg to png error: " e)
+      {:ok false :result (str "Exec svg to png error: " e)})))
 
 
 (defn svg-to-png [svg quit-ph exit-on-error options]
   (if-let [driver (if quit-ph (common/create-driver) (common/get-free-driver))]
+
     (let [svg (rasterizator/clear-svg svg)
-          png-result (exec-svg-to-png driver svg exit-on-error options)]
+          result (exec-svg-to-png driver svg options)]
+
+      (when (and (false? (:ok result)) exit-on-error)
+        (common/exit driver 1 (:result result)))
+
       (if quit-ph (.quit driver) (common/return-driver driver))
-      png-result)
+      result)
+
     {:ok false :result "Driver isn't available\n"}))

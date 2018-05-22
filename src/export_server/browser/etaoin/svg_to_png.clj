@@ -21,11 +21,12 @@
   (str "data:text/html," s64))
 
 
-(defn- exec-svg-to-png [d svg exit-on-error options]
-  (let [prev-handles (get-window-handles d)
-        prev-handle (first prev-handles)]
-    (js-execute d "window.open(\"\")")
-    (let [new-handles (get-window-handles d)
+(defn- exec-svg-to-png [d svg options]
+  (try
+    (let [prev-handles (get-window-handles d)
+          prev-handle (first prev-handles)
+          _ (js-execute d "window.open(\"\")")
+          new-handles (get-window-handles d)
           new-handle (first (clojure.set/difference (set new-handles) (set prev-handles)))]
       (switch-window d new-handle)
       (when (and (:image-width options) (:image-height options))
@@ -44,7 +45,7 @@
               (js-execute d "while (document.body.hasChildNodes()){document.body.removeChild(document.body.lastChild);}")
               (catch Exception e (str "Failed to execute Shoutdown Script\n" (.getMessage e))))
 
-            error (some #(when (not (nil? %)) %) [startup shutdown])]
+            error (first (filter some? [startup shutdown]))]
 
         (js-execute d "window.close(\"\")")
         (switch-window d prev-handle)
@@ -52,16 +53,19 @@
         ;  (.write out screenshot))
 
         (if error
-          (if exit-on-error
-            (common/exit d 1 error)
-            {:ok false :result error})
-          {:ok true :result screenshot})))))
+          {:ok false :result error}
+          {:ok true :result screenshot})))
+    (catch Exception e
+      (timbre/error "Exec svg to png error: " e)
+      {:ok false :result (str "Exec svg to png error: " e)})))
 
 
 (defn svg-to-png [svg quit-ph exit-on-error options]
   (if-let [driver (if quit-ph (common/create-driverr) (common/get-free-driver))]
     (let [svg (rasterizator/clear-svg svg)
-          png-result (exec-svg-to-png driver svg exit-on-error options)]
+          result (exec-svg-to-png driver svg options)]
+      (when (and (false? (:ok result)) exit-on-error)
+        (common/exit driver 1 (:result result)))
       (if quit-ph (quit driver) (common/return-driver driver))
-      png-result)
+      result)
     {:ok false :result "Driver isn't available\n"}))

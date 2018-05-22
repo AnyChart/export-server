@@ -9,11 +9,12 @@
 ;=======================================================================================================================
 ; HTML --> PNG
 ;=======================================================================================================================
-(defn exec-html-to-png [d file exit-on-error options svg-type?]
-  (let [prev-handles (.getWindowHandles d)
-        prev-handle (first prev-handles)]
-    (.executeScript d "window.open(\"\")" (into-array []))
-    (let [new-handles (.getWindowHandles d)
+(defn exec-html-to-png [d file options svg-type?]
+  (try
+    (let [prev-handles (.getWindowHandles d)
+          prev-handle (first prev-handles)
+          _ (.executeScript d "window.open(\"\")" (into-array []))
+          new-handles (.getWindowHandles d)
           new-handle (first (clojure.set/difference (set new-handles) (set prev-handles)))]
       (.window (.switchTo d) new-handle)
       (when (and (:image-width options) (:image-height options))
@@ -52,24 +53,31 @@
                          (image-resizer/resize-image screenshot options)
                          screenshot)
 
-            error (some #(when (not (nil? %)) %) [startup])]
+            error (first (filter some? [startup]))]
 
         (.executeScript d "window.close(\"\")" (into-array []))
         (.window (.switchTo d) prev-handle)
 
         (if error
-          (if exit-on-error
-            (common/exit d 1 error)
-            {:ok false :result error})
-          {:ok true
+          {:ok false :result error}
+          {:ok     true
            :result (if svg-type? svg screenshot)
-           :png screenshot
-           :svg svg})))))
+           :png    screenshot
+           :svg    svg})))
+    (catch Exception e
+      (timbre/error "Exec html to png error: " e)
+      {:ok false :result (str "Exec html to png error: " e)})))
 
 
 (defn html-to-png [file quit-ph exit-on-error options & [svg-type?]]
   (if-let [driver (if quit-ph (common/create-driver) (common/get-free-driver))]
-    (let [png-result (exec-html-to-png driver file exit-on-error options svg-type?)]
+
+    (let [result (exec-html-to-png driver file options svg-type?)]
+
+      (when (and (false? (:ok result)) exit-on-error)
+        (common/exit driver 1 (:result result)))
+
       (if quit-ph (.quit driver) (common/return-driver driver))
-      png-result)
+      result)
+
     {:ok false :result "Driver isn't available\n"}))

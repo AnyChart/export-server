@@ -4,7 +4,8 @@
             [export-server.data.state :as state]
             [export-server.browser.templates :as html-templates]
             [export-server.data.config :as config]
-            [clojure.java.io :as io])
+            [clojure.java.io :as io]
+            [taoensso.timbre :as timbre])
   (:import (org.openqa.selenium Dimension By OutputType TakesScreenshot)
            (java.io File)))
 
@@ -12,83 +13,80 @@
 ;=======================================================================================================================
 ; Script --> PNG
 ;=======================================================================================================================
-(defn- exec-script-to-png-via-file [d script exit-on-error options type]
-  (let [prev-handles (.getWindowHandles d)]
-    (.executeScript d "window.open(\"\")" (into-array []))
-    (let [new-handles (.getWindowHandles d)
-          new-handle (first (clojure.set/difference (set new-handles) (set prev-handles)))
-          prev-handle (first prev-handles)]
-      (.window (.switchTo d) new-handle)
-      (.setSize (.window (.manage d)) (Dimension. (:image-width options) (+ (:image-height options)
-                                                                            (if (= :firefox (:engine @state/options)) 75 0))))
-      (let [startup (try
-                      (let [html (html-templates/create-script-html options script)
-                            tmp-file (File/createTempFile "anychart-export-server" "")]
-                        (spit tmp-file html)
-                        (.get d (str "file://" (.getAbsolutePath tmp-file)))
-                        (.delete tmp-file)
-                        nil)
-                      (catch Exception e (str "Failed to execute Startup Script\n" (.getMessage e))))
+(defn- exec-script-to-png-via-file [d script options type]
+  (try
+    (let [prev-handles (.getWindowHandles d)
+         prev-handle (first prev-handles)
+         _ (.executeScript d "window.open(\"\")" (into-array []))
+         new-handles (.getWindowHandles d)
+         new-handle (first (clojure.set/difference (set new-handles) (set prev-handles)))]
+     (.window (.switchTo d) new-handle)
+     (.setSize (.window (.manage d)) (Dimension. (:image-width options) (+ (:image-height options)
+                                                                           (if (= :firefox (:engine @state/options)) 75 0))))
+     (let [startup (try
+                     (let [html (html-templates/create-script-html options script)
+                           tmp-file (File/createTempFile "anychart-export-server" "")]
+                       (spit tmp-file html)
+                       (.get d (str "file://" (.getAbsolutePath tmp-file)))
+                       (.delete tmp-file)
+                       nil)
+                     (catch Exception e (str "Failed to execute Startup Script\n" (.getMessage e))))
 
-            waiting
-            (try
-              (let [now (System/currentTimeMillis)]
-                (loop []
-                  (if (seq (.findElements d (By/tagName "svg")))
-                    (do
-                      (Thread/sleep 10)
-                      nil)
-                    (if (> (System/currentTimeMillis) (+ now 5000))
-                      nil
-                      (do
-                        (Thread/sleep 10)
-                        (recur))))))
-              (catch Exception e (str "Failed to wait for SVG\n" (.getMessage e))))
+           waiting
+           (try
+             (let [now (System/currentTimeMillis)]
+               (loop []
+                 (if (seq (.findElements d (By/tagName "svg")))
+                   (do
+                     (Thread/sleep 10)
+                     nil)
+                   (if (> (System/currentTimeMillis) (+ now 5000))
+                     nil
+                     (do
+                       (Thread/sleep 10)
+                       (recur))))))
+             (catch Exception e (str "Failed to wait for SVG\n" (.getMessage e))))
 
-            svg
-            (try
-              (common/get-svg d)
-              (catch Exception e (str "Failed to take SVG Structure\n" (.getMessage e))))
+           svg
+           (try
+             (common/get-svg d)
+             (catch Exception e (str "Failed to take SVG Structure\n" (.getMessage e))))
 
-            screenshot (.getScreenshotAs (cast TakesScreenshot d) OutputType/BYTES)
-            ;; we need to resize (on white background) cause FIREFOX crop height and it has white background
-            screenshot (if (= :firefox (:engine @state/options))
-                         (image-resizer/resize-image screenshot options)
-                         screenshot)
+           screenshot (.getScreenshotAs (cast TakesScreenshot d) OutputType/BYTES)
+           ;; we need to resize (on white background) cause FIREFOX crop height and it has white background
+           screenshot (if (= :firefox (:engine @state/options))
+                        (image-resizer/resize-image screenshot options)
+                        screenshot)
 
-            error (some #(when (not (nil? %)) %) [startup waiting])]
+           error (first (filter some? [startup waiting]))]
 
-        (.executeScript d "window.close(\"\")" (into-array []))
-        (.window (.switchTo d) prev-handle)
+       (.executeScript d "window.close(\"\")" (into-array []))
+       (.window (.switchTo d) prev-handle)
 
-        (if error
-          (if exit-on-error
-            (common/exit d 1 error)
-            {:ok false :result error})
-          (case type
-            :png {:ok true :result screenshot}
-            :svg {:ok true :result svg}))))))
+       (if error
+         {:ok false :result error}
+         {:ok     true
+          :result (case type :png screenshot :svg svg)
+          :png    screenshot
+          :svg    svg})))
+    (catch Exception e
+      (timbre/error "Exec script to png error: " e)
+      {:ok false :result (str "Exec script to png error: " e)})))
 
 
 (def anychart-binary (slurp (io/resource "js/anychart-bundle.min.js")))
 
-(defn- exec-script-to-png [d script exit-on-error options type]
-  ;(prn :image-size (:image-width options) (:image-height options))
-  ;(prn :container-size (:container-width options) (:container-height options))
-  ;(prn :result-container-size
-  ;     (str (config/min-size (:image-width options) (:container-width options)))
-  ;     (str (config/min-size (:image-height options) (:container-height options))))
-  (let [prev-handles (.getWindowHandles d)
-        prev-handle (first prev-handles)]
-    (.executeScript d "window.open(\"\")" (into-array []))
-    (let [new-handles (.getWindowHandles d)
+
+(defn- exec-script-to-png [d script options type]
+  (try
+    (let [prev-handles (.getWindowHandles d)
+          prev-handle (first prev-handles)
+          _ (.executeScript d "window.open(\"\")" (into-array []))
+          new-handles (.getWindowHandles d)
           new-handle (first (clojure.set/difference (set new-handles) (set prev-handles)))]
       (.window (.switchTo d) new-handle)
       (.setSize (.window (.manage d)) (Dimension. (:image-width options) (+ (:image-height options)
                                                                             (if (= :firefox (:engine @state/options)) 75 0))))
-
-      ;(prn "prev handles: " prev-handles)
-      ;(prn "Current: " (.getWindowHandle (:webdriver d)))
       (let [startup
             (try
               (.executeScript d "document.getElementsByTagName(\"body\")[0].style.margin = 0;
@@ -145,7 +143,7 @@
                          (image-resizer/resize-image screenshot options)
                          screenshot)
 
-            error (some #(when (not (nil? %)) %) [startup binary script waiting])]
+            error (first (filter some? [startup binary script waiting]))]
 
         (.executeScript d "window.close(\"\")" (into-array []))
 
@@ -156,19 +154,26 @@
         ;(prn "SVG: " svg)
 
         (if error
-          (if exit-on-error
-            (common/exit d 1 error)
-            {:ok false :result error})
+          {:ok false :result error}
           {:ok     true
            :result (case type :png screenshot :svg svg)
-           :png screenshot
-           :svg svg})))))
+           :png    screenshot
+           :svg    svg})))
 
+    (catch Exception e
+      (timbre/error "Exec script to png error: " e)
+      {:ok false :result (str "Exec script to png error: " e)})))
 
 
 (defn script-to-png [script quit-ph exit-on-error options type]
   (if-let [driver (if quit-ph (common/create-driver) (common/get-free-driver))]
-    (let [svg (exec-script-to-png driver script exit-on-error options type)]
+
+    (let [result (exec-script-to-png driver script options type)]
+
+      (when (and (false? (:ok result)) exit-on-error)
+        (common/exit driver 1 (:result result)))
+
       (if quit-ph (.quit driver) (common/return-driver driver))
-      svg)
+      result)
+
     {:ok false :result "Driver isn't available\n"}))
