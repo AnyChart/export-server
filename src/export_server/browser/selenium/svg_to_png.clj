@@ -19,7 +19,7 @@
   (str "data:text/html," s64))
 
 
-(defn- exec-svg-to-png [d svg {image-width :image-width image-height :image-height :as options}]
+(defn exec-svg-to-png [d svg {image-width :image-width image-height :image-height :as options}]
   (try
     (let [prev-handles (.getWindowHandles d)
           prev-handle (first prev-handles)

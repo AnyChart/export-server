@@ -21,7 +21,7 @@
    "quality"                 [[v/matches ratio-re :message "Quality must be in range: 0.1 - 1."]]})
 
 
-(defn- available-pdf-size? [size]
+(defn available-pdf-size? [size]
   (if (nil? size)
     true
     (contains? available-pdf-sizes (keyword size))))

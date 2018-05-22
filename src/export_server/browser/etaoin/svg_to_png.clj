@@ -21,7 +21,7 @@
   (str "data:text/html," s64))
 
 
-(defn- exec-svg-to-png [d svg options]
+(defn exec-svg-to-png [d svg options]
   (try
     (let [prev-handles (get-window-handles d)
           prev-handle (first prev-handles)

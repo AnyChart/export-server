@@ -12,7 +12,7 @@
 ;=======================================================================================================================
 ; Drivers initialization
 ;=======================================================================================================================
-(defn- create-driver-phantom []
+(defn create-driver-phantom []
   (let [caps (DesiredCapabilities.)
         cliArgsCap (ArrayList.)]
     (.add cliArgsCap "--web-security=false")
@@ -22,7 +22,7 @@
     (PhantomJSDriver. caps)))
 
 
-(defn- create-driver-chrome []
+(defn create-driver-chrome []
   (let [opts (ChromeOptions.)
         args (ArrayList.)
         caps (DesiredCapabilities.)]

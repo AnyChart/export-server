@@ -85,7 +85,7 @@
    :pdf-y                   (get-pdf-y params)})
 
 
-(defn- to-png [params]
+(defn to-png [params]
   (let [data (params "data")
         data-type (get-data-type params)
         options (params-to-options params)]
@@ -98,7 +98,7 @@
       :else {:ok false :result "Unknown data type"})))
 
 
-(defn- to-jpg [params]
+(defn to-jpg [params]
   (let [data (params "data")
         data-type (get-data-type params)
         options (params-to-options params)]
@@ -117,7 +117,7 @@
       :else {:ok false :result "Unknown data type"})))
 
 
-(defn- to-pdf [params]
+(defn to-pdf [params]
   (let [data (params "data")
         data-type (get-data-type params)
         options (params-to-options params)
@@ -138,7 +138,7 @@
       :else {:ok false :result "Unknown data type"})))
 
 
-(defn- to-svg [params]
+(defn to-svg [params]
   (let [data (params "data")
         data-type (get-data-type params)
         options (params-to-options params)]
@@ -151,7 +151,7 @@
       :else {:ok false :result "Unknown data type"})))
 
 
-(defn- get-file-name [params] (if (and (contains? params "file-name") (string? (params "file-name"))) (params "file-name") "anychart"))
+(defn get-file-name [params] (if (and (contains? params "file-name") (string? (params "file-name"))) (params "file-name") "anychart"))
 
 
 (defn save-file-and-get-url [data file-name extention]

@@ -21,12 +21,12 @@
 ; SVG string helpers
 ;=======================================================================================================================
 ;; remove empty images - cause of error during pdf processing
-(defn- remove-empty-img [svg]
+(defn remove-empty-img [svg]
   (string/replace svg #"<image[^>]*xlink:href=\"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7\"[^\<]*" ""))
 
 
 ;; remove paths with 0.00001 (1e-005 for IE) opacity - cause of some other labels invisibility
-(defn- remove-opacity [svg]
+(defn remove-opacity [svg]
   (-> svg
       (string/replace #"<path[^>]*fill-opacity=\"0\.0+1\"[^<]*" "")
       (string/replace #"<path[^>]*fill-opacity=\"1e-005\"[^<]*" "")))
@@ -42,13 +42,13 @@
                       "stroke=\"rgb($1,$2,$3)\" stroke-opacity=\"$4\"")))
 
 
-(defn- trim-svg-string [str]
+(defn trim-svg-string [str]
   (let [left-trim-str (string/replace str #"^\"" "")
         right-trim-str (string/replace left-trim-str #"\"$" "")]
     right-trim-str))
 
 
-(defn- remove-cursor [svg]
+(defn remove-cursor [svg]
   (string/replace svg #"cursor\s*:\s*[\w-]+\s*;?\s*" ""))
 
 
