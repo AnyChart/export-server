@@ -66,6 +66,15 @@
           result (exec-svg-to-png driver svg options)]
       (when (and (false? (:ok result)) exit-on-error)
         (common/exit driver 1 (:result result)))
-      (if quit-ph (quit driver) (common/return-driver driver))
+
+      (if quit-ph
+        (quit driver)
+        (if (:ok result)
+          (common/return-driver driver)
+          (do
+            (try (quit driver)
+                 (catch Exception e (timbre/error "Quit driver error: "e)))
+            (common/return-driver (common/create-driverr)))))
+
       result)
     {:ok false :result "Driver isn't available\n"}))
