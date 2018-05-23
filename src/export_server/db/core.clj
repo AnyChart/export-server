@@ -3,6 +3,7 @@
             [honeysql.core :as sql])
   (:import (com.mchange.v2.c3p0 ComboPooledDataSource)))
 
+
 (defn connection-pool
   "Create a connection pool for the given database spec."
   [{:keys [subprotocol subname classname user password
@@ -34,17 +35,22 @@
                  (.setTestConnectionOnCheckout test-connection-on-checkout)
                  (.setPreferredTestQuery test-connection-query))})
 
+
 (defn sql [q]
   (sql/format q))
+
 
 (defn query [jdbc q]
   (clj-jdbc/query (:conn jdbc) (sql q)))
 
+
 (defn one [jdbc q]
   (first (query jdbc q)))
 
+
 (defn exec [jdbc q]
   (clj-jdbc/execute! (:conn jdbc) (sql q)))
+
 
 (defn insert! [jdbc table data]
   (clj-jdbc/insert! (:conn jdbc) table data))

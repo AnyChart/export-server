@@ -1,6 +1,7 @@
 (ns export-server.data.config
   (:require [export-server.utils.util :refer [jar-location]]))
 
+
 (def available-pdf-sizes {:a0           {:width "841mm" :height "1189mm"}
                           :a1           {:width "594mm" :height "841mm"}
                           :a2           {:width "420mm" :height "594mm"}
@@ -42,9 +43,12 @@
                           :tabloid      {:width "279mm" :height "432mm"}
                           })
 
+
 (def available-rasterization-data-types #{"script" "svg"})
 
+
 (def available-rasterization-response-types #{"file" "base64"})
+
 
 (def defaults {
                :engine                  :phantom
