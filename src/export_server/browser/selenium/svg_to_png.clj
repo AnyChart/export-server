@@ -73,6 +73,14 @@
             (try (.quit driver)
                  (catch Exception e (timbre/error "Quit driver error: "e)))
             (common/return-driver (common/create-driver)))))
+
+      (println "\n")
+      (timbre/info "REQUEST:")
+      (timbre/info svg)
+      (timbre/info options)
+      (timbre/info "OK: " (:ok result) " Error:" (:error result))
+      (println "\n")
+
       result)
 
     {:ok false :result "Driver isn't available\n"}))
