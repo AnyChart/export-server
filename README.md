@@ -12,7 +12,7 @@ java -jar anychart-export.jar cmd -e firefox --script "var chart = anychart.line
 ```
 Default browser engine is PhantomJS.
 
-If you need to take a screenshot of a page in the Internet or in a local HTML file, you can just use
+If you need to take a screenshot of a page on the Internet or in a local HTML file, you can just use
 Chrome or Firefox in headless mode without the AnyChart Export Server. You can read about that
 [here](https://developers.google.com/web/updates/2017/04/headless-chrome), for Chrome and
 [here](https://developer.mozilla.org/en-US/Firefox/Headless_mode), for Firefox.
@@ -26,7 +26,7 @@ Don't forget to use `file:///` prefix for rendering a local HTML file.
 * install Firefox browser (version 56.0 and above)
 * install `geckodriver`
     * `brew install geckodriver` for Mac users
-    * or download it from [official Moziall Size](https://github.com/mozilla/geckodriver/releases) and add it to PATH
+    * or download it from [official Mozilla Site](https://github.com/mozilla/geckodriver/releases) and add it to PATH
 
 ### Chrome/Chromium install
 * install Chrome or Chromium browser (version 60.0 and above)
