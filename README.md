@@ -2,7 +2,7 @@
 # AnyChart Export Server
 
 AnyChart Export Server is a tool that is used to provide chart export to PNG, JPG, PDF, SVG, CSV, Excel, JSON and XML.
-You can read full description [here](//docs.anychart.com/Common_Settings/Server-side_Rendering).
+You can read the full description [here](//docs.anychart.com/Common_Settings/Server-side_Rendering).
 
 ## Setup 
 Export server can use PhantomJS, Firefox headless or Chrome/Chromium headless.
@@ -12,31 +12,31 @@ java -jar anychart-export.jar cmd -e firefox --script "var chart = anychart.line
 ```
 Default browser engine is PhantomJS.
 
-In the case you need to get a screenshot of a page in the Internet or local HTML file, you can just use
+If you need to take a screenshot of a page in the Internet or in a local HTML file, you can just use
 Chrome or Firefox in headless mode without the AnyChart Export Server. You can read about that
 [here](https://developers.google.com/web/updates/2017/04/headless-chrome), for Chrome and
 [here](https://developer.mozilla.org/en-US/Firefox/Headless_mode), for Firefox.
-Don't forget to use `file:///` prefix for rendering a local html file.
+Don't forget to use `file:///` prefix for rendering a local HTML file.
 
 ### PhantomJS install
 * download and install PhantomJS on you PC.
 * make sure PhantomJS binary is in your PATH
 
 ### Firefox install
-* install Firefox browser, version > 56.0
+* install Firefox browser (version 56.0 and above)
 * install `geckodriver`
     * `brew install geckodriver` for Mac users
     * or download it from [official Moziall Size](https://github.com/mozilla/geckodriver/releases) and add it to PATH
 
 ### Chrome/Chromium install
-* install Chrome or Chromium browser, version > 60.0
+* install Chrome or Chromium browser (version 60.0 and above)
 * install `chromedriver`
     * `brew install chromedriver` for Mac users
     * or download it from the [official site](https://sites.google.com/a/chromium.org/chromedriver/downloads)  and add it to PATH
 
 
 ## Requests
-AnyChart Export Server supports following requests:
+AnyChart Export Server supports the following requests:
 
 | Request       | Type          | Description  |
 | ------------- |:-------------:|------|
@@ -54,7 +54,7 @@ AnyChart Export Server supports following requests:
 | /sharing/twitter_confirm | POST     |    Twitter Sharing status update |
 
 
-Typical Export and Twitter Sharing request contains params listed below:
+Typical Export and Twitter Sharing request contains the params listed below:
 
 | Parameter      | Type         | Default| Description  |
 | ------------- |:-------------:|--|------|
@@ -62,7 +62,7 @@ Typical Export and Twitter Sharing request contains params listed below:
 | data-type   | **required**   | - | a field that contains the information about the data, it might be "script" or "svg"|
 | response-type | **required**  | - | a field that tells how to export the result (file or as base64) |
 | file-name    | optional | anychart |    file name |
-| save       | optional   | - |if it presents, request returns url of a saved image|
+| save       | optional   | - |if it presents, request returns URL of a saved image|
 | container-id     | optional |container| div container id|
 | container-width  | optional |100%| div container width|
 | container-height | optional |100%| div container height|
@@ -107,7 +107,7 @@ user = "export_server_user"
 password = "export_server_password"
 
 [server.sharing.twitter]
-# settings from twitter app settings for sharint in Twitter
+# settings from twitter app settings for sharing in Twitter
 key = "key"
 secret = "secret"
 callback = "http://example.com/sharing/twitter_oauth"
@@ -139,7 +139,7 @@ You can pass a config file witn `-C` option, e.g.
 java -jar export-server.jar -C settings.toml
  ```
 
-To use Twitter sharing be sure you have setup your MySQL database properly with [SQL scheme](https://github.com/AnyChart/export-server/blob/master/src/sql/scheme.sql).
+To use Twitter sharing make sure you have setup your MySQL database properly with [SQL scheme](https://github.com/AnyChart/export-server/blob/master/src/sql/scheme.sql).
 
 ## License
 [© AnyChart.com - JavaScript charts](http://www.anychart.com). Export Server released under the [Apache 2.0 License](https://github.com/AnyChart/export-server/blob/master/LICENSE).
