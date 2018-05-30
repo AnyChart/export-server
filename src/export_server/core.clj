@@ -23,6 +23,7 @@
             [taoensso.timbre.appenders.core :as appenders])
   (:gen-class))
 
+
 ;====================================================================================
 ; Main utils
 ;====================================================================================
@@ -52,7 +53,35 @@
 
 
 ;====================================================================================
-; Server Usage
+; Common usage summary
+;====================================================================================
+(defn usage [common-summary cmd-summary server-summary]
+  (->> [server-name
+        ""
+        "Usage: java -jar anychart-export.jar action [options]"
+        "Actions:"
+        "  server    Start a new instance of AnyChart Export Server."
+        "            Use --help arg with action for more info."
+        ""
+        "  cmd       Run Export Server once"
+        "            Use --help arg with action for more info."
+        ""
+        "Common options:"
+        common-summary
+        ""
+        "CMD options:"
+        cmd-summary
+        ""
+        "Server options:"
+        server-summary
+        ""
+        "Please, see http://docs.anychart.com for more info."
+        ]
+       (string/join \newline)))
+
+
+;====================================================================================
+; Server usage summary
 ;====================================================================================
 (defn server-usage [options-summary]
   (->> [server-name
@@ -70,7 +99,7 @@
 
 
 ;====================================================================================
-; Command Line Usage
+; Command Line usage summary
 ;====================================================================================
 (defn cmd-usage [options-summary]
   (->> [server-name
@@ -85,9 +114,11 @@
         ]
        (string/join \newline)))
 
+
 (defn exit [status msg]
   (println msg)
   (System/exit status))
+
 
 (defn error-msg [errors]
   (str "The following errors occurred while parsing your command:\n\n"
@@ -95,18 +126,22 @@
 
 
 ;====================================================================================
-; Common Usage
+; Options
 ;====================================================================================
 (def common-options
   [["-C" "--config PATH" "Path to config"
     :default nil]
-
    ["-e" "--engine BROWSER" "Headless browser: phantom, chrome or firefox"
     :parse-fn keyword
     :validate [(fn [engine] (some #(= engine %) [:phantom :chrome :firefox]))]]
+   ["-v" "--version" "Print version, can be used without action"]
+   ["-h" "--help" "Print help"]])
 
-   ;Server Args--------------------------------------------------------------------------------------------
-   ["-P" "--port PORT" "Port number for the server."
+(def common-summary (:summary (parse-opts nil common-options)))
+
+
+(def server-options
+  [["-P" "--port PORT" "Port number for the server."
     :parse-fn #(Integer/parseInt %)
     :validate [#(< 0 % 0x10000) "Must be a number between 0 and 65536"]]
 
@@ -130,18 +165,21 @@
    ;; twitter
    [nil "--twitter-key KEY" "Twitter application key"]
    [nil "--twitter-secret SECRET" "Twitter application secret"]
-   [nil "--twitter-callback" "Twitter application callback URL"]
+   [nil "--twitter-callback" "Twitter application callback URL"]])
 
-   ;Command Line Common Args--------------------------------------------------------------------------------------------
-   ["-s" "--script SCRIPT" "JavaScript String to Execute."]
+
+(def server-summary (:summary (parse-opts nil server-options)))
+(def full-server-summary (:summary (parse-opts nil (concat common-options server-options))))
+
+
+(def cmd-options
+  [["-s" "--script SCRIPT" "JavaScript String to Execute."]
 
    ["-i" "--input-file INPUT_FILE" "JavaScript file to Execute"]
 
    [nil "--svg SVG" "SVG string to Execute"]
 
    [nil "--svg-file SVG_FILE" "SVG file to Execute"]
-
-   ;[nil "--page HTML_PAGE" "HTML page string to Execute"]
 
    [nil "--html-file HTML_FILE" "HTML page file to Execute"]
 
@@ -186,27 +224,13 @@
    ["-y" "--pdf-y PDF-Y" "Pdf Y"
     :parse-fn #(Integer/parseInt %)]
 
-   ["-O" "--pdf-landscape PDF-LANDSCAPE" "PDF Orientation"]
+   ["-O" "--pdf-landscape PDF-LANDSCAPE" "PDF Orientation"]])
 
-   ;Export PDF Args--------------------------------------------------------------------------------------------------
-   ["-v" "--version" "Print version, can be used without action"]
-   ["-h" "--help" "Print help"]])
+(def cmd-summary (:summary (parse-opts nil cmd-options)))
+(def full-cmd-summary (:summary (parse-opts nil (concat common-options cmd-options))))
 
-
-(defn usage []
-  (->> [server-name
-        ""
-        "Usage: java -jar anychart-export.jar action [options]"
-        "Actions:"
-        "  server    Start a new instance of AnyChart Export Server."
-        "            Use --help arg with action for more info."
-        ""
-        "  cmd       Run Export Server once"
-        "            Use --help arg with action for more info."
-        ""
-        "Please, see http://docs.anychart.com for more info."
-        ]
-       (string/join \newline)))
+(def all-options
+  (concat common-options server-options cmd-options))
 
 
 ;====================================================================================
@@ -229,13 +253,16 @@
            (POST "/xlsx" [] web/xlsx)
            (route/not-found "<p>Page not found.</p>"))
 
+
 ;(def app (-> app-routes wrap-params))
 (def app (-> app-routes wrap-params (wrap-session {:store (create-storage)})))
+
 
 (defn shutdown-server []
   (timbre/info "Shutdown...")
   (state/stop-server!)
   (browser/stop-drivers))
+
 
 (defn start-server [options summary]
   (if (:help options) (exit 0 (server-usage summary)))
@@ -295,7 +322,7 @@
 ; Main
 ;====================================================================================
 (defn -main [& args]
-  (let [{:keys [options arguments errors summary]} (parse-opts args common-options)]
+  (let [{:keys [options arguments errors summary]} (parse-opts args all-options)]
     (cond
       (:version options) (exit 0 server-name)
       errors (exit 1 (error-msg errors))
@@ -304,6 +331,7 @@
           mode (:mode options)]
       (reset! web/allow-script-executing (:allow-scripts-executing options))
       (case mode
-        "server" (start-server options summary)
-        "cmd" (cmd-export options summary)
-        (exit 1 (usage))))))
+        "server" (start-server options full-server-summary)
+        "cmd" (cmd-export options full-cmd-summary)
+        (exit (if (:help options) 0 1)
+              (usage common-summary server-summary cmd-summary))))))
