@@ -15,7 +15,12 @@
                                                                      timestamp confirm-dialog
                                                                      success-dialog error-dialog]]))
 
+
+;; =====================================================================================================================
+;; Initialization
+;; =====================================================================================================================
 (def consumer nil)
+
 
 (defn init [key secret callback]
   (alter-var-root (var consumer)
@@ -28,12 +33,17 @@
                                  :secret         secret
                                  :signature-algo :hmac-sha1}))))
 
+
 (defn img-to-base64 [path]
   (with-open [out (java.io.ByteArrayOutputStream.)
               in (clojure.java.io/input-stream path)]
     (clojure.java.io/copy in out)
     (String. (clojure.data.codec.base64/encode (.toByteArray out)) "UTF-8")))
 
+
+;; =====================================================================================================================
+;; Twitter API
+;; =====================================================================================================================
 (defn update-status [oauth-token oauth-token-secret text-message media-id]
   (try
     (let [request (statuses-update-request consumer oauth-token oauth-token-secret text-message media-id)
@@ -82,12 +92,16 @@
       (error-dialog "Get authorization url error"))))
 
 
+;; =====================================================================================================================
+;; Export Server requests handlers
+;; =====================================================================================================================
 (defn twitter [{session :session :as request} img-base64]
   (let [response (if-let [data (-> session :db :twitter)]
                    (confirm-dialog img-base64 (:image-url data) (:screen-name data) (:name data))
                    (auth-url))]
     (assoc-in response [:session :local] {:img  img-base64
                                           :time (timestamp)})))
+
 
 (defn twitter-oauth [{session :session :as request}]
   (let [;; pass oauth data ;oauth-token (get (:params req) "oauth_token") and ;oauth-verifier (get (:params req) "oauth_verifier")
@@ -112,6 +126,7 @@
       (do
         (timbre/error "Get access token error")
         (error-dialog "Get access token  url error")))))
+
 
 (defn twitter-confirm [{session :session :as request}]
   (if-let [creds (-> session :db :twitter)]
