@@ -147,7 +147,6 @@ set up `--saving-folder` and `--saving-prefix`. The first parameter is the path 
 stored. The second parameter is the URL prefix which will be concatenated with a shared image name and returned to user.
 You should provide the access to shared image through that URL by setting up Nginx, for example.
 
-
 ### Sharing on Facebook, LinkedIn and Pinterest
 Sharing on Facebook, LinkedIn, and Pinterest is implemented with the help of the commands for saving images.
 Mentioned social networks get the prepared picture via the link and just allow a user to post it on the page.
