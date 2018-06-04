@@ -179,7 +179,14 @@ To setup the MySQL database for Twitter sharing use [SQL scheme](https://github.
 
 Also you may checkout AnyChart API for sharing [here](http://api.anychart.com/anychart.exports).
 Please, notice that you should setup the Twitter sharing URL separetely when setting `anychart.export.server()` URL,
-if you want that the Twitter sharing will work through your server.
+if you want that the Twitter sharing will work through your server:
+```javascript
+anychart.exports.twitter(
+    "http://your.export.server.url/sharing/twitter", 
+    "1000",    
+    "500"
+);
+```
 
 ## License
 [© AnyChart.com - JavaScript charts](http://www.anychart.com). Export Server released under the [Apache 2.0 License](https://github.com/AnyChart/export-server/blob/master/LICENSE).
