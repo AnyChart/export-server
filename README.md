@@ -153,7 +153,7 @@ Sharing on Facebook, LinkedIn, and Pinterest is implemented with the help of the
 Mentioned social networks get the prepared picture via the link and just allow a user to post it on the page.
 
 ### Sharing on Twitter
-Sharing images on Twitter is implemented with the AnyChart Twitter app, needs MySQL database to be setuped
+Sharing images on Twitter is implemented with the AnyChart Twitter app, needs MySQL database to be set up
 and uses three types of requests.
 
 #### `/sharing/twitter` 
@@ -178,8 +178,11 @@ posts new tweet with that image.
 To setup the MySQL database for Twitter sharing use [SQL scheme](https://github.com/AnyChart/export-server/blob/master/src/sql/scheme.sql).
 
 Also you may checkout AnyChart API for sharing [here](http://api.anychart.com/anychart.exports).
-Please, notice that you should setup the Twitter sharing URL separetely when setting `anychart.export.server()` URL,
-if you want that the Twitter sharing will work through your server:
+
+If you want that the Twitter sharing will work through your server,
+you should create your own Twitter App and provide `twitter_key`, `twitter_secret` and `twitter_callback` 
+(last path of which is always `/sharing/twitter_oauth`) to the Export Server. 
+Also you should setup the Twitter sharing URL separetely when setting `anychart.export.server()` URL:
 ```javascript
 anychart.exports.twitter(
     "http://your.export.server.url/sharing/twitter", 
