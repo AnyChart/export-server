@@ -144,7 +144,7 @@ The AnyChart Export Server provides an ability to share chart images in social n
 LinkedIn, Pinterest and Twitter.
 When you use the Export Server on your own server and you want the sharing properly working, you should
 set up `--saving-folder` and `--saving-prefix`. The first parameter is the path to the folder where images will be
-stores. The second parameter is the URL prefix which will be concatenated with a shared image name and returned to user.
+stored. The second parameter is the URL prefix which will be concatenated with a shared image name and returned to user.
 You should provide the access to shared image through that URL by e.g. setuping Nginx.
 
 
