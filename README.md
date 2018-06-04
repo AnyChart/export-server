@@ -153,7 +153,7 @@ Sharing on Facebook, LinkedIn, and Pinterest is implemented with the help of the
 Mentioned social networks get the prepared picture via the link and just allow a user to post it on the page.
 
 ### Sharing on Twitter
-Sharing images on Twitter is implemented with the AnyChart Twitter app, requires MySQL database to be set up
+Sharing images on Twitter is implemented with the AnyChart Twitter app. It requires MySQL database to be set up
 and uses three types of requests.
 
 #### `/sharing/twitter` 
