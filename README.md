@@ -139,7 +139,40 @@ You can pass a config file witn `-C` option, e.g.
 java -jar export-server.jar -C settings.toml
  ```
 
-To use Twitter sharing make sure you have setup your MySQL database properly with [SQL scheme](https://github.com/AnyChart/export-server/blob/master/src/sql/scheme.sql).
+## Sharing
+The AnyChart Export Server provides an ability to share chart images in social networks, such as Facebook,
+LinkedIn, Pinterest and Twitter.
+When you use the Export Server on your own server and you want the sharing properly working, you should
+set up `--saving-folder` and `--saving-prefix`. The first parameter is the path to the folder where images will be
+stores. The second parameter is the URL prefix which will be concatenated with saved image name and returned to user.
+You should provide the access to saved image through that URL by e.g. setuping Nginx.
+
+
+### Sharing on Facebook, LinkedIn and Pinterest
+Sharing on Facebook, LinkedIn, and Pinterest is implemented with the help of the commands for saving images.
+Mentioned social networks get the prepared picture via the link and just allow a user to post it on the page.
+
+### Sharing on Twitter
+Sharing images on Twitter is implemented with the AnyChart Twitter app, needs MySQL databases to be setup
+and uses three types of requests.
+
+1. First of all, user sends a request to `/sharing/twitter` that contains svg or script which image will be posted on
+the page. There are two options here: a user is authenticated in the AnyChart Twitter app or not.
+
+If the user isn't authenticated, the Twitter Authorization dialog will be displayed. The user should confirm that he
+gives the app the rights fot posting image. After that there will be redirect to the collback `/sharing/twitter_oauth`.
+
+2. In the handler of `/sharing/twitter_oauth` request. The Export Server gets such params as oauth_token,
+oauth_token_secret, user_id, screen_name, user_pic and user_name and saves them to MySQL database.
+After that the posting dialog will be displayed.
+
+If a user is already authenticated in the app, the posting dialog will be displayed immidiately. When the user confirms
+to post the image and click the TWEET button, there will be a request to `/sharing/twitter_confirm `.
+
+3, In the handler of `/sharing/twitter_confirm` request, the Export Server upload the shared image with Twitte API and
+posts new tweet with that image.
+
+To setup the MySQL database for Twitter sharing use [SQL scheme](https://github.com/AnyChart/export-server/blob/master/src/sql/scheme.sql).
 
 ## License
 [© AnyChart.com - JavaScript charts](http://www.anychart.com). Export Server released under the [Apache 2.0 License](https://github.com/AnyChart/export-server/blob/master/LICENSE).
