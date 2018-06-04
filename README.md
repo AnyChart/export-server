@@ -177,8 +177,6 @@ posts new tweet with that image.
 
 To setup the MySQL database for Twitter sharing use [SQL scheme](https://github.com/AnyChart/export-server/blob/master/src/sql/scheme.sql).
 
-Also you may checkout AnyChart API for sharing [here](http://api.anychart.com/anychart.exports).
-
 If you want that the Twitter sharing will work through your server,
 you should create your own Twitter App and provide `twitter_key`, `twitter_secret` and `twitter_callback` 
 (last path of which is always `/sharing/twitter_oauth`) to the Export Server. 
@@ -190,6 +188,7 @@ anychart.exports.twitter(
     "500"
 );
 ```
+For more details you may checkout AnyChart API for sharing [here](http://api.anychart.com/anychart.exports).
 
 ## License
 [© AnyChart.com - JavaScript charts](http://www.anychart.com). Export Server released under the [Apache 2.0 License](https://github.com/AnyChart/export-server/blob/master/LICENSE).
