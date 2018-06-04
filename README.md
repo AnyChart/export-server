@@ -38,7 +38,7 @@ Don't forget to use `file:///` prefix for rendering a local HTML file.
 ## Requests
 AnyChart Export Server supports the following requests:
 
-| Request       | Type          | Description  |
+| URL       | Type          | Description  |
 | ------------- |:-------------:|------|
 | /status       | GET or POST   | Server status |
 | /png          | POST      |   Export to PNG |
@@ -158,12 +158,14 @@ and uses three types of requests.
 
 #### `/sharing/twitter` 
 First of all, user sends a request to `/sharing/twitter` that contains svg or script which image will be posted on
-the page. There are two options here: a user is authenticated in the AnyChart Twitter app or not.
+the page - the request should contains the same parameters as a request to `/png` URL.
+There are two options here: a user is authenticated in the AnyChart Twitter application or not.
 
 If the user isn't authenticated, the Twitter Authorization dialog will be displayed. The user should confirm that he
 gives the app the rights fot posting image. After that there will be redirect to the collback `/sharing/twitter_oauth`.
 
 #### `/sharing/twitter_oauth`
+This request accepts `oauth_token` and `oauth_verifier` parameters, you can read about [OAuth here](https://en.wikipedia.org/wiki/OAuth).
 In the handler of `/sharing/twitter_oauth` request the Export Server gets such params as oauth_token,
 oauth_token_secret, user_id, screen_name, image_url (user picture) and user_name and saves them to MySQL database.
 After that the posting dialog will be displayed.
@@ -172,15 +174,18 @@ If a user is already authenticated in the app, the posting dialog will be displa
 to post the image and clicks the TWEET button, there will be a request to `/sharing/twitter_confirm `.
 
 #### `/sharing/twitter_confirm`
+This request should contains only Twitter `message` parameter - a string no more than 140 characters.
 In the handler of `/sharing/twitter_confirm` request, the Export Server upload the shared image with Twitter API and
 posts new tweet with that image.
 
-To setup the MySQL database for Twitter sharing use [SQL scheme](https://github.com/AnyChart/export-server/blob/master/src/sql/scheme.sql).
+Notice, the `/sharing/twitter_oauth` and `/sharing/twitter_confirm` requests are used inside Export server,
+which means the you don't need to send anything by yourself there.
 
-If you want that the Twitter sharing will work through your server,
-you should create your own Twitter App and provide `twitter_key`, `twitter_secret` and `twitter_callback` 
+If you want that the Twitter sharing will work through your server, you should:
+1. create your own Twitter App and provide `twitter_key`, `twitter_secret` and `twitter_callback` 
 (last path of which is always `/sharing/twitter_oauth`) to the Export Server. 
-Also you should setup the Twitter sharing URL separetely when setting `anychart.export.server()` URL:
+2. setup the MySQL database for Twitter sharing using [SQL scheme](https://github.com/AnyChart/export-server/blob/master/src/sql/scheme.sql).
+3. setup the Twitter sharing URL separetely when setting `anychart.export.server()` URL:
 ```javascript
 anychart.exports.twitter(
     "http://your.export.server.url/sharing/twitter", 
