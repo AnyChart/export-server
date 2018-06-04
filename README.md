@@ -179,7 +179,7 @@ In the handler of `/sharing/twitter_confirm` request, the Export Server upload t
 posts new tweet with that image.
 
 Notice, the `/sharing/twitter_oauth` and `/sharing/twitter_confirm` requests are used inside Export server,
-which means the you don't need to send anything by yourself there.
+which means you don't need to send anything by yourself there.
 
 If you want that the Twitter sharing will work through your server, you should:
 1. create your own Twitter App and provide `twitter_key`, `twitter_secret` and `twitter_callback` 
