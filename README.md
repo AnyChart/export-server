@@ -50,8 +50,8 @@ AnyChart Export Server supports the following requests:
 | /csv |POST     |    Export to CSV |
 | /xlsx | POST     |    Export to XLSX |
 | /sharing/twitter | POST     |  Twitter Sharing request   |
-| /sharing/twitter_oauth | GET     |    Twitter Sharing auth request |
-| /sharing/twitter_confirm | POST     |    Twitter Sharing status update |
+| /sharing/twitter_oauth | GET     |    Twitter Sharing OAuth callback |
+| /sharing/twitter_confirm | POST     |    Twitter Sharing posting confirmation |
 
 
 Typical Export and Twitter Sharing request contains the params listed below:
