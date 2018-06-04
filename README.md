@@ -153,7 +153,7 @@ Sharing on Facebook, LinkedIn, and Pinterest is implemented with the help of the
 Mentioned social networks get the prepared picture via the link and just allow a user to post it on the page.
 
 ### Sharing on Twitter
-Sharing images on Twitter is implemented with the AnyChart Twitter app, needs MySQL database to be setup
+Sharing images on Twitter is implemented with the AnyChart Twitter app, needs MySQL database to be setuped
 and uses three types of requests.
 
 #### `/sharing/twitter` 
@@ -164,8 +164,8 @@ If the user isn't authenticated, the Twitter Authorization dialog will be displa
 gives the app the rights fot posting image. After that there will be redirect to the collback `/sharing/twitter_oauth`.
 
 #### `/sharing/twitter_oauth`
-In the handler of `/sharing/twitter_oauth` request. The Export Server gets such params as oauth_token,
-oauth_token_secret, user_id, screen_name, user_pic and user_name and saves them to MySQL database.
+In the handler of `/sharing/twitter_oauth` request the Export Server gets such params as oauth_token,
+oauth_token_secret, user_id, screen_name, image_url (user picture) and user_name and saves them to MySQL database.
 After that the posting dialog will be displayed.
 
 If a user is already authenticated in the app, the posting dialog will be displayed immidiately. When the user confirms
@@ -176,6 +176,10 @@ In the handler of `/sharing/twitter_confirm` request, the Export Server upload t
 posts new tweet with that image.
 
 To setup the MySQL database for Twitter sharing use [SQL scheme](https://github.com/AnyChart/export-server/blob/master/src/sql/scheme.sql).
+
+Also checkout AnyChart API for sharing [here](http://api.anychart.com/anychart.exports).
+Please, notice that you should setup the Twitter sharing URL separetely when setting `anychart.export.server()` URL,
+if you want that the Twitter sharing will work through your server.
 
 ## License
 [© AnyChart.com - JavaScript charts](http://www.anychart.com). Export Server released under the [Apache 2.0 License](https://github.com/AnyChart/export-server/blob/master/LICENSE).
