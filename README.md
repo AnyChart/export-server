@@ -169,15 +169,15 @@ oauth_token_secret, user_id, screen_name, image_url (user picture) and user_name
 After that the posting dialog will be displayed.
 
 If a user is already authenticated in the app, the posting dialog will be displayed immidiately. When the user confirms
-to post the image and click the TWEET button, there will be a request to `/sharing/twitter_confirm `.
+to post the image and clicks the TWEET button, there will be a request to `/sharing/twitter_confirm `.
 
 #### `/sharing/twitter_confirm`
-In the handler of `/sharing/twitter_confirm` request, the Export Server upload the shared image with Twitte API and
+In the handler of `/sharing/twitter_confirm` request, the Export Server upload the shared image with Twitter API and
 posts new tweet with that image.
 
 To setup the MySQL database for Twitter sharing use [SQL scheme](https://github.com/AnyChart/export-server/blob/master/src/sql/scheme.sql).
 
-Also checkout AnyChart API for sharing [here](http://api.anychart.com/anychart.exports).
+Also you may checkout AnyChart API for sharing [here](http://api.anychart.com/anychart.exports).
 Please, notice that you should setup the Twitter sharing URL separetely when setting `anychart.export.server()` URL,
 if you want that the Twitter sharing will work through your server.
 
