@@ -59,7 +59,7 @@ Typical Export and Twitter Sharing request contains the params listed below:
 | Parameter      | Type         | Default| Description  |
 | ------------- |:-------------:|--|------|
 | data        | **required**   | - |script or SVG that should be transformed into a picture |
-| data-type   | **required**   | - | a field that contains the information about the data, it might be "script" or "SVG"|
+| data-type   | **required**   | - | a field that contains the information about the data, it might be "script" or "svg"|
 | response-type | **required**  | - | a field that tells how to export the result (file or as base64) |
 | file-name    | optional | anychart |    file name |
 | save       | optional   | - |if it presents, request returns URL of a saved image|
