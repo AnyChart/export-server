@@ -55,7 +55,7 @@
 ;====================================================================================
 ; Common usage summary
 ;====================================================================================
-(defn usage [common-summary cmd-summary server-summary]
+(defn usage [common-summary server-summary cmd-summary]
   (->> [server-name
         ""
         "Usage: java -jar anychart-export.jar action [options]"
@@ -69,11 +69,11 @@
         "Common options:"
         common-summary
         ""
-        "CMD options:"
-        cmd-summary
-        ""
         "Server options:"
         server-summary
+        ""
+        "CMD options:"
+        cmd-summary
         ""
         "Please, see http://docs.anychart.com for more info."
         ]
