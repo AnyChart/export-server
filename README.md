@@ -1,7 +1,7 @@
 [<img src="https://cdn.anychart.com/images/logo-transparent-segoe.png?2" width="234px" alt="AnyChart - Robust JavaScript/HTML5 Chart library for any project">](https://anychart.com)
 # AnyChart Export Server
 
-AnyChart Export Server is a tool that is used to provide chart export to PNG, JPG, PDF, SVG, CSV, Excel, JSON and XML.
+AnyChart Export Server is a tool that is used to provide chart export to PNG, JPG, PDF, SVG, CSV, Excel, JSON, and XML.
 You can read the full description [here](//docs.anychart.com/Common_Settings/Server-side_Rendering).
 
 ## Setup 
@@ -19,20 +19,20 @@ Chrome or Firefox in headless mode without the AnyChart Export Server. You can r
 Don't forget to use `file:///` prefix for rendering a local HTML file.
 
 ### PhantomJS install
-* download and install PhantomJS on you PC.
+* download and install PhantomJS on you PC
 * make sure PhantomJS binary is in your PATH
 
 ### Firefox install
 * install Firefox browser (version 56.0 and above)
 * install `geckodriver`
     * `brew install geckodriver` for Mac users
-    * or download it from [official Mozilla Site](https://github.com/mozilla/geckodriver/releases) and add it to PATH
+    * or download it from the [official site](https://github.com/mozilla/geckodriver/releases) and add it to the PATH
 
 ### Chrome/Chromium install
 * install Chrome or Chromium browser (version 60.0 and above)
 * install `chromedriver`
     * `brew install chromedriver` for Mac users
-    * or download it from the [official site](https://sites.google.com/a/chromium.org/chromedriver/downloads)  and add it to PATH
+    * or download it from the [official site](https://sites.google.com/a/chromium.org/chromedriver/downloads) and add it to the PATH
 
 
 ## Requests
@@ -58,8 +58,8 @@ Typical Export and Twitter Sharing request contains the params listed below:
 
 | Parameter      | Type         | Default| Description  |
 | ------------- |:-------------:|--|------|
-| data        | **required**   | - |script or svg that should be transformed into a picture |
-| data-type   | **required**   | - | a field that contains the information about the data, it might be "script" or "svg"|
+| data        | **required**   | - |script or SVG that should be transformed into a picture |
+| data-type   | **required**   | - | a field that contains the information about the data, it might be "script" or "SVG"|
 | response-type | **required**  | - | a field that tells how to export the result (file or as base64) |
 | file-name    | optional | anychart |    file name |
 | save       | optional   | - |if it presents, request returns URL of a saved image|
@@ -144,22 +144,22 @@ The AnyChart Export Server provides an ability to share chart images in social n
 LinkedIn, Pinterest and Twitter.
 When you use the Export Server on your own server and you want the sharing to work properly, you should
 set up `--saving-folder` and `--saving-prefix`. The first parameter is the path to the folder where images will be
-stored. The second parameter is the URL prefix which will be concatenated with a shared image name and returned to user.
+stored. The second parameter is the URL prefix which will be concatenated with a shared image name and returned to a user.
 You should provide the access to shared image through that URL by setting up Nginx, for example.
 
-### Sharing on Facebook, LinkedIn and Pinterest
-Sharing on Facebook, LinkedIn, and Pinterest is implemented with the help of the commands for saving images.
-Mentioned social networks get the prepared picture via the link and just allow a user to post it on the page.
+### Sharing on Facebook, LinkedIn, and Pinterest
+Sharing on Facebook, LinkedIn, and Pinterest is implemented with the help of the commands for saving images. 
+Mentioned social networks get the prepared picture via the link and just allow the user to post it on the page.
 
 ### Sharing on Twitter
 Sharing images on Twitter is implemented with the AnyChart Twitter app. It requires MySQL database to be set up
 and uses three types of requests.
 
 #### `/sharing/twitter` 
-First of all, user sends a request to `/sharing/twitter` that contains SVG or script 
+First of all, the user sends a request to `/sharing/twitter` that contains SVG or script 
 from which the image will be generated and posted on the page - 
 the request should contain the same parameters as a request to `/png` URL does.
-There are two options here: a user is authorized in the AnyChart Twitter application or not.
+There are two options here: the user is authorized in the AnyChart Twitter application or not.
 
 If the user isn't authorized, the Twitter Authorization dialog will be displayed. The user should confirm that he
 gives the app the rights to post the image. After that, the user will be redirected to the `/sharing/twitter_oauth`
@@ -167,12 +167,9 @@ callback.
 
 #### `/sharing/twitter_oauth`
 This request accepts `oauth_token` and `oauth_verifier` parameters, you can read about [OAuth here](https://en.wikipedia.org/wiki/OAuth).
-In the handler of `/sharing/twitter_oauth` request the Export Server gets such params as oauth_token,
-oauth_token_secret, user_id, screen_name, image_url (user picture) and user_name and saves them to MySQL database.
-After that, the dialog window of posting images will be displayed.
+In the handler of /sharing/twitter_oauth request, the Export Server gets such params as oauth_token, oauth_token_secret, user_id, screen_name, image_url (user picture) and user_name and saves them to the MySQL database. After that, the dialog window of posting images will be displayed.
 
-If a user is already authorized in the app, the posting dialog will be displayed immediately. When the user confirms
-to post the image and clicks the TWEET button, there will be a request to `/sharing/twitter_confirm `.
+If the user is already authorized in the app, the posting dialog will be displayed immediately. When the user confirms to post the image and clicks the TWEET button, there will be a request to `/sharing/twitter_confirm `.
 
 #### `/sharing/twitter_confirm`
 This request should contain Twitter `message` parameter only - a string of no more than 140 characters.
@@ -194,7 +191,7 @@ anychart.exports.twitter(
     "500"
 );
 ```
-For more details you may checkout AnyChart API for sharing [here](http://api.anychart.com/anychart.exports).
+For more details check out AnyChart API for sharing [here](http://api.anychart.com/anychart.exports).
 
 ## License
 [© AnyChart.com - JavaScript charts](http://www.anychart.com). Export Server released under the [Apache 2.0 License](https://github.com/AnyChart/export-server/blob/master/LICENSE).
