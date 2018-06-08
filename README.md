@@ -19,21 +19,87 @@ Chrome or Firefox in headless mode without the AnyChart Export Server. You can r
 Don't forget to use `file:///` prefix for rendering a local HTML file.
 
 ### PhantomJS install
-* download and install PhantomJS on you PC
-* make sure PhantomJS binary is in your PATH
+Download and install PhantomJS on you PC from the [official site](http://phantomjs.org/download.html).
+
+Add PhantomJS binary to your PATH
+
+Check if it works properly:
+```
+$ phantomjs -v
+2.1.1
+
+```
+
 
 ### Firefox install
-* install Firefox browser (version 56.0 and above)
-* install `geckodriver`
-    * `brew install geckodriver` for Mac users
-    * or download it from the [official site](https://github.com/mozilla/geckodriver/releases) and add it to the PATH
+Install Firefox browser (version 56.0 and above).
+
+For Debian-based Linux distros:
+```
+$ sudo apt-get update && sudo apt-get install firefox -y
+```
+To check Firefox version:
+```
+$ firefox -v
+Mozilla Firefox 60.0.1
+```
+To check the browser works properly, use:
+```
+$ firefox -headless -screenshot https://developer.mozilla.com
+```
+A screenshot of Mozilla site must appear in your working directory.
+
+Install `geckodriver`.
+For Mac, use:
+```
+$ brew install geckodriver
+``` 
+If you use Linux or Windows, you can download it from the [official site](https://github.com/mozilla/geckodriver/releases) 
+
+Add it to the PATH.
+To check if it is installed properly, use the next command:
+```
+$ geckodriver --version
+geckodriver 0.19.1
+```
+
+Now you are ready to lauch the AnyChart Export Server.
 
 ### Chrome/Chromium install
-* install Chrome or Chromium browser (version 60.0 and above)
-* install `chromedriver`
-    * `brew install chromedriver` for Mac users
-    * or download it from the [official site](https://sites.google.com/a/chromium.org/chromedriver/downloads) and add it to the PATH
+Install Chrome or Chromium browser (version 60.0 and above).
 
+For Debian-based Linux distros we suggest to install Chromium:
+```
+$ sudo apt-get update && sudo apt-get install chromium-browser -y
+``` 
+To check Chromium version, type:
+```
+$ chromium-browser --version
+Chromium 66.0.3359.181 Built on Ubuntu , running on Ubuntu 16.04
+```
+To check the browser works properly, use:
+```
+$ chromium-browser --headless --no-sandbox --disable-gpu http://google.com   
+```
+A screenshot of the Google site must appear in your working directory.
+
+Install `chromedriver`.
+For Mac, use:
+```
+$ brew install chromedriver
+``` 
+Or you can download it from the [official site](https://sites.google.com/a/chromium.org/chromedriver/downloads)
+if you use Linux or Windows.
+
+Add the binary to the PATH.
+
+To check if it is installed properly, use the next command:
+```
+$ chromedriver -v
+ChromeDriver 2.38.552522 (437e6fbedfa8762dec75e2c5b3ddb86763dc9dcb)
+```
+
+Now you are ready to lauch the AnyChart Export Server.
 
 ## Requests
 AnyChart Export Server supports the following requests:
