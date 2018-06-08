@@ -57,6 +57,7 @@ $ brew install geckodriver
 If you use Linux or Windows, you can download it from the [official site](https://github.com/mozilla/geckodriver/releases) 
 
 Add it to the [PATH](https://stackoverflow.com/a/14638025).
+
 To check if it is installed properly, use the next command:
 ```
 $ geckodriver --version
