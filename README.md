@@ -27,9 +27,7 @@ Check if it works properly:
 ```
 $ phantomjs -v
 2.1.1
-
 ```
-
 
 ### Firefox install
 Install Firefox browser (version 56.0 and above).
