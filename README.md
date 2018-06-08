@@ -21,7 +21,7 @@ Don't forget to use `file:///` prefix for rendering a local HTML file.
 ### PhantomJS install
 Download and install PhantomJS on you PC from the [official site](http://phantomjs.org/download.html).
 
-Add PhantomJS binary to your PATH
+Add PhantomJS binary to your [PATH](https://stackoverflow.com/a/14638025).
 
 Check if it works properly:
 ```
@@ -56,7 +56,7 @@ $ brew install geckodriver
 ``` 
 If you use Linux or Windows, you can download it from the [official site](https://github.com/mozilla/geckodriver/releases) 
 
-Add it to the PATH.
+Add it to the [PATH](https://stackoverflow.com/a/14638025).
 To check if it is installed properly, use the next command:
 ```
 $ geckodriver --version
@@ -88,10 +88,9 @@ For Mac, use:
 ```
 $ brew install chromedriver
 ``` 
-Or you can download it from the [official site](https://sites.google.com/a/chromium.org/chromedriver/downloads)
-if you use Linux or Windows.
+If you use Linux or Windows, download it from the [official site](https://sites.google.com/a/chromium.org/chromedriver/downloads).
 
-Add the binary to the PATH.
+Add the binary to the [PATH](https://stackoverflow.com/a/14638025).
 
 To check if it is installed properly, use the next command:
 ```
