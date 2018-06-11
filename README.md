@@ -210,7 +210,7 @@ When you use the Export Server on your own server and you want the sharing to wo
 Sharing on Facebook, LinkedIn, and Pinterest is implemented with the help of the commands for saving images. These social networks get the prepared picture via the link and just allow the user to post it on the page.
 
 ### Sharing on Twitter
-Sharing images on Twitter is implemented with the AnyChart Twitter app. It requires MySQL database to be set upand uses three types of requests.
+Sharing images on Twitter is implemented with the AnyChart Twitter app. It requires MySQL database to be set up and uses three types of requests.
 
 #### `/sharing/twitter` 
 First of all, the user sends a request to `/sharing/twitter` that contains SVG or script  from which the image will be generated and posted on the page - the request should contain the same parameters as a request to `/png` URL does.
