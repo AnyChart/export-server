@@ -52,7 +52,10 @@
 ;=======================================================================================================================
 (defn create-driver-phantom [] (phantom))
 
-(defn create-driver-chrome [] (chrome-headless))
+(defn create-driver-chrome []
+  ;(chrome-headless)
+  (chrome {:args         ["--disable-gpu" "--no-sandbox"]
+           :capabilities {:chromeOptions {:args ["--headless" "--disable-gpu" "--no-sandbox"]}}}))
 
 (defn create-driver-firefox [] (firefox-headless))
 
