@@ -7,18 +7,18 @@
   :dependencies [[org.clojure/clojure "1.8.0"]
                  ;http
                  [javax.servlet/javax.servlet-api "3.1.0"]
-                 [http-kit "2.1.19"]
-                 [compojure "1.5.0"]
-                 [ring "1.5.0"]
+                 [http-kit "2.3.0"]
+                 [compojure "1.6.1"]
+                 [ring "1.6.3"]
 
                  ;; sharing
-                 [selmer "1.10.1"]
+                 [selmer "1.12.0"]
                  [oauth/oauth.one "0.7.0"]
-                 [ring/ring-codec "1.0.1"]
+                 [ring/ring-codec "1.1.1"]
                  [clj-http "2.3.0"]
                  [camel-snake-kebab "0.4.0"]
 
-                 [clojure.jdbc/clojure.jdbc-c3p0 "0.3.2"]
+                 [clojure.jdbc/clojure.jdbc-c3p0 "0.3.3"]
                  [honeysql "0.8.1"]
                  [org.clojure/java.jdbc "0.6.1"]
                  [mysql/mysql-connector-java "6.0.4"]
@@ -54,7 +54,7 @@
                  [org.seleniumhq.selenium/selenium-firefox-driver "3.11.0"]
 
                  [etaoin "0.2.8"]
-                 [tupelo "0.9.72"]
+                 [tupelo "0.9.83"]
 
                  ;[selmer "1.0.7"]
                  ;jbrowser deps, need to comment clj-wedriver and phantomjsdriver
@@ -63,15 +63,15 @@
                  ;[org.slf4j/slf4j-simple "1.7.21"]
 
                  ;params validation
-                 [bouncer "1.0.0"]
+                 [bouncer "1.0.1"]
 
                  ;command line args
-                 [org.clojure/tools.cli "0.3.5"]
-                 [toml "0.1.2"]
+                 [org.clojure/tools.cli "0.3.7"]
+                 [toml "0.1.3"]
                  [org.apache.commons/commons-lang3 "3.7"]
 
                  ;rasterization
-                 [clj-pdf "2.2.30"]
+                 [clj-pdf "2.2.33"]
                  [tikkba "0.6.0" :exclusions [org.clojure/clojure org.clojars.pallix/batik]]
                  [org.clojars.pallix/xerces "2.5.0"]
                  [org.clojars.pallix/xml-apis "2.5.0"]
@@ -83,15 +83,15 @@
 
                  ;csv to xslx
                  [dk.ative/docjure "1.10.0"]
-                 [org.clojure/data.csv "0.1.3"]
+                 [org.clojure/data.csv "0.1.4"]
 
                  ;JSON
-                 [cheshire "5.6.1"]
+                 [cheshire "5.8.0"]
 
                  ;; logging and other utils
-                 [com.taoensso/timbre "4.4.0"]
-                 [clj-time "0.12.0"]
-                 [digest "1.4.4"]
+                 [com.taoensso/timbre "4.10.0"]
+                 [clj-time "0.14.4"]
+                 [digest "1.4.8"]
                  [me.raynes/fs "1.4.6"]
 
                  ;tests
