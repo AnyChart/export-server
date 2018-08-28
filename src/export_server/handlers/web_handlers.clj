@@ -93,8 +93,8 @@
       (and (= data-type "script") (not @allow-script-executing)) {:ok     false
                                                                   :result {:message   "Script executing is not allowed"
                                                                            :http-code 403}}
-      (= data-type "svg") (browser/svg-to-png data false false options)
-      (= data-type "script") (browser/script-to-png data false false options :png)
+      (= data-type "svg") (browser/svg-to-png data false options)
+      (= data-type "script") (browser/script-to-png data false options :png)
       :else {:ok false :result "Unknown data type"})))
 
 
@@ -106,11 +106,11 @@
       (and (= data-type "script") (not @allow-script-executing)) {:ok     false
                                                                   :result {:message   "Script executing is not allowed"
                                                                            :http-code 403}}
-      (= data-type "svg") (let [png-result (browser/svg-to-png data false false options)]
+      (= data-type "svg") (let [png-result (browser/svg-to-png data false options)]
                             (if (png-result :ok)
                               (rastr/png-to-jpg (png-result :result))
                               png-result))
-      (= data-type "script") (let [png-result (browser/script-to-png data false false options :png)]
+      (= data-type "script") (let [png-result (browser/script-to-png data false options :png)]
                                (if (png-result :ok)
                                  (rastr/png-to-jpg (png-result :result))
                                  png-result))
@@ -127,11 +127,11 @@
                                                                   :result {:message   "Script executing is not allowed"
                                                                            :http-code 403}}
       ;(= data-type "svg") (rastr/svg-to-pdf data pdf-size landscape x y)
-      (= data-type "svg") (let [png-result (browser/svg-to-png data false false options)]
+      (= data-type "svg") (let [png-result (browser/svg-to-png data false options)]
                             (if (:ok png-result)
                               (rastr/svg-to-pdf (:result png-result) options)
                               png-result))
-      (= data-type "script") (let [png-result (browser/script-to-png data false false options :png)]
+      (= data-type "script") (let [png-result (browser/script-to-png data false options :png)]
                                (if (:ok png-result)
                                  (rastr/svg-to-pdf (:result png-result) options)
                                  png-result))
@@ -147,7 +147,7 @@
                                                                   :result {:message   "Script executing is not allowed"
                                                                            :http-code 403}}
       (= data-type "svg") {:ok true :result data}
-      (= data-type "script") (browser/script-to-png data false false options :svg)
+      (= data-type "script") (browser/script-to-png data false options :svg)
       :else {:ok false :result "Unknown data type"})))
 
 

@@ -60,21 +60,59 @@
       {:ok false :result (str "Exec svg to png error: " e)})))
 
 
-(defn svg-to-png [svg quit-ph exit-on-error options]
-  (if-let [driver (if quit-ph (common/create-driverr) (common/get-free-driver))]
+(defn svg-to-png-cmd [svg options]
+  (if-let [driver (common/create-driverr)]
     (let [svg (rasterizator/clear-svg svg)
           result (exec-svg-to-png driver svg options)]
-      (when (and (false? (:ok result)) exit-on-error)
+
+      (when (false? (:ok result))
         (common/exit driver 1 (:result result)))
 
-      (if quit-ph
-        (quit driver)
-        (if (:ok result)
-          (common/return-driver driver)
-          (do
-            (try (quit driver)
-                 (catch Exception e (timbre/error "Quit driver error: "e)))
-            (common/return-driver (common/create-driverr)))))
+      (quit driver)
+      result)
+    {:ok false :result "Driver isn't available\n"}))
+
+
+(defn svg-to-png-server [svg options]
+  (if-let [{:keys [driver use-count]} (common/get-free-driver)]
+    (let [svg (rasterizator/clear-svg svg)
+          result (exec-svg-to-png driver svg options)]
+      (if (:ok result)
+        ;(let [new-use-count (inc use-count)]
+        ;  (if (> new-use-count common/max-use-count)
+        ;    (common/return-new-driver)
+        ;    (common/return-driver driver new-use-count)))
+        (common/return-driver driver (inc use-count))
+        (do
+          (try (quit driver)
+               (catch Exception e (timbre/error "Quit driver error: " e)))
+          (common/return-new-driver)))
 
       result)
     {:ok false :result "Driver isn't available\n"}))
+
+
+(defn svg-to-png [svg exit options]
+  (if exit
+    (svg-to-png-cmd svg options)
+    (svg-to-png-server svg options)))
+
+
+;(defn svg-to-png [svg exit options]
+;  (if-let [driver (if exit (common/create-driverr) (common/get-free-driver))]
+;    (let [svg (rasterizator/clear-svg svg)
+;          result (exec-svg-to-png driver svg options)]
+;      (when (and (false? (:ok result)) exit)
+;        (common/exit driver 1 (:result result)))
+;
+;      (if exit
+;        (quit driver)
+;        (if (:ok result)
+;          (common/return-driver driver)
+;          (do
+;            (try (quit driver)
+;                 (catch Exception e (timbre/error "Quit driver error: " e)))
+;            (common/return-driver (common/create-driverr)))))
+;
+;      result)
+;    {:ok false :result "Driver isn't available\n"}))

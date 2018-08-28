@@ -27,19 +27,19 @@
     (selenium-core/stop-drivers)))
 
 
-(defn script-to-png [script quit-ph exit-on-error options type]
+(defn script-to-png [script exit options type]
   (if (= :chrome (:engine @state/options))
-    (etaoin-core/script-to-png script quit-ph exit-on-error options type)
-    (selenium-core/script-to-png script quit-ph exit-on-error options type)))
+    (etaoin-core/script-to-png script exit options type)
+    (selenium-core/script-to-png script exit options type)))
 
 
-(defn svg-to-png [svg quit-ph exit-on-error options]
+(defn svg-to-png [svg exit options]
   (if (= :chrome (:engine @state/options))
-    (etaoin-core/svg-to-png svg quit-ph exit-on-error options)
-    (selenium-core/svg-to-png svg quit-ph exit-on-error options)))
+    (etaoin-core/svg-to-png svg exit options)
+    (selenium-core/svg-to-png svg exit options)))
 
 
-(defn html-to-png [file quit-ph exit-on-error options & [svg-type?]]
+(defn html-to-png [file exit options & [svg-type?]]
   (if (= :chrome (:engine @state/options))
-    (etaoin-core/html-to-png file quit-ph exit-on-error options svg-type?)
-    (selenium-core/html-to-png file quit-ph exit-on-error options svg-type?)))
+    (etaoin-core/html-to-png file exit options svg-type?)
+    (selenium-core/html-to-png file exit options svg-type?)))

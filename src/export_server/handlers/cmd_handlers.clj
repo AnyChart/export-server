@@ -25,24 +25,24 @@
 ; Handlers for script
 ;=======================================================================================================================
 (defn script->png [options script]
-  (let [image (:result (browser/script-to-png script true true options :png))]
+  (let [image (:result (browser/script-to-png script true options :png))]
     (out image options ".png")))
 
 
 (defn script->jpg [options script]
-  (let [png (:result (browser/script-to-png script true true options :png))
+  (let [png (:result (browser/script-to-png script true options :png))
         image (:result (rasterizator/png-to-jpg png))]
     (out image options ".jpg")))
 
 
 (defn script->pdf [options script]
-  (let [png (:result (browser/script-to-png script true true options :png))
+  (let [png (:result (browser/script-to-png script true options :png))
         image (:result (rasterizator/svg-to-pdf png options))]
     (out image options ".pdf")))
 
 
 (defn script->svg [options script]
-  (let [svg (:result (browser/script-to-png script true true options :svg))
+  (let [svg (:result (browser/script-to-png script true options :svg))
         output-file (:output-file options)]
     (if (nil? output-file)
       (println svg)
@@ -63,12 +63,12 @@
 ; SVG handlers
 ;=======================================================================================================================
 (defn svg->png [options svg]
-  (let [image (:result (browser/svg-to-png svg true true options))]
+  (let [image (:result (browser/svg-to-png svg true options))]
     (out image options ".png")))
 
 
 (defn svg->jpg [options svg]
-  (let [image (:result (browser/svg-to-png svg true true options))
+  (let [image (:result (browser/svg-to-png svg true options))
         image (:result (rasterizator/png-to-jpg image))]
     (out image options ".jpg")))
 
@@ -78,7 +78,7 @@
 
 
 (defn svg->pdf [options svg]
-  (let [png (:result (browser/svg-to-png svg true true options))
+  (let [png (:result (browser/svg-to-png svg true options))
         image (:result (rasterizator/svg-to-pdf png options))]
     (out image options ".pdf")))
 
@@ -97,24 +97,24 @@
 ; HTML page handlers
 ;=======================================================================================================================
 (defn html->png [options file]
-  (let [image (:result (browser/html-to-png file true true options))]
+  (let [image (:result (browser/html-to-png file true options))]
     (out image options ".png")))
 
 
 (defn html->jpg [options file]
-  (let [image (:result (browser/html-to-png file true true options))
+  (let [image (:result (browser/html-to-png file true options))
         image (:result (rasterizator/png-to-jpg image))]
     (out image options ".jpg")))
 
 
 (defn html->pdf [options file]
-  (let [png (:result (browser/html-to-png file true true options))
+  (let [png (:result (browser/html-to-png file true options))
         image (:result (rasterizator/svg-to-pdf png options))]
     (out image options ".pdf")))
 
 
 (defn html->svg [options file]
-  (let [svg (:result (browser/html-to-png file true true options true))]
+  (let [svg (:result (browser/html-to-png file true options true))]
     (out (.getBytes svg) options ".svg")))
 
 

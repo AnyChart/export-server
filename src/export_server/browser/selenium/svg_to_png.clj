@@ -56,22 +56,22 @@
       {:ok false :result (str "Exec svg to png error: " e)})))
 
 
-(defn svg-to-png [svg quit-ph exit-on-error options]
-  (if-let [driver (if quit-ph (common/create-driver) (common/get-free-driver))]
+(defn svg-to-png [svg exit options]
+  (if-let [driver (if exit (common/create-driver) (common/get-free-driver))]
 
     (let [svg (rasterizator/clear-svg svg)
           result (exec-svg-to-png driver svg options)]
 
-      (when (and (false? (:ok result)) exit-on-error)
+      (when (and (false? (:ok result)) exit)
         (common/exit driver 1 (:result result)))
 
-      (if quit-ph
+      (if exit
         (.quit driver)
         (if (:ok result)
           (common/return-driver driver)
           (do
             (try (.quit driver)
-                 (catch Exception e (timbre/error "Quit driver error: "e)))
+                 (catch Exception e (timbre/error "Quit driver error: " e)))
             (common/return-driver (common/create-driver)))))
 
       result)

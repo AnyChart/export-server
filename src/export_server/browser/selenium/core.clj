@@ -11,11 +11,11 @@
 (defn stop-drivers []
   (common/stop-drivers))
 
-(defn script-to-png [script quit-ph exit-on-error options type]
-  (script-to-png-ns/script-to-png script quit-ph exit-on-error options type))
+(defn script-to-png [script exit options type]
+  (script-to-png-ns/script-to-png script exit options type))
 
-(defn svg-to-png [svg quit-ph exit-on-error options]
-  (svg-to-png-ns/svg-to-png svg quit-ph exit-on-error options))
+(defn svg-to-png [svg exit options]
+  (svg-to-png-ns/svg-to-png svg exit options))
 
-(defn html-to-png [file quit-ph exit-on-error options & [svg-type?]]
-  (html-to-png-ns/html-to-png file quit-ph exit-on-error options svg-type?))
+(defn html-to-png [file exit options & [svg-type?]]
+  (html-to-png-ns/html-to-png file exit options svg-type?))
