@@ -73,7 +73,7 @@
 ;=======================================================================================================================
 (defonce drivers-num 4)
 (defonce drivers-queue nil)
-(defonce max-use-count 2)
+(defonce max-use-count 3)
 
 
 (defn get-free-driver []
@@ -110,8 +110,8 @@
 (defn stop-drivers []
   (try
     (dotimes [_ drivers-num]
-     (let [{driver :driver} (get-free-driver)]
-       (quit driver)))
+      (let [{driver :driver} (get-free-driver)]
+        (quit driver)))
     (catch Exception e
       (timbre/error "Stop drivers error: " e))))
 
