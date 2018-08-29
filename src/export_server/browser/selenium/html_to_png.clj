@@ -69,17 +69,32 @@
       {:ok false :result (str "Exec html to png error: " e)})))
 
 
-(defn html-to-png [file exit options & [svg-type?]]
-  (if-let [driver (if exit (common/create-driver) (common/get-free-driver))]
+(defn html-to-png-cmd [file options & [svg-type?]]
+  (let [driver (common/create-driver)
+        result (exec-html-to-png driver file options svg-type?)]
 
+    (when (false? (:ok result))
+      (common/exit driver 1 (:result result)))
+
+    (.quit driver)
+
+    result))
+
+
+(defn html-to-png-server [file options & [svg-type?]]
+  (if-let [{:keys [driver use-count]} (common/get-free-driver)]
     (let [result (exec-html-to-png driver file options svg-type?)]
-
-      (when (and (false? (:ok result)) exit)
-        (common/exit driver 1 (:result result)))
-
-      (if exit
-        (.quit driver)
-        (common/return-driver driver))
+      (if (:ok result)
+        (common/return-driver driver (inc use-count))
+        (do
+          (try (.quit driver)
+               (catch Exception e (timbre/error "Quit driver error: " e)))
+          (common/return-new-driver)))
       result)
-
     {:ok false :result "Driver isn't available\n"}))
+
+
+(defn html-to-png [file exit options & [svg-type?]]
+  (if exit
+    (html-to-png-cmd file exit options svg-type?)
+    (html-to-png-server file exit options svg-type?)))

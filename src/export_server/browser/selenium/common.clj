@@ -6,7 +6,8 @@
            (org.openqa.selenium.phantomjs PhantomJSDriverService PhantomJSDriver)
            (org.openqa.selenium.chrome ChromeOptions ChromeDriver)
            (org.openqa.selenium.firefox FirefoxOptions FirefoxBinary FirefoxDriver)
-           (org.openqa.selenium By)))
+           (org.openqa.selenium By)
+           (java.util.concurrent LinkedBlockingQueue)))
 
 
 ;=======================================================================================================================
@@ -72,34 +73,49 @@
 ;=======================================================================================================================
 ; Drivers pool management
 ;=======================================================================================================================
-(defonce drivers (atom []))
+(defonce drivers-num 4)
 (defonce drivers-queue nil)
+(defonce max-use-count 2)
 
 
 (defn get-free-driver []
-  (.poll drivers-queue))
+  (.take drivers-queue))
 
 
-(defn return-driver [driver]
-  (.add drivers-queue driver))
+(defn put-driver [driver use-count]
+  (.put drivers-queue {:driver    driver
+                       :use-count use-count}))
+
+
+(defn return-new-driver []
+  (put-driver (create-driver) 0))
+
+
+(defn return-driver [driver use-count]
+  (println "put driver: " use-count)
+  (if (< use-count max-use-count)
+    (put-driver driver use-count)
+    (do
+      (timbre/info "Recreate driver")
+      (.quit driver)
+      (return-new-driver))))
 
 
 (defn setup-drivers []
   (timbre/info "Headless browser:" (name (:engine @state/options)))
-  (reset! drivers [(create-driver) (create-driver) (create-driver) (create-driver)])
   (alter-var-root (var drivers-queue)
-                  (fn [_]
-                    (let [queue (java.util.concurrent.ConcurrentLinkedQueue.)]
-                      (doseq [driver @drivers]
-                        (.add queue driver))
-                      queue))))
+                  (constantly (LinkedBlockingQueue. drivers-num)))
+  (dotimes [_ drivers-num]
+    (return-new-driver)))
 
 
 (defn stop-drivers []
-  (doseq [driver @drivers]
-    (try
-      (.quit driver)
-      (catch Exception e nil))))
+  (try
+    (dotimes [_ drivers-num]
+     (let [{driver :driver} (get-free-driver)]
+       (.quit driver)))
+    (catch Exception e
+      (timbre/error "Stop drivers error: " e))))
 
 
 (defn exit [driver status msg]

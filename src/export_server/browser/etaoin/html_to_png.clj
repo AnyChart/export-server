@@ -88,10 +88,6 @@
 
     (let [result (exec-html-to-png driver file options svg-type?)]
       (if (:ok result)
-        ;(let [new-use-count (inc use-count)]
-        ;  (if (> new-use-count common/max-use-count)
-        ;    (common/return-new-driver)
-        ;    (common/return-driver driver new-use-count)))
         (common/return-driver driver (inc use-count))
         (do
           (try (quit driver)

@@ -108,13 +108,12 @@
 
 
 (defn stop-drivers []
-  ;(doseq [driver @drivers]
-  ;  (try
-  ;    (quit driver)
-  ;    (catch Exception e nil)))
-  (dotimes [_ drivers-num]
-    (let [{driver :driver} (get-free-driver)]
-      (quit driver))))
+  (try
+    (dotimes [_ drivers-num]
+     (let [{driver :driver} (get-free-driver)]
+       (quit driver)))
+    (catch Exception e
+      (timbre/error "Stop drivers error: " e))))
 
 
 (defn exit [driver status msg]
