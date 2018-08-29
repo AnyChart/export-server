@@ -75,7 +75,7 @@
 ;=======================================================================================================================
 (defonce drivers-num 4)
 (defonce drivers-queue nil)
-(defonce max-use-count 3)
+(defonce max-use-count 10)
 
 
 (defn get-free-driver []
@@ -92,7 +92,6 @@
 
 
 (defn return-driver [driver use-count]
-  (println "put driver: " use-count)
   (if (< use-count max-use-count)
     (put-driver driver use-count)
     (do
