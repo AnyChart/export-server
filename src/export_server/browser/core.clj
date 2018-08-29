@@ -39,7 +39,7 @@
     (selenium-core/svg-to-png svg exit options)))
 
 
-(defn html-to-png [file exit options & [svg-type?]]
+(defn html-to-png [file exit options svg-type?]
   (if (= :chrome (:engine @state/options))
     (etaoin-core/html-to-png file exit options svg-type?)
     (selenium-core/html-to-png file exit options svg-type?)))

@@ -97,18 +97,18 @@
 ; HTML page handlers
 ;=======================================================================================================================
 (defn html->png [options file]
-  (let [image (:result (browser/html-to-png file true options))]
+  (let [image (:result (browser/html-to-png file true options false))]
     (out image options ".png")))
 
 
 (defn html->jpg [options file]
-  (let [image (:result (browser/html-to-png file true options))
+  (let [image (:result (browser/html-to-png file true options false))
         image (:result (rasterizator/png-to-jpg image))]
     (out image options ".jpg")))
 
 
 (defn html->pdf [options file]
-  (let [png (:result (browser/html-to-png file true options))
+  (let [png (:result (browser/html-to-png file true options false))
         image (:result (rasterizator/svg-to-pdf png options))]
     (out image options ".pdf")))
 

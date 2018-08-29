@@ -17,5 +17,5 @@
 (defn svg-to-png [svg exit options]
   (svg-to-png-ns/svg-to-png svg exit options))
 
-(defn html-to-png [file exit options & [svg-type?]]
+(defn html-to-png [file exit options svg-type?]
   (html-to-png-ns/html-to-png file exit options svg-type?))
