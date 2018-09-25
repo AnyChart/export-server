@@ -54,12 +54,15 @@
 ;=======================================================================================================================
 (defn create-driver-phantom [] (phantom))
 
+
 (defn create-driver-chrome []
   ;(chrome-headless)
   (chrome {:args         ["--disable-gpu" "--no-sandbox"]
            :capabilities {:chromeOptions {:args ["--headless" "--disable-gpu" "--no-sandbox"]}}}))
 
+
 (defn create-driver-firefox [] (firefox-headless))
+
 
 (defn create-driverr-raw []
   (case (:engine @state/options)
@@ -70,17 +73,18 @@
 
 (defn create-driverr
   ([retry]
-   (timbre/info "CREATE DRIVER SAFE:" retry)
+    ;(timbre/info "CREATE DRIVER SAFE:" retry)
    (if (pos? retry)
      (try
        (create-driverr-raw)
        (catch Exception e
-         (timbre/error "CREATE DRIVER SAFE ERROR:" e)
+         ;(timbre/error "CREATE DRIVER SAFE ERROR:" e)
          (create-driverr (dec retry))))
      (do
-       (timbre/info "CREATE DRIVER SAFE retry exceeded")
-       (throw (Exception. (str "CREATE DRIVER SAFE ERROR"))))))
+       (timbre/error "CREATE DRIVER SAFE retry exceeded")
+       (throw (Exception. (str "CREATE DRIVER SAFE retry exceeded"))))))
   ([] (create-driverr 3)))
+
 
 ;=======================================================================================================================
 ; Initialization

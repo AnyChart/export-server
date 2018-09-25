@@ -63,11 +63,26 @@
 ;    (FirefoxDriver. opts)))
 
 
-(defn create-driver []
+(defn create-driver-raw []
   (case (:engine @state/options)
     :phantom (create-driver-phantom)
     :chrome (create-driver-chrome)
     :firefox (create-driver-firefox)))
+
+
+(defn create-driver
+  ([retry]
+    ;(timbre/info "CREATE DRIVER SAFE:" retry)
+   (if (pos? retry)
+     (try
+       (create-driver-raw)
+       (catch Exception e
+         ;(timbre/error "CREATE DRIVER SAFE ERROR:" e)
+         (create-driver (dec retry))))
+     (do
+       (timbre/error "CREATE DRIVER SAFE retry exceeded")
+       (throw (Exception. (str "CREATE DRIVER SAFE retry exceeded"))))))
+  ([] (create-driver 3)))
 
 
 ;=======================================================================================================================
