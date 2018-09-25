@@ -318,10 +318,18 @@
       (cmd/html->export options))))
 
 
+(defn set-default-charset []
+  (System/setProperty "file.encoding" "UTF-8")
+  (doto (.getDeclaredField Charset "defaultCharset") (.setAccessible true) (.set nil nil))
+  ;(timbre/info "Charset: " (System/getProperty "file.encoding"))
+  )
+
+
 ;====================================================================================
 ; Main
 ;====================================================================================
 (defn -main [& args]
+  (set-default-charset)
   (let [{:keys [options arguments errors summary]} (parse-opts args all-options)]
     (cond
       (:version options) (exit 0 server-name)

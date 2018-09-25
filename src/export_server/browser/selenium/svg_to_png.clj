@@ -12,7 +12,7 @@
 ; SVG --> PNG
 ;=======================================================================================================================
 (defn add-data-text-html-base64-prefix [s64]
-  (str "data:text/html;base64," s64))
+  (str "data:text/html;charset=UTF-8;base64," s64))
 
 
 (defn add-data-text-html-prefix [s64]
