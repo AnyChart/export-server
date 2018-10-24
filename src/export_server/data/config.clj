@@ -1,47 +1,50 @@
 (ns export-server.data.config
   (:require [export-server.utils.util :refer [jar-location]]))
 
+;; sizes in millimeters
+(def available-pdf-sizes {:a0           {:width 841 :height 1189}
+                          :a1           {:width 594 :height 841}
+                          :a2           {:width 420 :height 594}
+                          :a3           {:width 297 :height 420}
+                          :a4           {:width 210 :height 297}
+                          :a5           {:width 148 :height 210}
+                          :a6           {:width 105 :height 148}
+                          :a7           {:width 74 :height 105}
+                          :a8           {:width 52 :height 74}
+                          :a9           {:width 37 :height 52}
+                          :a10          {:width 26 :height 37}
+                          :b0           {:width 1000 :height 1414}
+                          :b1           {:width 707 :height 1000}
+                          :b2           {:width 500 :height 707}
+                          :b3           {:width 353 :height 500}
+                          :b4           {:width 250 :height 353}
+                          :b5           {:width 176 :height 250}
+                          :b6           {:width 125 :height 176}
+                          :b7           {:width 88 :height 125}
+                          :b8           {:width 62 :height 88}
+                          :b9           {:width 44 :height 62}
+                          :b10          {:width 31 :height 44}
+                          :arch-a       {:width 228.6 :height 304.8}
+                          :arch-b       {:width 304.8 :height 457.2}
+                          :arch-c       {:width 457.2 :height 609.6}
+                          :arch-d       {:width 609.6 :height 914.4}
+                          :arch-e       {:width 914.4 :height 1219.2}
+                          :crown-octavo {:width 190 :height 126}
+                          :crown-quarto {:width 190 :height 250}
+                          :demy-octavo  {:width 221 :height 142}
+                          :demy-quarto  {:width 220 :height 285}
+                          :royal-octavo {:width 253 :height 158}
+                          :royal-quarto {:width 253 :height 316}
+                          :executive    {:width 184.15 :height 266.7}
+                          :halfletter   {:width 140 :height 216}
+                          :ledger       {:width 432 :height 279}
+                          :legal        {:width 216 :height 356}
+                          :letter       {:width 216 :height 279}
+                          :tabloid      {:width 279 :height 432}})
 
-(def available-pdf-sizes {:a0           {:width "841mm" :height "1189mm"}
-                          :a1           {:width "594mm" :height "841mm"}
-                          :a2           {:width "420mm" :height "594mm"}
-                          :a3           {:width "297mm" :height "420mm"}
-                          :a4           {:width "210mm" :height "297mm"}
-                          :a5           {:width "148mm" :height "210mm"}
-                          :a6           {:width "105mm" :height "148mm"}
-                          :a7           {:width "74mm" :height "105mm"}
-                          :a8           {:width "52mm" :height "74mm"}
-                          :a9           {:width "37mm" :height "52mm"}
-                          :a10          {:width "26mm" :height "37mm"}
-                          :b0           {:width "1000mm" :height "1414mm"}
-                          :b1           {:width "707mm" :height "1000mm"}
-                          :b2           {:width "500mm" :height "707mm"}
-                          :b3           {:width "353mm" :height "500mm"}
-                          :b4           {:width "250mm" :height "353mm"}
-                          :b5           {:width "176mm" :height "250mm"}
-                          :b6           {:width "125mm" :height "176mm"}
-                          :b7           {:width "88mm" :height "125mm"}
-                          :b8           {:width "62mm" :height "88mm"}
-                          :b9           {:width "44mm" :height "62mm"}
-                          :b10          {:width "31mm" :height "44mm"}
-                          :arch-a       {:width "228.6mm" :height "304.8mm"}
-                          :arch-b       {:width "304.8mm" :height "457.2mm"}
-                          :arch-c       {:width "457.2mm" :height "609.6mm"}
-                          :arch-d       {:width "609.6mm" :height "914.4mm"}
-                          :arch-e       {:width "914.4mm" :height "1219.2mm"}
-                          :crown-octavo {:width "190mm" :height "126mm"}
-                          :crown-quarto {:width "190mm" :height "250mm"}
-                          :demy-octavo  {:width "221mm" :height "142mm"}
-                          :demy-quarto  {:width "220mm" :height "285mm"}
-                          :royal-octavo {:width "253mm" :height "158mm"}
-                          :royal-quarto {:width "253mm" :height "316mm"}
-                          :executive    {:width "184.15mm" :height "266.7mm"}
-                          :halfletter   {:width "140mm" :height "216mm"}
-                          :ledger       {:width "432mm" :height "279mm"}
-                          :legal        {:width "216mm" :height "356mm"}
-                          :letter       {:width "216mm" :height "279mm"}
-                          :tabloid      {:width "279mm" :height "432mm"}
-                          })
+
+(defn mm-to-pixel [mm]
+  (int (* 3.779527559 mm)))
 
 
 (def available-rasterization-data-types #{"script" "svg"})

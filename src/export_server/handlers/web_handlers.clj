@@ -1,11 +1,5 @@
 (ns export-server.handlers.web-handlers
-  (:require [cheshire.core :refer :all]
-            [compojure.core :refer :all]
-            [dk.ative.docjure.spreadsheet :as spreadheet]
-            [clojure.data.csv :as csv-parser]
-            [clojure.java.io :as io]
-
-            [export-server.data.state :as state]
+  (:require [export-server.data.state :as state]
             [export-server.data.config :as config]
 
             [export-server.web.responce :refer :all]
@@ -15,7 +9,14 @@
             [export-server.utils.rasterizator :as rastr]
             [export-server.browser.core :as browser]
             [export-server.sharing.twitter :as twitter]
-            [me.raynes.fs :as fs])
+
+            [me.raynes.fs :as fs]
+            [cheshire.core :refer :all]
+            [compojure.core :refer :all]
+            [dk.ative.docjure.spreadsheet :as spreadheet]
+            [clojure.data.csv :as csv-parser]
+            [clojure.java.io :as io]
+            [clojure.string :as string])
   (:import (org.apache.commons.io.output ByteArrayOutputStream)))
 
 
@@ -29,7 +30,7 @@
 
 
 (defn get-boolean-unit [map key]
-  (let [val (clojure.string/lower-case (map key))]
+  (let [val (string/lower-case (map key))]
     (or (= val "true") (= val "1"))))
 
 
@@ -69,20 +70,43 @@
 
 
 (defn params-to-options [params]
-  {:container-id            (get params "container-id" (:container-id config/defaults))
-   :container-width         (get params "container-width" (:container-width config/defaults))
-   :container-height        (get params "container-height" (:container-height config/defaults))
-   :image-width             (if (contains? params "width") (get-number-unit params "width") (:image-width config/defaults))
-   :image-height            (if (contains? params "height") (get-number-unit params "height") (:image-height config/defaults))
-   :force-transparent-white (get-force-transparent-white params)
-   :jpg-quality             (if (contains? params "quality") (read-string (params "quality")) (:jpg-quality config/defaults))
+  (let [pdf-width (when (contains? params "pdf-width") (get-number-unit params "pdf-width"))
+        pdf-height (when (contains? params "pdf-height") (get-number-unit params "pdf-height"))
 
-   :pdf-landscape           (if (contains? params "landscape") (get-boolean-unit params "landscape") (:pdf-landscape config/defaults))
-   :pdf-width               (if (contains? params "pdf-width") (get-number-unit params "pdf-width") (:pdf-width config/defaults))
-   :pdf-height              (if (contains? params "pdf-height") (get-number-unit params "pdf-height") (:pdf-height config/defaults))
-   :pdf-size                (or (params "pdf-size") (params "pdfSize") (:pdf-size config/defaults))
-   :pdf-x                   (get-pdf-x params)
-   :pdf-y                   (get-pdf-y params)})
+        {pdf-size-width :width pdf-size-height :height} (get config/available-pdf-sizes
+                                                             (keyword (or (params "pdf-size") (params "pdfSize"))))
+        pdf-size-width (when pdf-size-width (config/mm-to-pixel pdf-size-width))
+        pdf-size-height (when pdf-size-height (config/mm-to-pixel pdf-size-height))
+
+        pdf-width (or pdf-width pdf-size-width (:pdf-width config/defaults))
+        pdf-height (or pdf-height pdf-size-height (:pdf-height config/defaults))
+
+        pdf-landscape (if (contains? params "landscape") (get-boolean-unit params "landscape") (:pdf-landscape config/defaults))
+        [pdf-width pdf-height] (if pdf-landscape [(max pdf-height pdf-width)
+                                                  (min pdf-height pdf-width)]
+                                                 [pdf-width pdf-height])]
+    ;(prn "params-to-options"  pdf-width pdf-height)
+    {:container-id            (get params "container-id" (:container-id config/defaults))
+     :container-width         (or (get params "container-width")
+                                  pdf-width
+                                  (:container-width config/defaults))
+     :container-height        (or (get params "container-height")
+                                  pdf-height
+                                  (:container-height config/defaults))
+     :image-width             (or (when (contains? params "width") (get-number-unit params "width"))
+                                  pdf-width
+                                  (:image-width config/defaults))
+     :image-height            (or (when (contains? params "height") (get-number-unit params "height"))
+                                  pdf-height
+                                  (:image-height config/defaults))
+     :force-transparent-white (get-force-transparent-white params)
+     :jpg-quality             (if (contains? params "quality") (read-string (params "quality")) (:jpg-quality config/defaults))
+     :pdf-landscape           pdf-landscape
+     :pdf-width               pdf-width
+     :pdf-height              pdf-height
+     :pdf-size                (or (params "pdf-size") (params "pdfSize") (:pdf-size config/defaults))
+     :pdf-x                   (get-pdf-x params)
+     :pdf-y                   (get-pdf-y params)}))
 
 
 (defn to-png [params]
