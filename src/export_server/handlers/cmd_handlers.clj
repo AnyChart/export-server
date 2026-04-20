@@ -42,11 +42,10 @@
 
 
 (defn script->svg [options script]
-  (let [svg (:result (browser/script-to-png script true options :svg))
-        output-file (:output-file options)]
-    (if (nil? output-file)
+  (let [svg (:result (browser/script-to-png script true options :svg))]
+    (if (nil? (:output-file options))
       (println svg)
-      (spit (if (.endsWith output-file ".svg") output-file (str output-file ".svg")) svg))))
+      (out (.getBytes svg) options ".svg"))))
 
 
 (defn script->export [options]
