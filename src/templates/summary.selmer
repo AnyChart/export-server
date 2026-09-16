@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Export server statistics summary</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+    <!-- jquery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <link rel="stylesheet" href="css/main.css">
+
+    <script src="https://cdn.anychart.com/js/7.14.0/anychart-bundle.min.js"></script>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Export server usage for {% for y in years %}
+            {% ifequal y year %}
+            <b>{{y}}</b>
+            {% else %}
+            <small><a href="/summary?year={{y}}">{{y}}</a></small>
+            {% endifequal %}
+            {% endfor %}
+        </h1>
+
+        <div class="row">
+            <div class="col-md-6">
+                <h3>New domains</h3>
+                <div id="chart1" style="height: 300px;" ></div>
+            </div>
+            <div class="col-md-6">
+                <h3>Total domains</h3>
+                <div id="chart2" style="height: 300px;" ></div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <h3>Requests</h3>
+                <div id="chart3" style="height: 300px;" ></div>
+            </div>
+            <div class="col-md-6">
+                <h3>Requests by type</h3>
+                <div id="chart4"  style="height: 300px;"></div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div style="height: 300px;" class="col-md-8">
+                <h3>New domains last 30 days<small></small></h3>
+                <label class="checkbox-inline" style="margin-bottom: 10px;">
+                    <input id="tableCheckbox" checked type="checkbox">
+                    <span>hide unnamed domains</span>
+                </label>
+                <table id="table" class="table">
+                    <tr>
+                        <th>Domain</th>
+                        <th>First seen date</th>
+                        <th>Count</th>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+
+<script type="text/javascript">
+    var tableData = {{table-data|safe}};
+
+    anychart.licenseKey("anychart-internal-77931f7-ea44ad0c");
+    anychart.onDocumentReady(function() {
+
+        //New domains by months
+        var data = anychart.data.set({{chart-data1|safe}});
+        chart = anychart.column();
+        var series = chart.column(data);
+        var xAxis = chart.xAxis();
+        xAxis.title("Month");
+        var yAxis = chart.yAxis();
+        yAxis.title("Domains");
+        chart.container("chart1");
+        chart.credits(false);
+        chart.yScale().softMinimum(0);
+        chart.draw();
+
+        //Total domains by months
+        data = anychart.data.set({{chart-data2|safe}});
+        chart = anychart.column();
+        var series = chart.column(data);
+        //chart.title("Requests");
+        var xAxis = chart.xAxis();
+        xAxis.title("Month");
+        var yAxis = chart.yAxis();
+        yAxis.title("Domains");
+        chart.container("chart2");
+        chart.credits(false);
+        chart.yScale().softMinimum(0);
+        chart.draw();
+
+        //Reuests by months
+        data = anychart.data.set({{chart-data3|safe}});
+        chart = anychart.column();
+        var series = chart.column(data);
+        //chart.title("Requests");
+        var xAxis = chart.xAxis();
+        xAxis.title("Month");
+        var yAxis = chart.yAxis();
+        yAxis.title("Requests");
+        chart.container("chart3");
+        chart.credits(false);
+        chart.yScale().softMinimum(0);
+        chart.draw();
+
+        // requets by types
+        var chart = anychart.pie({{pie-data|safe}});
+        //chart.title("Requests by types");
+        chart.container("chart4");
+        chart.credits(false);
+        chart.draw();
+    });
+
+    function createTable(tableData){
+        var tbl_body = "<tr><th>Domain</th><th>First seen date</th><th>Count</th></tr>";
+        $.each(tableData, function() {
+            var tbl_row = '<td><a href="/stat?domain=' + this.name + '">' + this.name + '</a></td>';
+            tbl_row += "<td>"+this.time.substring(0, 10)+"</td>";
+            tbl_row += "<td>"+this.num+"</td>";
+            tbl_body += "<tr>"+tbl_row+"</tr>";
+        });
+        $("#table").html(tbl_body);
+    }
+    function updateTable(){
+        console.log("change checkbox" + $("#tableCheckbox").prop("checked"));
+        var td;
+        if ($("#tableCheckbox").prop('checked')){
+            td = tableData.filter(function(el){
+                return !el.name.match(/\d+.\d+.\d+.\d+/);
+            });
+        }else {
+            td = tableData;
+        }
+        createTable(td)
+    }
+    $("#tableCheckbox").change(function(e){
+        updateTable();
+    });
+    updateTable();
+
+</script>
+</body>
+</html>

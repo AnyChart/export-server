@@ -10,6 +10,7 @@
             [ring.middleware.params :refer [wrap-params]]
             [ring.middleware.keyword-params :refer [wrap-keyword-params]]
             [ring.middleware.session :refer [wrap-session]]
+            [ring.middleware.json :refer [wrap-json-body]]
             [export-server.data.state :as state]
             [export-server.handlers.web-handlers :as web]
             [export-server.handlers.cmd-handlers :as cmd]
@@ -20,7 +21,8 @@
             [compojure.route :as route]
             [clojure.java.io :as io]
             [taoensso.timbre :as timbre]
-            [taoensso.timbre.appenders.core :as appenders])
+            [taoensso.timbre.appenders.core :as appenders]
+            [export-server.analytics.core :as analytics])
   (:gen-class))
 
 
@@ -239,6 +241,9 @@
 (defroutes app-routes
            (route/resources "/")
            (GET "/status" [] "ok")
+           (GET "/stat" [] analytics/web)
+           (GET "/summary" [] analytics/summary)
+           (POST "/svgs" [] (wrap-json-body analytics/svgs {:keywords? true}))
            (POST "/status" [] "ok")
            (POST "/sharing/twitter" [] web/sharing-twitter)
            (GET "/sharing/twitter_oauth" [] twitter/twitter-oauth)
@@ -270,8 +275,8 @@
     (init-logger (:log options)))
   (timbre/info (str "Starting export server on " (:host options) ":" (:port options)))
   (if (sharing/init options)
-    (timbre/info "Sharing initialiazed")
-    (timbre/warn "Sharing did not initialize. Provide both twitter-* and sharing-* options."))
+    (timbre/info "Sharing and analytics initialiazed")
+    (timbre/warn "Sharing and analytics did not initialize. Provide both twitter-* and sharing-* options."))
   (browser/setup-drivers)
   (state/set-server! (run-server app {:port (:port options) :ip (:host options)}))
   (.addShutdownHook (Runtime/getRuntime) (Thread. shutdown-server)))

@@ -1,6 +1,7 @@
 (ns export-server.sharing.core
   (:require [export-server.sharing.storage :as storage]
-            [export-server.sharing.twitter :as twitter]))
+            [export-server.sharing.twitter :as twitter]
+            [export-server.analytics.core :as analytics]))
 
 (defn init [options]
   (let [{:keys [sharing-port sharing-db sharing-user sharing-password
@@ -14,4 +15,8 @@
       (twitter/init (:twitter-key options)
                     (:twitter-secret options)
                     (:twitter-callback options))
+      (analytics/init (:sharing-db options)
+                      (:sharing-port options)
+                      (:sharing-user options)
+                      (:sharing-password options))
       true)))
