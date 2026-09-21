@@ -1,5 +1,5 @@
-(defproject export-server "1.6.0"
-  :description "AnyChart export server, AnyChart Bundle version 8.10.0"
+(defproject export-server "1.7.0"
+  :description "AnyChart export server, AnyChart Bundle version 8.14.1"
   :url "https://github.com/AnyChart/export-server"
   :license {:name "Eclipse Public License"
             :url  "http://www.eclipse.org/legal/epl-v10.html"}
@@ -18,11 +18,20 @@
                  [clj-http "2.3.0"]
                  [camel-snake-kebab "0.4.0"]
 
+                 ;; analytics
                  [clojure.jdbc/clojure.jdbc-c3p0 "0.3.3"]
                  [honeysql "0.8.1"]
                  [org.clojure/java.jdbc "0.6.1"]
                  [mysql/mysql-connector-java "6.0.4"]
                  [clojurewerkz/urly "1.0.0"]
+                 [ring/ring-json "0.5.0-beta1"]
+
+                 ;; analytics web
+                 [org.clojure/clojurescript "1.9.908"]
+                 [org.clojure/core.async "0.2.391"]
+                 [reagent "0.5.1"]
+                 [com.andrewmcveigh/cljs-time "0.5.0-alpha1"]
+                 [cljs-http "0.1.41"]
 
                  ;phantomJS
                  [org.apache.httpcomponents/httpclient "4.5.2"]
@@ -97,9 +106,21 @@
                  ;tests
                  [peridot "0.4.4"]]
   :plugins [[lein-localrepo "0.5.3"]
-            [lein-ancient "0.6.10"]]
+            [lein-ancient "0.6.10"]
+            [lein-cljsbuild "1.1.4"]]
   :main ^:aot export-server.core
   :profiles {:dev {:jvm-opts ["-Ddev=true"]}
              :uberjar {:aot :all}}
   :jar-name "export-server.jar"
-  :uberjar-name "export-server-standalone.jar")
+  :uberjar-name "export-server-standalone.jar"
+  :resource-paths ["resources"]
+  :cljsbuild {:builds [{:id           "dev"
+                        :source-paths ["src-cljs"]
+                        :compiler     {:output-to     "resources/public/js/main.js"
+                                       :optimizations :whitespace
+                                       :pretty-print  true}}
+                       {:id           "prod"
+                        :source-paths ["src-cljs"]
+                        :compiler     {:output-to     "resources/public/js/main.min.js"
+                                       :optimizations :advanced
+                                       :pretty-print  false}}]})

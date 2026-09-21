@@ -8,6 +8,7 @@
 
             [export-server.utils.rasterizator :as rastr]
             [export-server.browser.core :as browser]
+            [export-server.analytics.core :as analytics]
             [export-server.sharing.twitter :as twitter]
 
             [me.raynes.fs :as fs]
@@ -109,7 +110,7 @@
      :pdf-y                   (get-pdf-y params)}))
 
 
-(defn to-png [params]
+(defn to-png [request params]
   (let [data (params "data")
         data-type (get-data-type params)
         options (params-to-options params)]
@@ -117,12 +118,17 @@
       (and (= data-type "script") (not @allow-script-executing)) {:ok     false
                                                                   :result {:message   "Script executing is not allowed"
                                                                            :http-code 403}}
-      (= data-type "svg") (browser/svg-to-png data false options)
-      (= data-type "script") (browser/script-to-png data false options :png)
+      (= data-type "svg") (do
+                            (analytics/store request data :png)
+                            (browser/svg-to-png data false options))
+      (= data-type "script") (let [result (browser/script-to-png data false options :png)]
+                               (when (:ok result)
+                                 (analytics/store request (:svg result) :png))
+                               result)
       :else {:ok false :result "Unknown data type"})))
 
 
-(defn to-jpg [params]
+(defn to-jpg [request params]
   (let [data (params "data")
         data-type (get-data-type params)
         options (params-to-options params)]
@@ -131,17 +137,20 @@
                                                                   :result {:message   "Script executing is not allowed"
                                                                            :http-code 403}}
       (= data-type "svg") (let [png-result (browser/svg-to-png data false options)]
+                            (analytics/store request data :jpg)
                             (if (png-result :ok)
                               (rastr/png-to-jpg (png-result :result))
                               png-result))
-      (= data-type "script") (let [png-result (browser/script-to-png data false options :png)]
+      (= data-type "script") (let [png-result (browser/script-to-png data false (params-to-options params) :png)]
+                               (when (:ok png-result)
+                                 (analytics/store request (:svg png-result) :jpg))
                                (if (png-result :ok)
                                  (rastr/png-to-jpg (png-result :result))
                                  png-result))
       :else {:ok false :result "Unknown data type"})))
 
 
-(defn to-pdf [params]
+(defn to-pdf [request params]
   (let [data (params "data")
         data-type (get-data-type params)
         options (params-to-options params)
@@ -150,19 +159,22 @@
       (and (= data-type "script") (not @allow-script-executing)) {:ok     false
                                                                   :result {:message   "Script executing is not allowed"
                                                                            :http-code 403}}
-      ;(= data-type "svg") (rastr/svg-to-pdf data pdf-size landscape x y)
       (= data-type "svg") (let [png-result (browser/svg-to-png data false options)]
                             (if (:ok png-result)
-                              (rastr/svg-to-pdf (:result png-result) options)
+                              (do
+                                (analytics/store request data :pdf)
+                                (rastr/svg-to-pdf (:result png-result) options))
                               png-result))
-      (= data-type "script") (let [png-result (browser/script-to-png data false options :png)]
+      (= data-type "script") (let [png-result (browser/script-to-png data false (params-to-options params) :png)]
+                               (when (:ok png-result)
+                                 (analytics/store request (:svg png-result) :pdf))
                                (if (:ok png-result)
                                  (rastr/svg-to-pdf (:result png-result) options)
                                  png-result))
       :else {:ok false :result "Unknown data type"})))
 
 
-(defn to-svg [params]
+(defn to-svg [request params]
   (let [data (params "data")
         data-type (get-data-type params)
         options (params-to-options params)]
@@ -170,8 +182,13 @@
       (and (= data-type "script") (not @allow-script-executing)) {:ok     false
                                                                   :result {:message   "Script executing is not allowed"
                                                                            :http-code 403}}
-      (= data-type "svg") {:ok true :result data}
-      (= data-type "script") (browser/script-to-png data false options :svg)
+      (= data-type "svg") (do
+                            (analytics/store request data :svg)
+                            {:ok true :result data})
+      (= data-type "script") (let [to-svg-result (browser/script-to-png data false options :svg)]
+                               (when (:ok to-svg-result)
+                                 (analytics/store request data :svg))
+                               to-svg-result)
       :else {:ok false :result "Unknown data type"})))
 
 
@@ -195,7 +212,7 @@
   (let [params (request :form-params)
         validation-result (params-validator/validate-sharing-params params)]
     (if (params-validator/valid-result? validation-result)
-      (let [{ok :ok result :result} (to-png params)]
+      (let [{ok :ok result :result} (to-png request params)]
         (if ok
           (twitter/twitter request (rastr/to-base64 result))
           (log/wrap-log-error json-error result request :processing)))
@@ -206,7 +223,7 @@
   (let [params (request :form-params)
         validation-result (params-validator/validate-image-params params)]
     (if (params-validator/valid-result? validation-result)
-      (let [{ok :ok result :result} (to-png params)
+      (let [{ok :ok result :result} (to-png request params)
             response-type (get-response-type params)]
         (if ok
           (if (= response-type "base64")
@@ -224,7 +241,7 @@
   (let [params (request :form-params)
         validation-result (params-validator/validate-image-params params)]
     (if (params-validator/valid-result? validation-result)
-      (let [{ok :ok result :result} (to-jpg params)
+      (let [{ok :ok result :result} (to-jpg request params)
             response-type (get-response-type params)]
         (if ok
           (if (= response-type "base64")
@@ -242,7 +259,7 @@
   (let [params (request :form-params)
         validation-result (params-validator/validate-pdf-params params)]
     (if (params-validator/valid-result? validation-result)
-      (let [{ok :ok result :result} (to-pdf params)
+      (let [{ok :ok result :result} (to-pdf request params)
             response-type (get-response-type params)]
         (if ok
           (if (= response-type "base64")
@@ -260,7 +277,7 @@
   (let [params (request :form-params)
         validation-result (params-validator/validate-image-params params)]
     (if (params-validator/valid-result? validation-result)
-      (let [{ok :ok result :result} (to-svg params)
+      (let [{ok :ok result :result} (to-svg request params)
             response-type (get-response-type params)]
         (if ok
           (if (= response-type "base64")
@@ -278,7 +295,9 @@
   (let [params (request :form-params)
         validation-result (params-validator/validate-save-data-params params)]
     (if (params-validator/valid-result? validation-result)
-      (file-success (.getBytes (params "data")) (get-file-name params) ".xml")
+      (do
+        (analytics/store request nil :xml)
+        (file-success (.getBytes (params "data")) (get-file-name params) ".xml"))
       (log/wrap-log-error json-error (params-validator/get-error-message validation-result) request :bad_params))))
 
 
@@ -286,7 +305,9 @@
   (let [params (request :form-params)
         validation-result (params-validator/validate-save-data-params params)]
     (if (params-validator/valid-result? validation-result)
-      (file-success (.getBytes (params "data")) (get-file-name params) ".json")
+      (do
+        (analytics/store request nil :json)
+        (file-success (.getBytes (params "data")) (get-file-name params) ".json"))
       (log/wrap-log-error json-error (params-validator/get-error-message validation-result) request :bad_params))))
 
 
@@ -294,7 +315,9 @@
   (let [params (request :form-params)
         validation-result (params-validator/validate-save-data-params params)]
     (if (params-validator/valid-result? validation-result)
-      (file-success (.getBytes (params "data")) (get-file-name params) ".csv")
+      (do
+        (analytics/store request nil :csv)
+        (file-success (.getBytes (params "data")) (get-file-name params) ".csv"))
       (log/wrap-log-error json-error (params-validator/get-error-message validation-result) request :bad_params))))
 
 
@@ -307,6 +330,7 @@
             wb (spreadheet/create-workbook file-name csv)
             output (new ByteArrayOutputStream)]
         (spreadheet/save-workbook! output wb)
+        (analytics/store request nil :xlsx)
         (file-success (.toByteArray output) file-name ".xlsx"))
       (log/wrap-log-error json-error (params-validator/get-error-message validation-result) request :bad_params))))
 

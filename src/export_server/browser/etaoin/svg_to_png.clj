@@ -6,7 +6,8 @@
             [export-server.utils.util :as util]
             [export-server.browser.templates :as templates]
             [taoensso.timbre :as timbre]
-            [export-server.utils.rasterizator :as rasterizator]))
+            [export-server.utils.rasterizator :as rasterizator])
+  (:import java.io.File))
 
 
 
@@ -33,16 +34,28 @@
         (set-window-size d (:image-width options) (+
                                                     (if (= :firefox (:engine @state/options)) 75 0)
                                                     (:image-height options))))
-      (let [startup (try
-                      (let [url-encoded-data (add-data-text-html-base64-prefix (util/str-to-b64 (templates/create-svg-html svg)))]
-                        (go d url-encoded-data))
+      (let [temp-file (java.io.File/createTempFile "anychart" ".svg")
+            startup (try
+                      (let [url-encoded-data (add-data-text-html-base64-prefix (util/str-to-b64 (templates/create-svg-html svg)))
+                            file-name (.getAbsolutePath temp-file)
+                            url-path-string (str "file://" file-name)]
+                        (.deleteOnExit temp-file)
+                        (with-open [writer (clojure.java.io/writer temp-file)]
+                          (.write writer svg))
+                        ;; here probably the case where driver
+                        ;; suckup with crashed tab in case of
+                        ;; long base64 string
+                        ;; solution: put svg to temp file
+                        (go d url-path-string))
                       (catch Exception e (str "Failed to execute Startup Script\n" (.getMessage e))))
 
             screenshot (screenshot d nil)
 
             shutdown
             (try
-              (js-execute d "while (document.body.hasChildNodes()){document.body.removeChild(document.body.lastChild);}")
+              ;"while (document.body.hasChildNodes()){document.body.removeChild(document.body.lastChild);}"
+              (.delete temp-file)
+              (js-execute d "")
               (catch Exception e (str "Failed to execute Shoutdown Script\n" (.getMessage e))))
 
             error (first (filter some? [startup shutdown]))]
